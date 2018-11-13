@@ -11,6 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +25,6 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.sort.SortOrder;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
@@ -35,6 +36,7 @@ import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
 public class StatisticsResource {
 
 	final static Logger logger = LogManager.getLogger(StatisticsResource.class.getName());
+		
 	
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -52,21 +54,26 @@ public class StatisticsResource {
     @GET 
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/pa")
-    public String list(@QueryParam("search") String p_playerID, @QueryParam("sort_by") String p_sortOrder) {
+    public Response list(@QueryParam("search") String p_playerID, @QueryParam("sort_by") String p_sortOrder) {
 
     	// ############## GESTION DES PARAMETRES
-    	logger.entry("list all plate-appearance for the player {}", p_playerID); // TODO gerer l'absence de query param
+    	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_playerID); // TODO gerer l'absence de query param
+    	logger.info("[{}] search = '{}'" , "@QueryParam", p_playerID);
     	
     	// Par defaut le tri se fait par ordre decroissant (le plus recent en premier)
-    	logger.entry(p_sortOrder);
+    	logger.info("[{}] sort_by = '{}'" , "@QueryParam", p_sortOrder);
     	SortOrder sort = SortOrder.DESC;
     	if (StringUtils.isNotEmpty(p_sortOrder)) {
     		if ( "asc".equalsIgnoreCase(p_sortOrder) // si &sort=asc
-    			|| "+created".equalsIgnoreCase(p_sortOrder) // ou si &sort=+created
+    			|| " created".equalsIgnoreCase(p_sortOrder) // ou si &sort=+created
+    			|| "created".equalsIgnoreCase(p_sortOrder) // ou si &sort=created
     			|| "asc(created)".equalsIgnoreCase(p_sortOrder) // ou si &sort=asc(created)
     			|| "created.asc".equalsIgnoreCase(p_sortOrder)) { // ou si &sort=created.asc
     			sort = SortOrder.ASC;
-    		} // else {sort = SortOrder.DESC;}
+    		} else {
+    			return Response.status(Status.BAD_REQUEST).build();
+    			// else {sort = SortOrder.DESC;}
+    		}
     	} // else {sort = SortOrder.DESC;}
     	
     	
@@ -78,7 +85,7 @@ public class StatisticsResource {
     	// parcourir l'index _baseball-eu_
     	// requete exacte sur l'attribut _palyer-id_
     	// correspondant au parametre de la requete REST
-    	SearchResponse response = ElasticSearchMapper.getInstance().open()
+    	SearchResponse responseES = ElasticSearchMapper.getInstance().open()
 													   				.prepareSearch("baseball-eu")
 													   				.setTypes("pa")
 													   		        .setSearchType(SearchType.DEFAULT)
@@ -89,7 +96,7 @@ public class StatisticsResource {
 
     	
     	// ############## PARCOURIR LE RESULTAT DE LA REQUETE
-    	SearchHits hits = response.getHits();
+    	SearchHits hits = responseES.getHits();
     	for (SearchHit _hit : hits) {
     		logger.debug("Résultat = {}", _hit.getSourceAsMap());
     		logger.debug("      ID = {}", "/pa/" + _hit.getId());
@@ -104,45 +111,54 @@ public class StatisticsResource {
     	}
 
     	// ############## GENERER LE JSon DE SORTIE
-    	final Gson gson = new GsonBuilder().create();
-    	String json = gson.toJson(results);
+    	String json = new GsonBuilder().create().toJson(results);
 
-
-    	logger.traceExit("@return a list of {} plate-appearance for the player " + p_playerID, response.getHits().getTotalHits());
-    	return json;
+    	logger.info("[{}] @return a list of {} plate-appearance for the player {}", "EXIT", responseES.getHits().getTotalHits(), p_playerID);
+    	return Response.ok().entity(json).build();
    }
 
 
    @GET 
    @Produces(MediaType.APPLICATION_JSON)
    @Path("/pa/{id}")
-   public String get(@PathParam("id") String p_ID) {
+   public Response get(@PathParam("id") String p_ID) {
 	   
 	   	// ############## GESTION DES PARAMETRES
-   		logger.entry("get the plate-appearance with the ID {}", p_ID); // TODO gerer l'absence de query param
+	   	logger.info("[{}] get the plate-appearance with the ID", "ENTRY"); // TODO gerer l'absence de query param
+	   	logger.info("[{}] '{}'" , "@PathParam", p_ID);
 	   	
+	   	if (StringUtils.isEmpty(p_ID)) {
+	   		return Response.status(Status.BAD_REQUEST).build();
+	   	}
 	   	// ############## EXECUTION DE LA REQUETE
     	// parcourir l'index _baseball-eu_
-    	// requete exacte sur l'attribut _palyer-id_
-    	// correspondant au parametre de la requete REST
-	   	GetResponse response = ElasticSearchMapper.getInstance().open()
+    	// requete exacte sur l'attribut player_id
+    	// correspondant au path param de la requete REST
+	   	GetResponse responseES = ElasticSearchMapper.getInstance().open()
 													   				.prepareGet("baseball-eu", "pa", p_ID).get();
 
-	   	Map< String, Object> result = new TreeMap< String, Object>();
-		result.put("id", "/pa/" + response.getId());
-		result.put("when", response.getSourceAsMap().get("when"));
-		result.put("what", response.getSourceAsMap().get("what"));
-		result.put("where", response.getSourceAsMap().get("where"));
-		result.put("who", response.getSourceAsMap().get("player_id"));
-		result.put("against", response.getSourceAsMap().get("opposite_team"));
-		result.put("day", response.getSourceAsMap().get("day"));
-		result.put("at", response.getSourceAsMap().get("field"));
-		
-	   	// ############## GENERER LE JSon DE SORTIE
-	   	final Gson gson = new GsonBuilder().create();
-	   	String json = gson.toJson(result);
-
-	   	logger.traceExit("@return the item {} for the ID " + p_ID, json);
-	   	return json;
+	   	if (responseES.isSourceEmpty()) {
+	   		
+	   		logger.info("[{}] @return {} for the ID {}", "EXIT", Status.NOT_FOUND, p_ID);
+		   	return Response.status(Status.NOT_FOUND).build();
+		   	
+	   	} else {
+	   		
+		   	Map< String, Object> result = new TreeMap< String, Object>();
+			result.put("id", "/pa/" + responseES.getId());
+			result.put("when", responseES.getSourceAsMap().get("when"));
+			result.put("what", responseES.getSourceAsMap().get("what"));
+			result.put("where", responseES.getSourceAsMap().get("where"));
+			result.put("who", responseES.getSourceAsMap().get("player_id"));
+			result.put("against", responseES.getSourceAsMap().get("opposite_team"));
+			result.put("day", responseES.getSourceAsMap().get("day"));
+			result.put("at", responseES.getSourceAsMap().get("field"));
+			
+		   	// ############## GENERER LE JSon DE SORTIE
+		   	String json = new GsonBuilder().create().toJson(result);
+	
+		   	logger.info("[{}] @return the item {} for the ID {}", "EXIT", json, p_ID);
+		   	return Response.ok().entity(json).build();
+	   	}
    }
 }

@@ -10,9 +10,9 @@ Description de l'API BBWS
 2. [Kong](http://www.getkong.org) pour gérer votre API (accès, log, money)
 3. [3scale](http://www.3scale.io) equivalent de Kong gratuit jusqu'à 50 000 requetes jour
 4. [Readme](http://www.readme.io) site *hyper cher* permettant de partager la documentation d'utiisation de votre API
-5. [Jersey] (https://jersey.github.io/)
-6. [Glassfish] (https://javaee.github.io/glassfish/) et son [outil Eclipse] (http://download.eclipse.org/glassfish-tools/1.0.0/repository/)
-7. [Tomcat] (https://tomcat.apache.org/download-90.cgi) et prendre le tar.gz et ajouter le catalina-ws.jar
+5. [Jersey](https://jersey.github.io/)
+6. [Glassfish](https://javaee.github.io/glassfish/) et son [outil Eclipse] (http://download.eclipse.org/glassfish-tools/1.0.0/repository/)
+7. [Tomcat](https://tomcat.apache.org/download-90.cgi) et prendre le tar.gz et ajouter le catalina-ws.jar
 
 
 
@@ -45,6 +45,7 @@ Description de l'API BBWS
 - [Récupérer les JAR](https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/_maven_repository.html)
 - [Documentation utilisation de l'API](https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html)
 - Delete all index : curl -X DELETE "localhost:9200/baseball-eu"
+- [Exemple de POST depuis une classe java](https://jersey.github.io/documentation/latest/client.html#client.ex.formpost)
 
 
 
