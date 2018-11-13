@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.get.GetResponse;
@@ -43,7 +44,7 @@ public class StatisticsResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
+    public String welcome() {
     	ElasticSearchMapper.getInstance().open();
     	return "Welcome to the Be Better With Stats API !";
     }
@@ -51,7 +52,7 @@ public class StatisticsResource {
     @GET 
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/pa")
-    public String list(@QueryParam("search") String p_playerID, @QueryParam("sort") String p_sortOrder) {
+    public String list(@QueryParam("search") String p_playerID, @QueryParam("sort_by") String p_sortOrder) {
 
     	// ############## GESTION DES PARAMETRES
     	logger.entry("list all plate-appearance for the player {}", p_playerID); // TODO gerer l'absence de query param
@@ -59,12 +60,14 @@ public class StatisticsResource {
     	// Par defaut le tri se fait par ordre decroissant (le plus recent en premier)
     	logger.entry(p_sortOrder);
     	SortOrder sort = SortOrder.DESC;
-    	if (p_sortOrder != null && p_sortOrder.length() > 0) {
+    	if (StringUtils.isNotEmpty(p_sortOrder)) {
     		if ( "asc".equalsIgnoreCase(p_sortOrder) // si &sort=asc
-    			|| "+created".equalsIgnoreCase(p_sortOrder)) { // ou si &sort=+created
+    			|| "+created".equalsIgnoreCase(p_sortOrder) // ou si &sort=+created
+    			|| "asc(created)".equalsIgnoreCase(p_sortOrder) // ou si &sort=asc(created)
+    			|| "created.asc".equalsIgnoreCase(p_sortOrder)) { // ou si &sort=created.asc
     			sort = SortOrder.ASC;
-    		}
-    	}
+    		} // else {sort = SortOrder.DESC;}
+    	} // else {sort = SortOrder.DESC;}
     	
     	
     	

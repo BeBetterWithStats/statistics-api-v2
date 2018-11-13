@@ -54,5 +54,6 @@ Description de l'API BBWS
 - [x] Revoir la route `pa?&player=` en `pa?search=`
 - [x] Filtrer l'output ES pour ne restituer que les attributs nécessaires pour l'instant
 - [ ] Bug sur les joueurs possédant le meme prénom
+- [x] Renommer le queryParam `sort` en mode `sort_by`
 - [ ] Gérer le queryParam `sort` en mode liste
 
