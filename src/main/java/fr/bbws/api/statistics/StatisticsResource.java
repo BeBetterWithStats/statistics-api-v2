@@ -71,7 +71,7 @@ public class StatisticsResource {
     			|| "created.asc".equalsIgnoreCase(p_sortOrder)) { // ou si &sort=created.asc
     			sort = SortOrder.ASC;
     		} else {
-    			return Response.status(Status.BAD_REQUEST).build();
+    			return Response.status(Status.BAD_REQUEST).entity("Value for the sort parameter is not valid. Please check documentation.").build();
     			// else {sort = SortOrder.DESC;}
     		}
     	} // else {sort = SortOrder.DESC;}
@@ -130,7 +130,7 @@ public class StatisticsResource {
 	   	if (StringUtils.isEmpty(p_ID)) {
 	   		
 	   		logger.info("[{}] @return {} for the ID {}", "EXIT", Status.BAD_REQUEST, p_ID);
-		   	return Response.status(Status.BAD_REQUEST).build();
+		   	return Response.status(Status.BAD_REQUEST).entity("The ID is not valid.").build();
 		   	
 	   	}
 	   	// ############## EXECUTION DE LA REQUETE
@@ -143,7 +143,7 @@ public class StatisticsResource {
 	   	if (responseES.isSourceEmpty()) {
 	   		
 	   		logger.info("[{}] @return {} for the ID {}", "EXIT", Status.NOT_FOUND, p_ID);
-		   	return Response.status(Status.NOT_FOUND).build();
+		   	return Response.status(Status.NOT_FOUND).entity("The ressource with the ID " + p_ID + " does not exist.").build();
 		   	
 	   	} else {
 	   		
