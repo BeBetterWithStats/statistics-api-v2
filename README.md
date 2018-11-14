@@ -50,7 +50,7 @@ Description de l'API BBWS
 
 
 # TODO list
-- [ ] Gérer l'absence de query param player pour la route `/pa`
+- [x] Gérer l'absence de query param player pour la route `/pa`
 - [x] Aout de l'attribut sort
 - [x] Revoir la route `pa?&player=` en `pa?search=`
 - [x] Filtrer l'output ES pour ne restituer que les attributs nécessaires pour l'instant

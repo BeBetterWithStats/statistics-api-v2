@@ -57,7 +57,11 @@ public class StatisticsResource {
     public Response list(@QueryParam("search") String p_playerID, @QueryParam("sort") String p_sortOrder) {
 
     	// ############## GESTION DES PARAMETRES
-    	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_playerID); // TODO gerer l'absence de query param
+    	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_playerID);
+    	if (StringUtils.isEmpty(p_playerID)) {
+    		return Response.status(Status.BAD_REQUEST).entity("A value for the search query parameter is mandatory. Please check documentation.").build();
+    	}
+    	
     	logger.info("[{}] [{}] ?search = '{}'", "ENTRY", "@QueryParam", p_playerID);
     	
     	// Par defaut le tri se fait par ordre decroissant (le plus recent en premier)
