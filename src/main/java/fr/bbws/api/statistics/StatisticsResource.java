@@ -54,14 +54,14 @@ public class StatisticsResource {
     @GET 
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/pa")
-    public Response list(@QueryParam("search") String p_playerID, @QueryParam("sort_by") String p_sortOrder) {
+    public Response list(@QueryParam("search") String p_playerID, @QueryParam("sort") String p_sortOrder) {
 
     	// ############## GESTION DES PARAMETRES
     	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_playerID); // TODO gerer l'absence de query param
-    	logger.info("[{}] search = '{}'" , "@QueryParam", p_playerID);
+    	logger.info("[{}] [{}] ?search = '{}'", "ENTRY", "@QueryParam", p_playerID);
     	
     	// Par defaut le tri se fait par ordre decroissant (le plus recent en premier)
-    	logger.info("[{}] sort_by = '{}'" , "@QueryParam", p_sortOrder);
+    	logger.info("[{}] [{}] &sort = '{}'", "ENTRY", "@QueryParam", p_sortOrder);
     	SortOrder sort = SortOrder.DESC;
     	if (StringUtils.isNotEmpty(p_sortOrder)) {
     		if ( "asc".equalsIgnoreCase(p_sortOrder) // si &sort=asc
@@ -98,8 +98,8 @@ public class StatisticsResource {
     	// ############## PARCOURIR LE RESULTAT DE LA REQUETE
     	SearchHits hits = responseES.getHits();
     	for (SearchHit _hit : hits) {
-    		logger.debug("Résultat = {}", _hit.getSourceAsMap());
-    		logger.debug("      ID = {}", "/pa/" + _hit.getId());
+    		logger.debug("[{}] @return from ES = {}", "RESPONSE", _hit.getSourceAsMap());
+    		logger.debug("           /pa/{ID} = {}", "/pa/" + _hit.getId());
     		
     		Map< String, Object> _result = new TreeMap< String, Object>();
     		_result.put("who", _hit.getSourceAsMap().get("player_id"));
@@ -125,10 +125,13 @@ public class StatisticsResource {
 	   
 	   	// ############## GESTION DES PARAMETRES
 	   	logger.info("[{}] get the plate-appearance with the ID", "ENTRY"); // TODO gerer l'absence de query param
-	   	logger.info("[{}] '{}'" , "@PathParam", p_ID);
+	   	logger.info("[{}] [{}] /pa/{ID} = '{}'", "ENTRY", "@PathParam", p_ID);
 	   	
 	   	if (StringUtils.isEmpty(p_ID)) {
-	   		return Response.status(Status.BAD_REQUEST).build();
+	   		
+	   		logger.info("[{}] @return {} for the ID {}", "EXIT", Status.BAD_REQUEST, p_ID);
+		   	return Response.status(Status.BAD_REQUEST).build();
+		   	
 	   	}
 	   	// ############## EXECUTION DE LA REQUETE
     	// parcourir l'index _baseball-eu_
