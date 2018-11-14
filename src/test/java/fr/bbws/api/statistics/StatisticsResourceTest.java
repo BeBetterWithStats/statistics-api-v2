@@ -13,11 +13,11 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class MyResourceTest {
+public class StatisticsResourceTest {
 
     private HttpServer server;
     private WebTarget target;
-    final static Logger logger = LogManager.getLogger(MyResourceTest.class.getName());
+    final static Logger logger = LogManager.getLogger(StatisticsResourceTest.class.getName());
 	
 
     @Before
@@ -48,5 +48,16 @@ public class MyResourceTest {
     public void testGetIt() {
         String responseMsg = target.path("myresource").request().get(String.class);
         assertEquals("Got it!", responseMsg);
+    }
+    
+
+    /**
+     * 
+     */
+    @Test
+    public void testLoadPA() {
+        String responseMsg = target.path("api").request().get(String.class);
+        logger.info("[{}] msg = {}", "TEST", responseMsg);
+        assertEquals("Welcome to the Be Better With Stats API !", responseMsg);
     }
 }
