@@ -1,11 +1,14 @@
 package fr.bbws.api.statistics;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,8 +21,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -28,6 +33,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import com.google.gson.GsonBuilder;
 
 import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
+import fr.bbws.api.statistics.model.PlateAppearance;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -50,6 +56,52 @@ public class StatisticsResource {
     	ElasticSearchMapper.getInstance().open();
     	return "Welcome to the Be Better With Stats API !";
     }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/pa")
+    public Response add( PlateAppearance p_pa) {
+    	
+    	logger.info("[{}] add the followed plate-appearance {}", "ENTRY", p_pa);
+    	Map<String, Object> result = new TreeMap<String, Object>();
+		
+    	if ( p_pa != null) {
+    		
+    		result.put("created", LocalDateTime.now().toString());
+			result.put("day",  p_pa.getDay());
+			result.put("field",  p_pa.getField());
+			result.put("opposite_pitcher",  p_pa.getOppositePitcher()); // TODO opposite pitcher
+			result.put("opposite_team", p_pa.getOppositeTeam());
+			result.put("player_id",  p_pa.getId());
+			result.put("player_team", p_pa.getTeam());
+			result.put("player_field_position",  p_pa.getFieldPosition());
+			result.put("player_batting_order",   p_pa.getBattingOrder());
+			result.put("when", p_pa.getWhen());
+			result.put("what",  p_pa.getWhat());
+			result.put("where",  p_pa.getWhere());  // TODO where
+			result.put("umpire_id",  p_pa.getUmpireID());
+    		
+			logger.debug("    [_JSON] = {}", result);
+			
+			IndexResponse responseES = ElasticSearchMapper.getInstance().open()
+					.prepareIndex("baseball-eu", "pa").setSource(result, XContentType.JSON).get();
+
+			if (StringUtils.isEmpty(responseES.getId())) {
+				return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Response from database is null or not valid.").build();
+			} else {
+				result.put("id", "/pa/" + responseES.getId());
+				logger.info("    [STATUT POST] = HTTP {} - ID = {}", 200, "/pa/" + responseES.getId());
+			}
+			
+    	} else {
+    		return Response.status(Status.BAD_REQUEST).entity("The JSON should not be empty.").build();
+    	}
+    	
+    	String json = new GsonBuilder().create().toJson(result);
+    	return Response.status(Status.CREATED).entity(json).build();
+    }
+    
     
     @GET 
     @Produces(MediaType.APPLICATION_JSON)
@@ -116,7 +168,7 @@ public class StatisticsResource {
 
     	// ############## GENERER LE JSon DE SORTIE
     	String json = new GsonBuilder().create().toJson(results);
-
+    	logger.debug("[{}] @return json = {}", "EXIT", json);
     	logger.info("[{}] @return a list of {} plate-appearance for the player {}", "EXIT", responseES.getHits().getTotalHits(), p_playerID);
     	return Response.ok().entity(json).build();
    }
