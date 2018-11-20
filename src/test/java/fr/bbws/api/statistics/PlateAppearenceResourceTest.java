@@ -23,11 +23,11 @@ import fr.bbws.api.statistics.model.PlateAppearance;
 import fr.bbws.api.statistics.model.Play;
 import fr.bbws.api.statistics.model.Position;
 
-public class StatisticsResourceTest {
+public class PlateAppearenceResourceTest {
 
     private HttpServer server;
     private WebTarget target;
-    final static Logger logger = LogManager.getLogger(StatisticsResourceTest.class.getName());
+    final static Logger logger = LogManager.getLogger(PlateAppearenceResourceTest.class.getName());
 	
     @Before
     public void setUp() throws Exception {
