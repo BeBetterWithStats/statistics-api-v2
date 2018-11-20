@@ -1,13 +1,14 @@
 package fr.bbws.api.statistics;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,10 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -34,6 +33,7 @@ import com.google.gson.GsonBuilder;
 
 import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
 import fr.bbws.api.statistics.model.PlateAppearance;
+import fr.bbws.api.statistics.service.PlateAppearanceService;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -46,51 +46,22 @@ public class PlateAppearenceResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response add( PlateAppearance p_pa) {
+    public Response add(PlateAppearance p_pa) {
     	
     	logger.info("[{}] add the followed plate-appearance {}", "ENTRY", p_pa);
-    	Map<String, Object> result = new TreeMap<String, Object>();
-		
-    	if ( p_pa != null) {
-    		
-    		// attributs techniques
-    		result.put("created", LocalDateTime.now().toString());
-    		result.put("state", p_pa.getState());
-			
-    		// attributs principaux
-    		result.put("game",  p_pa.getGame());
-			result.put("when", p_pa.getWhen());
-			result.put("what",  p_pa.getWhat());
-			result.put("where",  p_pa.getWhere());
-			result.put("who",  p_pa.getWho());
-			
-			// attributs complémentaires
-    		result.put("field",  p_pa.getField());
-			result.put("umpire_id",  p_pa.getUmpireID());
-    		result.put("opposite_pitcher",  p_pa.getOppositePitcher());
-			result.put("opposite_team", p_pa.getOppositeTeam());
-			result.put("field_position",  p_pa.getFieldPosition());
-			result.put("batting_order",   p_pa.getBattingOrder());
-			result.put("team", p_pa.getTeam());
-			
-			logger.debug("    [IN] = {}", result);
-			
-			IndexResponse responseES = ElasticSearchMapper.getInstance().open()
-					.prepareIndex("baseball-eu", "pa").setSource(result, XContentType.JSON).get();
-
-			if (StringUtils.isEmpty(responseES.getId())) {
-				return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Response from database is null or not valid.").build();
-			} else {
-				result.put("id", "/pa/" + responseES.getId());
-				logger.info("    [OUT] = HTTP {} - ID = {}", 200, "/pa/" + responseES.getId());
-			}
-			
-    	} else {
-    		return Response.status(Status.BAD_REQUEST).entity("The JSON should not be empty.").build();
-    	}
     	
-    	String json = new GsonBuilder().create().toJson(result);
-    	return Response.status(Status.CREATED).entity(json).build();
+    	try {
+    		
+			Map<String, Object> result = new TreeMap<String, Object>();
+			result = new PlateAppearanceService().add(p_pa);
+			String json = new GsonBuilder().create().toJson(result);
+			return Response.status(Status.CREATED).entity(json).build();
+		
+    	} catch (BadRequestException e) {
+    		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		} catch (InternalServerErrorException e) {
+    		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		}
     }
     
     
