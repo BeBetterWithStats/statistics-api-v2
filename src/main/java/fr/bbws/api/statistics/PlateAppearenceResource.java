@@ -38,7 +38,7 @@ import fr.bbws.api.statistics.model.PlateAppearance;
 /**
  * Root resource (exposed at "myresource" path)
  */
-@Path("/api")
+@Path("/api/pa")
 public class PlateAppearenceResource {
 
 	final static Logger logger = LogManager.getLogger(PlateAppearenceResource.class.getName());
@@ -46,7 +46,6 @@ public class PlateAppearenceResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/pa")
     public Response add( PlateAppearance p_pa) {
     	
     	logger.info("[{}] add the followed plate-appearance {}", "ENTRY", p_pa);
@@ -97,7 +96,6 @@ public class PlateAppearenceResource {
     
     @GET 
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/pa")
     public Response list(@QueryParam("search") String p_playerID, @QueryParam("sort") String p_sortOrder) {
 
     	// ############## GESTION DES PARAMETRES
@@ -170,7 +168,7 @@ public class PlateAppearenceResource {
 
    @GET 
    @Produces(MediaType.APPLICATION_JSON)
-   @Path("/pa/{id}")
+   @Path("/{id}")
    public Response get(@PathParam("id") String p_ID) {
 	   
 	   	// ############## GESTION DES PARAMETRES
