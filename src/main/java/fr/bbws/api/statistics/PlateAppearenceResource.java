@@ -39,9 +39,9 @@ import fr.bbws.api.statistics.model.PlateAppearance;
  * Root resource (exposed at "myresource" path)
  */
 @Path("/api")
-public class StatisticsResource {
+public class PlateAppearenceResource {
 
-	final static Logger logger = LogManager.getLogger(StatisticsResource.class.getName());
+	final static Logger logger = LogManager.getLogger(PlateAppearenceResource.class.getName());
 	    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
