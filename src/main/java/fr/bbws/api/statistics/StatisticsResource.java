@@ -68,21 +68,27 @@ public class StatisticsResource {
 		
     	if ( p_pa != null) {
     		
+    		// attributs techniques
     		result.put("created", LocalDateTime.now().toString());
-			result.put("day",  p_pa.getDay());
-			result.put("field",  p_pa.getField());
-			result.put("opposite_pitcher",  p_pa.getOppositePitcher()); // TODO opposite pitcher
-			result.put("opposite_team", p_pa.getOppositeTeam());
-			result.put("player_id",  p_pa.getId());
-			result.put("player_team", p_pa.getTeam());
-			result.put("player_field_position",  p_pa.getFieldPosition());
-			result.put("player_batting_order",   p_pa.getBattingOrder());
+    		result.put("state", p_pa.getState());
+			
+    		// attributs principaux
+    		result.put("game",  p_pa.getGame());
 			result.put("when", p_pa.getWhen());
 			result.put("what",  p_pa.getWhat());
-			result.put("where",  p_pa.getWhere());  // TODO where
+			result.put("where",  p_pa.getWhere());
+			result.put("who",  p_pa.getWho());
+			
+			// attributs complémentaires
+    		result.put("field",  p_pa.getField());
 			result.put("umpire_id",  p_pa.getUmpireID());
-    		
-			logger.debug("    [_JSON] = {}", result);
+    		result.put("opposite_pitcher",  p_pa.getOppositePitcher());
+			result.put("opposite_team", p_pa.getOppositeTeam());
+			result.put("field_position",  p_pa.getFieldPosition());
+			result.put("batting_order",   p_pa.getBattingOrder());
+			result.put("team", p_pa.getTeam());
+			
+			logger.debug("    [IN] = {}", result);
 			
 			IndexResponse responseES = ElasticSearchMapper.getInstance().open()
 					.prepareIndex("baseball-eu", "pa").setSource(result, XContentType.JSON).get();
@@ -91,7 +97,7 @@ public class StatisticsResource {
 				return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Response from database is null or not valid.").build();
 			} else {
 				result.put("id", "/pa/" + responseES.getId());
-				logger.info("    [STATUT POST] = HTTP {} - ID = {}", 200, "/pa/" + responseES.getId());
+				logger.info("    [OUT] = HTTP {} - ID = {}", 200, "/pa/" + responseES.getId());
 			}
 			
     	} else {
@@ -158,11 +164,13 @@ public class StatisticsResource {
     		logger.debug("           /pa/{ID} = {}", "/pa/" + _hit.getId());
     		
     		Map< String, Object> _result = new TreeMap< String, Object>();
-    		_result.put("who", _hit.getSourceAsMap().get("player_id"));
+    		// attributs principaux only
     		_result.put("id", "/pa/" + _hit.getId());
+    		_result.put("game", _hit.getSourceAsMap().get("game"));
     		_result.put("when", _hit.getSourceAsMap().get("when"));
     		_result.put("what", _hit.getSourceAsMap().get("what"));
     		_result.put("where", _hit.getSourceAsMap().get("where"));
+    		_result.put("who", _hit.getSourceAsMap().get("who"));
     		results.add(_result);
     	}
 
@@ -204,13 +212,17 @@ public class StatisticsResource {
 	   	} else {
 	   		
 		   	Map< String, Object> result = new TreeMap< String, Object>();
-			result.put("id", "/pa/" + responseES.getId());
+		   	// attributs principaux
+    		result.put("id", "/pa/" + responseES.getId());
+			result.put("game", responseES.getSourceAsMap().get("game"));
 			result.put("when", responseES.getSourceAsMap().get("when"));
 			result.put("what", responseES.getSourceAsMap().get("what"));
 			result.put("where", responseES.getSourceAsMap().get("where"));
-			result.put("who", responseES.getSourceAsMap().get("player_id"));
-			result.put("against", responseES.getSourceAsMap().get("opposite_team"));
-			result.put("day", responseES.getSourceAsMap().get("day"));
+			result.put("who", responseES.getSourceAsMap().get("who"));
+			
+			// attributs complémentaires
+			result.put("oppositePitcher", responseES.getSourceAsMap().get("opposite_pitcher"));
+			result.put("oppositeTeam", responseES.getSourceAsMap().get("opposite_team"));
 			result.put("at", responseES.getSourceAsMap().get("field"));
 			
 		   	// ############## GENERER LE JSon DE SORTIE

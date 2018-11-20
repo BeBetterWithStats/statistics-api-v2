@@ -6,7 +6,7 @@ public class PlateAppearance {
 
 	String created = null;
 	
-	String day = null;
+	String game = null;
 	
 	String field = null;
 	
@@ -32,6 +32,8 @@ public class PlateAppearance {
 	
 	String state = null;
 	
+	String who = null;
+	
 	public PlateAppearance() {
 	}
 
@@ -41,17 +43,17 @@ public class PlateAppearance {
 	 */
 	@Override
 	public String toString() {
-		return "PlateAppearance [day=" + day + ", field=" + field + ", oppositePitcher="
+		return "PlateAppearance [game=" + game + ", field=" + field + ", oppositePitcher="
 				+ oppositePitcher + ", oppositeTeam=" + oppositeTeam + ", id=" + id + ", team=" + team
 				+ ", fieldPosition=" + fieldPosition + ", battingOrder=" + battingOrder + ", when=" + when + ", what="
-				+ what + ", where=" + where + ", umpireID=" + umpireID + ", state=" + state + "]";
+				+ what + ", where=" + where + ", umpireID=" + umpireID + ", state=" + state + ", who=" + who + "]";
 	}
 
 	/**
-	 * @return the day
+	 * @return the time of the game start
 	 */
-	public String getDay() {
-		return day;
+	public String getGame() {
+		return game;
 	}
 
 	/**
@@ -132,6 +134,14 @@ public class PlateAppearance {
 	}
 
 	/**
+	 * @return the created
+	 */
+	@Ignore
+	public String getCreated() {
+		return created;
+	}
+
+	/**
 	 * @return the state
 	 */
 	public String getState() {
@@ -139,10 +149,18 @@ public class PlateAppearance {
 	}
 
 	/**
-	 * @param day the day to set
+	 * @return the who
 	 */
-	public void setDay(String day) {
-		this.day = day;
+	public String getWho() {
+		return who;
+	}
+
+
+	/**
+	 * @param the time of the game start
+	 */
+	public void setGame(String game) {
+		this.game = game;
 	}
 
 	/**
@@ -223,20 +241,19 @@ public class PlateAppearance {
 	}
 
 	/**
-	 * @return the created
-	 */
-	@Ignore
-	public String getCreated() {
-		return created;
-	}
-
-
-	/**
 	 * @param created the created to set
 	 */
 	@Ignore
 	public void setCreated(String created) {
 		this.created = created;
+	}
+
+
+	/**
+	 * @param who the who to set
+	 */
+	public void setWho(String who) {
+		this.who = who;
 	}
 
 }
