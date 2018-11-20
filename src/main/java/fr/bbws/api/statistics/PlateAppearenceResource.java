@@ -22,12 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.sort.SortOrder;
 
 import com.google.gson.GsonBuilder;
 
@@ -65,75 +59,27 @@ public class PlateAppearenceResource {
     }
     
     
-    @GET 
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list(@QueryParam("search") String p_playerID, @QueryParam("sort") String p_sortOrder) {
+    public Response list(@QueryParam("search") String p_who, @QueryParam("sort") String p_sort) {
 
     	// ############## GESTION DES PARAMETRES
-    	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_playerID);
-    	if (StringUtils.isEmpty(p_playerID)) {
-    		return Response.status(Status.BAD_REQUEST).entity("A value for the search query parameter is mandatory. Please check documentation.").build();
-    	}
+    	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_who);
+    	logger.info("[{}]                 with the query parameter {}", "ENTRY", p_sort);
     	
-    	logger.info("[{}] [{}] ?search = '{}'", "ENTRY", "@QueryParam", p_playerID);
-    	
-    	// Par defaut le tri se fait par ordre decroissant (le plus recent en premier)
-    	logger.info("[{}] [{}] &sort = '{}'", "ENTRY", "@QueryParam", p_sortOrder);
-    	SortOrder sort = SortOrder.DESC;
-    	if (StringUtils.isNotEmpty(p_sortOrder)) {
-    		if ( "asc".equalsIgnoreCase(p_sortOrder) // si &sort=asc
-    			|| " created".equalsIgnoreCase(p_sortOrder) // ou si &sort=+created
-    			|| "created".equalsIgnoreCase(p_sortOrder) // ou si &sort=created
-    			|| "asc(created)".equalsIgnoreCase(p_sortOrder) // ou si &sort=asc(created)
-    			|| "created.asc".equalsIgnoreCase(p_sortOrder)) { // ou si &sort=created.asc
-    			sort = SortOrder.ASC;
-    		} else {
-    			return Response.status(Status.BAD_REQUEST).entity("Value for the sort parameter is not valid. Please check documentation.").build();
-    			// else {sort = SortOrder.DESC;}
-    		}
-    	} // else {sort = SortOrder.DESC;}
-    	
-    	
-    	
-    	
-    	List<Object> results = new ArrayList<Object>(); // the ES search result
-
-    	// ############## EXECUTION DE LA REQUETE
-    	// parcourir l'index _baseball-eu_
-    	// requete exacte sur l'attribut _palyer-id_
-    	// correspondant au parametre de la requete REST
-    	SearchResponse responseES = ElasticSearchMapper.getInstance().open()
-													   				.prepareSearch("baseball-eu")
-													   				.setTypes("pa")
-													   		        .setSearchType(SearchType.DEFAULT)
-													   		        .setQuery(QueryBuilders.matchQuery("player_id", p_playerID))
-													   		        .addSort("created", sort)
-													   		        .setFrom(0).setSize(100).setExplain(true)
-													   		        .get();
-
-    	
-    	// ############## PARCOURIR LE RESULTAT DE LA REQUETE
-    	SearchHits hits = responseES.getHits();
-    	for (SearchHit _hit : hits) {
-    		logger.debug("[{}] @return from ES = {}", "RESPONSE", _hit.getSourceAsMap());
-    		logger.debug("           /pa/{ID} = {}", "/pa/" + _hit.getId());
+    	try {
     		
-    		Map< String, Object> _result = new TreeMap< String, Object>();
-    		// attributs principaux only
-    		_result.put("id", "/pa/" + _hit.getId());
-    		_result.put("game", _hit.getSourceAsMap().get("game"));
-    		_result.put("when", _hit.getSourceAsMap().get("when"));
-    		_result.put("what", _hit.getSourceAsMap().get("what"));
-    		_result.put("where", _hit.getSourceAsMap().get("where"));
-    		_result.put("who", _hit.getSourceAsMap().get("who"));
-    		results.add(_result);
-    	}
-
-    	// ############## GENERER LE JSon DE SORTIE
-    	String json = new GsonBuilder().create().toJson(results);
-    	logger.debug("[{}] @return json = {}", "EXIT", json);
-    	logger.info("[{}] @return a list of {} plate-appearance for the player {}", "EXIT", responseES.getHits().getTotalHits(), p_playerID);
-    	return Response.ok().entity(json).build();
+			List<Object> result = new ArrayList<Object>();
+			result = new PlateAppearanceService().list(p_who, p_sort);
+			String json = new GsonBuilder().create().toJson(result);
+			logger.debug("[{}] @return json = {}", "EXIT", json);
+	    	return Response.ok().entity(json).build();
+		
+    	} catch (BadRequestException e) {
+    		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		} catch (InternalServerErrorException e) {
+    		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		}
    }
 
 

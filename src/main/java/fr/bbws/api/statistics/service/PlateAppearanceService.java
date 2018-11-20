@@ -1,6 +1,8 @@
 package fr.bbws.api.statistics.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,7 +14,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.sort.SortOrder;
 
 import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
 import fr.bbws.api.statistics.model.PlateAppearance;
@@ -28,10 +36,10 @@ public class PlateAppearanceService {
 		// empty constructor
 	}
 	
-	public Map<String, Object> add( PlateAppearance p_pa) 
+	public Map<String, Object> add(PlateAppearance p_pa) 
 			throws BadRequestException, InternalServerErrorException {
 		
-		logger.info("[{}] add the followed plate-appearance {}", "ENTRY", p_pa);
+		logger.info("[{}] @p_pa = {}", "add", p_pa);
 		
 		// DEBUT -- vérification des paramètres d'entrée
 		if ( p_pa == null) {
@@ -86,7 +94,8 @@ public class PlateAppearanceService {
 		result.put("batting_order",   p_pa.getBattingOrder());
 		result.put("team", p_pa.getTeam());
 		
-		logger.debug("    [IN] = {}", result);
+		logger.debug("[{}] {}", "add", "Envoi du JSON a ElasticSearch");
+		logger.debug("     [IN] = {}", result);
 		
 		IndexResponse responseES = ElasticSearchMapper.getInstance().open()
 				.prepareIndex("baseball-eu", "pa").setSource(result, XContentType.JSON).get();
@@ -94,17 +103,85 @@ public class PlateAppearanceService {
 		if (StringUtils.isNotBlank(responseES.getId())) {
 			
 			result.put("id", "/pa/" + responseES.getId());
-			logger.debug("    [OUT] = ID {}", Status.OK, "/pa/" + responseES.getId());
+			logger.debug("     [OUT] = ID {}", Status.OK, "/pa/" + responseES.getId());
 			
 		} else {
 			
-			logger.error("   [OUT] = {}", "Response from database is null or not valid.");
+			logger.error("     [OUT] = {}", "Response from database is null or not valid.");
 			throw new InternalServerErrorException("Response from database is null or not valid.");
 			
 		}
 		
-		logger.info("[{}] @return = {}", "EXIT", result);
+		logger.info("[{}] @return = {}", "add", result);
     	return result;
 	}
 	
+
+	public List<Object> list(String p_who, String p_sort) 
+			throws BadRequestException, InternalServerErrorException {
+		
+		logger.info("[{}] @p_who = {}", "list", p_who);
+		logger.info("[{}] @p_sort = '{}'", "list", p_sort);
+    	
+		// DEBUT -- vérification des paramètres d'entrée
+		if (StringUtils.isBlank(p_who)) {
+			throw new BadRequestException("Player's name must not be null or empty.");
+		}
+		
+		SortOrder sort = SortOrder.DESC;
+    	if (StringUtils.isNotEmpty(p_sort)) {
+    		if ( "asc".equalsIgnoreCase(p_sort) // si &sort=asc
+    			|| " created".equalsIgnoreCase(p_sort) // ou si &sort=+created
+    			|| "created".equalsIgnoreCase(p_sort) // ou si &sort=created
+    			|| "asc(created)".equalsIgnoreCase(p_sort) // ou si &sort=asc(created)
+    			|| "created.asc".equalsIgnoreCase(p_sort)) { // ou si &sort=created.asc
+    			sort = SortOrder.ASC;
+    		} else {
+    			throw new BadRequestException("Value for the sort parameter is not valid. Please check documentation.");
+    		}
+    	} // else {sort = SortOrder.DESC;}
+    	// FIN -- vérification des paramètres d'entrée
+		
+
+		List<Object> results = new ArrayList<Object>(); // the ES search result
+		
+    	// ############## EXECUTION DE LA REQUETE
+    	// parcourir l'index _baseball-eu_
+    	// requete exacte sur l'attribut _palyer-id_
+    	// correspondant au parametre de la requete REST
+		logger.debug("    [IN] = {}", p_who);
+		SearchResponse responseES = ElasticSearchMapper.getInstance().open()
+													   				.prepareSearch("baseball-eu")
+													   				.setTypes("pa")
+													   		        .setSearchType(SearchType.DEFAULT)
+													   		        .setQuery(QueryBuilders.matchQuery("who", p_who))
+													   		        .addSort("created", sort)
+													   		        .setFrom(0).setSize(100).setExplain(true)
+													   		        .get();
+
+    	// ############## PARCOURIR LE RESULTAT DE LA REQUETE
+    	SearchHits hits = responseES.getHits();
+    	
+    	if ( null == responseES.getHits()) {
+    		throw new InternalServerErrorException("Response from database is null or not valid.");
+    	}
+    	
+    	for (SearchHit _hit : hits) {
+    		logger.debug("    [OUT] = {}", _hit.getSourceAsMap());
+    		logger.debug("            /pa/{ID} = {}", "/pa/" + _hit.getId());
+    		
+    		Map< String, Object> _result = new TreeMap< String, Object>();
+    		// attributs principaux only
+    		_result.put("id", "/pa/" + _hit.getId());
+    		_result.put("game", _hit.getSourceAsMap().get("game"));
+    		_result.put("when", _hit.getSourceAsMap().get("when"));
+    		_result.put("what", _hit.getSourceAsMap().get("what"));
+    		_result.put("where", _hit.getSourceAsMap().get("where"));
+    		_result.put("who", _hit.getSourceAsMap().get("who"));
+    		results.add(_result);
+    	}
+
+    	logger.info("[{}] @return = {}", "list", results);
+    	return results;
+	}
 }
