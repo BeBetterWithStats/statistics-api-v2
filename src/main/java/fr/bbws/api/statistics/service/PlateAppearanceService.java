@@ -8,11 +8,14 @@ import java.util.TreeMap;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -21,6 +24,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.sort.SortOrder;
+
+import com.google.gson.GsonBuilder;
 
 import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
 import fr.bbws.api.statistics.model.PlateAppearance;
@@ -183,5 +188,51 @@ public class PlateAppearanceService {
 
     	logger.info("[{}] @return = {}", "list", results);
     	return results;
+	}
+	
+	
+	public Map< String, Object> get(String p_ID)
+		throws NotFoundException {
+		
+		logger.info("[{}] @p_ID = {}", "get", p_ID);
+    	
+		// DEBUT -- vérification des paramètres d'entrée
+		if (StringUtils.isEmpty(p_ID)) {
+			throw new BadRequestException("ID must not be null or empty.");
+		}
+		// FIN -- vérification des paramètres d'entrée
+		
+		Map< String, Object> result = new TreeMap< String, Object>();
+		
+		// ############## EXECUTION DE LA REQUETE
+    	// parcourir l'index _baseball-eu_
+    	// correspondant au path param de la requete REST
+	   	GetResponse responseES = ElasticSearchMapper.getInstance().open()
+													   				.prepareGet("baseball-eu", "pa", p_ID).get();
+
+	   	if (responseES.isSourceEmpty()) {
+	   		
+	   		logger.error("[{}] @return {} for the ID {}", "EXIT", Status.NOT_FOUND, p_ID);
+		   	throw new NotFoundException("The resource with the ID /pa/" + p_ID + " does not exist.");
+		   	
+	   	} else {
+	   		
+		   	// attributs principaux
+    		result.put("id", "/pa/" + responseES.getId());
+			result.put("game", responseES.getSourceAsMap().get("game"));
+			result.put("when", responseES.getSourceAsMap().get("when"));
+			result.put("what", responseES.getSourceAsMap().get("what"));
+			result.put("where", responseES.getSourceAsMap().get("where"));
+			result.put("who", responseES.getSourceAsMap().get("who"));
+			
+			// attributs complémentaires
+			result.put("oppositePitcher", responseES.getSourceAsMap().get("opposite_pitcher"));
+			result.put("oppositeTeam", responseES.getSourceAsMap().get("opposite_team"));
+			result.put("at", responseES.getSourceAsMap().get("field"));
+			
+	   	}
+
+	   	logger.info("[{}] @return {}", "get", result);
+		return result;
 	}
 }

@@ -3,8 +3,6 @@ package fr.bbws.api.statistics;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.net.MalformedURLException;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -35,7 +33,7 @@ public class PlateAppearenceResourceTest {
     @Before
     public void setUp() throws Exception {
         // start the server
-        //server = Main.startServer();
+        server = Main.startServer();
         // create the client
         Client c = ClientBuilder.newClient();
 
@@ -50,7 +48,7 @@ public class PlateAppearenceResourceTest {
 
     @After
     public void tearDown() throws Exception {
-        //server.stop();
+        server.stop();
     }
 
     @Test

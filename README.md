@@ -59,6 +59,7 @@ Description de l'API BBWS
 - [ ] Gérer le queryParam `sort` en mode liste
 - [ ] Clean code pour déporter les appels elasticSearch dans la couche service plutot que les classes ressources
 - [ ] Revoir les IF/ELSE pour que les erreurs ne soient renvoyées que par les ELSE
+- [ ] Revoir la nature des exceptions renvoyées par la couche Service
 
 
 # Normes de code
