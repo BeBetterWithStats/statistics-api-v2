@@ -1,6 +1,5 @@
 package fr.bbws.api.statistics.model;
 
-import org.junit.Ignore;
 
 public class PlateAppearance {
 
@@ -136,7 +135,6 @@ public class PlateAppearance {
 	/**
 	 * @return the created
 	 */
-	@Ignore
 	public String getCreated() {
 		return created;
 	}
@@ -243,7 +241,6 @@ public class PlateAppearance {
 	/**
 	 * @param created the created to set
 	 */
-	@Ignore
 	public void setCreated(String created) {
 		this.created = created;
 	}

@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,8 +23,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.sort.SortOrder;
-
-import com.google.gson.GsonBuilder;
 
 import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
 import fr.bbws.api.statistics.model.PlateAppearance;
