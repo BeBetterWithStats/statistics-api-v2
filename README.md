@@ -57,7 +57,7 @@ Description de l'API BBWS
 - [ ] Bug sur les joueurs possédant le meme prénom
 - [x] Renommer le queryParam `sort` en mode `sort_by`
 - [ ] Gérer le queryParam `sort` en mode liste
-- [ ] Clean code pour déporter les appels elasticSearch dans la couche service plutot que les classes ressources
+- [x] Clean code pour déporter les appels elasticSearch dans la couche service plutot que les classes ressources
 - [ ] Revoir les IF/ELSE pour que les erreurs ne soient renvoyées que par les ELSE
 - [ ] Revoir la nature des exceptions renvoyées par la couche Service
 - [ ] Dans la methode add de la classe PAService, il faut controler la valeur de certains parametres

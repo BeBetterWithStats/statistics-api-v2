@@ -37,7 +37,7 @@ import fr.bbws.api.statistics.model.Player;
 import fr.bbws.api.statistics.model.Position;
 
 public class PlateAppearanceRiver {
-
+	
 	private HttpServer server;
     
 	private WebTarget target;
@@ -283,10 +283,14 @@ public class PlateAppearanceRiver {
 		 */
 		
 		for (String _string : strings) {
-			if (StringUtils.isAllUpperCase(_string.substring(0, 1))) {
-				response += _string + " ";
-			} else {
-				break;
+			try {
+				if (StringUtils.isAllUpperCase(_string.substring(0, 1))) {
+					response += _string + " ";
+				} else {
+					break;
+				}
+			} catch (Exception e) {
+				return null;
 			}
 		}
 		
@@ -559,6 +563,7 @@ public class PlateAppearanceRiver {
 											.replaceAll(", RBI", "")
 											.replaceAll("::: ", "")
 											.replaceAll(":::", "")
+											.replaceAll(", bunt", "")
 											.substring( _who != null && _who.getID() != null ? _who.getID().length() + 1 : 0);
 						logger.debug("[{}]          [_keyword] = {}", "createDocuments", _keyword);
 						
