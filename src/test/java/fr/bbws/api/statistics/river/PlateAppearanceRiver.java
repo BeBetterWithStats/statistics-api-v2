@@ -32,7 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.bbws.api.statistics.Main;
-import fr.bbws.api.statistics.model.GameSheetConfiguration;
 import fr.bbws.api.statistics.model.PlateAppearance;
 import fr.bbws.api.statistics.model.Play;
 import fr.bbws.api.statistics.model.Player;
@@ -503,8 +502,8 @@ public class PlateAppearanceRiver {
 		
 		
 		
-		final Map<String, Play> ALL_PLAYS = GameSheetConfiguration.getInstance().loadAllPlays();
-		final Map<String, Position> ALL_POSITIONS = GameSheetConfiguration.getInstance().loadAllPositions();
+		final Map<String, Play> ALL_PLAYS = PlateAppearanceConfiguration.getInstance().loadAllPlays();
+		final Map<String, Position> ALL_POSITIONS = PlateAppearanceConfiguration.getInstance().loadAllPositions();
 		Map<String, Object> _json = new TreeMap<String, Object>();
 		List<String> _plays = new ArrayList<String>();
 		List<String> __plays = new ArrayList<String>();
@@ -565,7 +564,7 @@ public class PlateAppearanceRiver {
 						logger.debug("[{}]          [_keyword] = {}", "createDocuments", _keyword);
 						
 						// MATCH WITH ONE OF THE 
-						// fr.bbws.bo.statistics.river.model.GameSheetConfiguration.getInstance().loadAllPlays() KEYWORDS
+						// fr.bbws.bo.statistics.river.PlateAppearanceConfiguration.getInstance().loadAllPlays() KEYWORDS
 						_what = Play.UNDEFINED;
 						for (String key : ALL_PLAYS.keySet()) {
 							if (_keyword.startsWith(key)) { 
@@ -580,7 +579,7 @@ public class PlateAppearanceRiver {
 						
 						
 						// EXACT MATCH WITH ONE OF THE 
-						// fr.bbws.bo.statistics.river.model.GameSheetConfiguration.getInstance().loadAllPositions() KEYWORDS
+						// fr.bbws.bo.statistics.river.PlateAppearanceConfiguration.getInstance().loadAllPositions() KEYWORDS
 						_where = Position.UNDEFINED;
 						for (String key : ALL_POSITIONS.keySet()) {
 							if (_keyword.contentEquals(key)) { 
@@ -589,7 +588,7 @@ public class PlateAppearanceRiver {
 						}
 						
 						if ( Position.UNDEFINED == _where) {
-							if (!GameSheetConfiguration.getInstance().shouldPositionBeEmpty(_keyword)) {
+							if (!PlateAppearanceConfiguration.getInstance().shouldPositionBeEmpty(_keyword)) {
 								logger.error("[{}]          [_where] \'{}\' in file [{}] not found GameSheetConfiguration.loadAllPositions", "createDocuments", _keyword, p_file);
 							} else {
 								_where = Position.EMPTY;

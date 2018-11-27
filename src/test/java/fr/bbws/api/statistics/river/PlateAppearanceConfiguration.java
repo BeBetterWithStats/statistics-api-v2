@@ -1,4 +1,4 @@
-package fr.bbws.api.statistics.model;
+package fr.bbws.api.statistics.river;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,20 +13,20 @@ import fr.bbws.api.statistics.model.Position;
  * (se referer a l'article de JM Doudoux https://www.jmdoudoux.fr/java/dej/chap-design-patterns.htm)
  * permettant de charger la configuration lie a l'outil de scorage
  */
-public class GameSheetConfiguration {
+public class PlateAppearanceConfiguration {
    
     /** Constructeur prive */  
-    private GameSheetConfiguration(){
+    private PlateAppearanceConfiguration(){
     }
      
     /** Holder */
     private static class GameSheetConfigurationHolder {       
         /** Instance unique non preinitialisee */
-        private final static GameSheetConfiguration instance = new GameSheetConfiguration();
+        private final static PlateAppearanceConfiguration instance = new PlateAppearanceConfiguration();
     }
  
     /** Point d'acces pour l'instance unique du singleton */
-    public static GameSheetConfiguration getInstance() {
+    public static PlateAppearanceConfiguration getInstance() {
         return GameSheetConfigurationHolder.instance;
     }
 	
