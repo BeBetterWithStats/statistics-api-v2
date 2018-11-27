@@ -3,6 +3,9 @@ package fr.bbws.api.statistics;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Type;
+import java.util.Map;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -20,6 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import fr.bbws.api.statistics.model.PlateAppearance;
 import fr.bbws.api.statistics.model.Play;
@@ -82,7 +86,8 @@ public class PlateAppearenceResourceTest {
     @Test
     public void add_http201() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
-    	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
+    	Type collectionType = new TypeToken<Map<String, Object>>(){}.getType();
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, collectionType);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();

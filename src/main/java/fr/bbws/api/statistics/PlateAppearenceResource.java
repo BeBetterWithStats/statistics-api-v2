@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.gson.GsonBuilder;
 
-import fr.bbws.api.statistics.model.PlateAppearance;
 import fr.bbws.api.statistics.service.PlateAppearanceService;
 
 /**
@@ -39,7 +38,7 @@ public class PlateAppearenceResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response add(PlateAppearance p_pa) {
+    public Response add(Map<String, Object> p_pa) {
     	
     	logger.info("[{}] add the followed plate-appearance {}", "ENTRY", p_pa);
     	
