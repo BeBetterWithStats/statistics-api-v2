@@ -89,7 +89,7 @@ public class PlateAppearanceRiver {
 			try {
 
 				DirectoryStream<Path> stream = Files.newDirectoryStream(_file_dir); // repertoire contenant les fichiers HTML
-
+				
 				try {
 					
 					Iterator<Path> iterator = stream.iterator();
@@ -614,7 +614,7 @@ public class PlateAppearanceRiver {
 							// POUR CHAQUE ACTION
 							_json.clear();
 							
-							if ( filterPlateAppearanceOnly(_what)) {
+							if ( filterPlateAppearanceOnly(_what, _where)) {
 								
 								
 								_json.put("created", LocalDateTime.now().toString());
@@ -666,7 +666,7 @@ public class PlateAppearanceRiver {
 	 * Ne retourne que des actions qui ont amenes un frappeur a etre safe ou out en premire base
 	 * Les autres actions : SCORE, STOLE BASE, RUN, PICK OFF, ... ne sont pas pris en compte
 	 */
-	private boolean filterPlateAppearanceOnly(Play p_play) {
+	private boolean filterPlateAppearanceOnly(Play p_play, Position p_position) {
 		
 		if ( p_play == Play.DOUBLE_PLAY
 				|| p_play == Play.HIT_BY_PITCH
@@ -684,7 +684,12 @@ public class PlateAppearanceRiver {
 				|| p_play == Play.SLUGGING_3B
 				|| p_play == Play.SLUGGING_4B
 				|| p_play == Play.WALK) {
-			return true;
+			
+			if ( p_play == Play.OUT && p_position == Position.EMPTY) { // ceci est un pickoff => pas une plate appearance
+				return false;
+			} else {
+				return true;
+			}
 		} else {
 			return false;
 		}

@@ -51,8 +51,6 @@ public class PlateAppearanceConfiguration {
     		return true;
     	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("out at second")) {
     		return true;
-    	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("out at first ")) {
-    		return true;
     	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("out on batter's interference")) {
     		return true;
     	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("out on double play")) {
