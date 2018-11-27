@@ -25,7 +25,6 @@ import org.junit.Test;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import fr.bbws.api.statistics.model.PlateAppearance;
 import fr.bbws.api.statistics.model.Play;
 import fr.bbws.api.statistics.model.Position;
 
@@ -36,6 +35,9 @@ public class PlateAppearenceResourceTest {
     private WebTarget target;
     
     final static Logger logger = LogManager.getLogger(PlateAppearenceResourceTest.class.getName());
+    
+    final static Type mapStringObjectType = new TypeToken<Map<String, Object>>(){}.getType();
+	
 	
     @Before
     public void setUp() throws Exception {
@@ -86,8 +88,7 @@ public class PlateAppearenceResourceTest {
     @Test
     public void add_http201() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
-    	Type collectionType = new TypeToken<Map<String, Object>>(){}.getType();
-    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, collectionType);
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
@@ -97,14 +98,15 @@ public class PlateAppearenceResourceTest {
         String json = response.readEntity(String.class);
         logger.info("[{}] response.json = {}", "testAdd", json);
         
-        PlateAppearance out = new GsonBuilder().create().fromJson( json, PlateAppearance.class);
-        get(out.getId(), Position.LEFT_FIELD, Play.OUT, "1st", "DEMO", "TEST");
+        Map<String, Object> out = new GsonBuilder().create().fromJson( json, mapStringObjectType);
+        get(out.get("id"), Position.LEFT_FIELD, Play.OUT, "1st", "DEMO", "TEST");
     }
     
     @Test
     public void add_http500_withoutState() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
-    	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
+    	
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
@@ -119,7 +121,8 @@ public class PlateAppearenceResourceTest {
     @Test
     public void add_http400_withoutWho() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\"}";
-    	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
+    	
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
@@ -134,7 +137,8 @@ public class PlateAppearenceResourceTest {
     @Test
     public void add_http400_withoutWhen() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
-    	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
+    	
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
@@ -149,7 +153,8 @@ public class PlateAppearenceResourceTest {
     @Test
     public void add_http400_withoutWhere() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"who\":\"DEMO\"}";
-    	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
+    	
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
@@ -164,7 +169,8 @@ public class PlateAppearenceResourceTest {
     @Test
     public void add_http400_withWhereNotValid() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"NOT_VALID\",\"who\":\"DEMO\"}";
-    	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
+    	
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
@@ -179,7 +185,8 @@ public class PlateAppearenceResourceTest {
     @Test
     public void add_http400_withWhatNotValid() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"NOT_VALID\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
-    	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
+    	
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
@@ -190,7 +197,22 @@ public class PlateAppearenceResourceTest {
         
         assertEquals(400, httpCode);
     }
-    
+
+    @Test
+    public void add_http400_withWhenNotValid() {
+    	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"NOT_VALID\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
+    	Map<String, Object> in = new GsonBuilder().create().fromJson(inJson, mapStringObjectType);
+    	
+    	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
+    	
+    	int httpCode = response.getStatus();
+    	logger.info("[{}] response.status = {}", "add_http400_withWhatNotValid", httpCode);
+    	
+    	String json = response.readEntity(String.class);
+        logger.info("[{}] response.json = {}", "add_http400_withWhatNotValid", json);
+        
+        assertEquals(400, httpCode);
+    }
     @Test
     public void list_http200() {
     	Response response = target.path("api/pa").queryParam("search", "DEMO").request().get();
@@ -230,7 +252,7 @@ public class PlateAppearenceResourceTest {
     
     
     
-    private void get(String p_id, Position p_where, Play p_what, String p_when, String p_who, String p_state) {
+    private void get(Object p_id, Position p_where, Play p_what, String p_when, String p_who, String p_state) {
     	logger.info("[{}] id = {}", "get", p_id);
         Response response = target.path("api" + p_id).request().get();
         
@@ -241,12 +263,12 @@ public class PlateAppearenceResourceTest {
         String json = response.readEntity(String.class);
         logger.info("[{}] response.json = {}", "get", json);
         
-        PlateAppearance out = new GsonBuilder().create().fromJson( json, PlateAppearance.class);
+        Map<String, Object> out = new GsonBuilder().create().fromJson( json, mapStringObjectType);
         if (p_where != null && p_what != null && StringUtils.isNotEmpty(p_when) && StringUtils.isNotEmpty(p_who) && StringUtils.isNotEmpty(p_state)) {
-        	assertEquals(p_where, out.getWhere());
-        	assertEquals(p_what, out.getWhat());
-        	assertEquals(p_when, out.getWhen());
-        	assertEquals(p_who, out.getWho());
+        	assertEquals(p_where.name(), out.get("where"));
+        	assertEquals(p_what.name(), out.get("what"));
+        	assertEquals(p_when, out.get("when"));
+        	assertEquals(p_who, out.get("who"));
         	// assertEquals(p_state, out.getState()); // TODO décomenter lorsque le GET de statisticsResource renverra cet élément
         }
     }

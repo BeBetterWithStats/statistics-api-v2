@@ -83,39 +83,39 @@ public class PlateAppearanceService {
 			throw new BadRequestException("The JSON must not be empty.");
 		}
 				
-		if ( p_pa.containsKey(JSON_ATTRIBUT_STATE)
-				&& !(p_pa.get(JSON_ATTRIBUT_STATE) instanceof String) 
-				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_STATE))) {
+		if ( !p_pa.containsKey(JSON_ATTRIBUT_STATE)
+				|| !(p_pa.get(JSON_ATTRIBUT_STATE) instanceof String) 
+				|| StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_STATE))) {
 			throw new InternalServerErrorException("The property '" + JSON_ATTRIBUT_STATE + "' must not be null or empty.");
 		}
 		
-		if ( p_pa.containsKey(JSON_ATTRIBUT_GAME)
-				&& !(p_pa.get(JSON_ATTRIBUT_GAME) instanceof String) 
-				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_GAME))) {
+		if ( !p_pa.containsKey(JSON_ATTRIBUT_GAME)
+				|| !(p_pa.get(JSON_ATTRIBUT_GAME) instanceof String) 
+				|| StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_GAME))) {
 			throw new BadRequestException("The property '" + JSON_ATTRIBUT_GAME + "' must not be null or empty.");
 		}
 		
-		if ( p_pa.containsKey(JSON_ATTRIBUT_WHEN)
+		if ( !p_pa.containsKey(JSON_ATTRIBUT_WHEN)
 				&& !(p_pa.get(JSON_ATTRIBUT_WHEN) instanceof String) 
 				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHEN))) {
 			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHEN + "' must not be null or empty.");
 		}
 
-		if ( p_pa.containsKey(JSON_ATTRIBUT_WHO)
-				&& !(p_pa.get(JSON_ATTRIBUT_WHO) instanceof String) 
-				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHO))) {
+		if ( !p_pa.containsKey(JSON_ATTRIBUT_WHO)
+				|| !(p_pa.get(JSON_ATTRIBUT_WHO) instanceof String) 
+				|| StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHO))) {
 			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHO + "' must not be null or empty.");
 		}
 		
-		if ( p_pa.containsKey(JSON_ATTRIBUT_WHERE)
-				&& !(p_pa.get(JSON_ATTRIBUT_WHERE) instanceof String) 
-				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHERE))) {
+		if ( !p_pa.containsKey(JSON_ATTRIBUT_WHERE)
+				|| !(p_pa.get(JSON_ATTRIBUT_WHERE) instanceof String) 
+				|| StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHERE))) {
 			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHERE + "' is not valid. Please read the documentation to know which values are allowed.");
 		}
 
-		if ( p_pa.containsKey(JSON_ATTRIBUT_WHAT)
-				&& !(p_pa.get(JSON_ATTRIBUT_WHAT) instanceof String) 
-				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHAT))) {
+		if ( !p_pa.containsKey(JSON_ATTRIBUT_WHAT)
+				|| !(p_pa.get(JSON_ATTRIBUT_WHAT) instanceof String) 
+				|| StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHAT))) {
 			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHAT + "' is not valid. Please read the documentation to know which values are allowed.");
 		}
 		// FIN -- vérification des paramètres d'entrée

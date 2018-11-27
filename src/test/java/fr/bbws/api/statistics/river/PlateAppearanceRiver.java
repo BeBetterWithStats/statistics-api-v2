@@ -32,7 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.bbws.api.statistics.Main;
-import fr.bbws.api.statistics.model.PlateAppearance;
 import fr.bbws.api.statistics.model.Play;
 import fr.bbws.api.statistics.model.Player;
 import fr.bbws.api.statistics.model.Position;
@@ -612,54 +611,37 @@ public class PlateAppearanceRiver {
 							
 							if ( filterPlateAppearanceOnly(_what)) {
 								
-								/*
+								
 								_json.put("created", LocalDateTime.now().toString());
 								_json.put("state", "RIVER");
 								_json.put("game", p_date.toString());
 								_json.put("field", p_field);
-								_json.put("opposite_pitcher", "#no_opposite_pitcher#".toUpperCase()); // TODO opposite pitcher
-								_json.put("opposite_team", p_oppositeTeam);
+								_json.put("oppositePitcher", "#no_opposite_pitcher#".toUpperCase()); // TODO opposite pitcher
+								_json.put("oppositeTeam", p_oppositeTeam);
 								_json.put("who", _who != null ? _who.getID() : "#no_name#");
 								_json.put("team", _who != null ? _who.getTeam() : "#no_team#".toUpperCase());
-								_json.put("field_position", _who != null ? _who.getFieldPosition() : "#no_field_position#".toUpperCase());
-								_json.put("batting_order",  _who != null ? _who.getBattingOrder() : -1);
+								_json.put("fieldPosition", _who != null ? _who.getFieldPosition() : "#no_field_position#".toUpperCase());
+								_json.put("battingOrder",  _who != null ? _who.getBattingOrder() : -1);
 								_json.put("when", _when);
 								_json.put("what", _what);
-								_json.put("where", _where);  // TODO where
-								_json.put("umpire_id", p_umpire);
+								_json.put("where", _where);
+								_json.put("umpire", p_umpire);
 								
 								logger.debug("[{}]          [_json] = {}", "createDocuments", _json);
 								
-								PlateAppearance in = new GsonBuilder().create().fromJson(_json.toString(), PlateAppearance.class);
-						    	*/
-								
-								PlateAppearance in = new PlateAppearance();
-								in.setState("RIVER");
-								in.setGame( p_date.toString());
-								in.setField(p_field);
-								in.setOppositePitcher("#no_opposite_pitcher#".toUpperCase());
-								in.setOppositeTeam(p_oppositeTeam);
-								in.setWho(_who.getID());
-								in.setTeam(_who.getTeam());
-								in.setFieldPosition(_who.getFieldPosition());
-								in.setBattingOrder(_who.getBattingOrder());
-								in.setWhen(_when);
-								in.setWhat(_what);
-								in.setWhere(_where);
-								in.setUmpireID(p_umpire);
 								
 								/* Response response = ClientBuilder.newClient().target("http://localhost:8080/bbws/")
 																				.path("/api/pa/")
 																				.request(MediaType.APPLICATION_JSON)
 																				.post(Entity.json(in)); */
 								
-								Response response = target.path("/api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json(in));
+								Response response = target.path("/api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json(_json));
 
 								logger.info( "[{}]          [response.status] = {}", "createDocuments", response.getStatus());
 								
 								//TODO tracer en erreur si getStatus != 201
 								if ( response.getStatus() != 201) {
-									logger.error("[{}]          [response.status] = {} for the pa {}", "createDocuments", response.getStatus(), in);
+									logger.error("[{}]          [response.status] = {} for the pa {}", "createDocuments", response.getStatus(), _json);
 									logger.error("[{}]          [response.json] = {}", "createDocuments", response.readEntity(String.class));
 								}
 								
