@@ -54,31 +54,31 @@ public class PlateAppearenceResourceTest {
     }
 
     @Test
-    public void testAPI() {
+    public void welcome() {
         String response = target.path("api/").request().get(String.class);
         logger.info("[{}] msg = {}", "testAPI", response);
         assertEquals("Welcome to the Be Better With Stats API !", response);
     }
 
     @Test
-    public void testGet_http200() {
+    public void get_http200() {
     	get("/pa/wyQxF2cBPFkMN3KnQlBj", null, null, null, null, "BATCH");
     }
     
     @Test
-    public void testGet_http404() {
+    public void get_http404() {
     	Response response = target.path("api/pa/_noexist").request().get();
     	
     	int httpCode = response.getStatus();
-        logger.info("[{}] response.status = {}", "testGet_http404", httpCode);
+        logger.info("[{}] response.status = {}", "get_http404", httpCode);
         
         String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "testGet_http404", json);
+        logger.info("[{}] response.json = {}", "get_http404", json);
         assertEquals(404, response.getStatus());
     }
     
     @Test
-    public void testAdd_http201() {
+    public void add_http201() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
     	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
@@ -95,118 +95,118 @@ public class PlateAppearenceResourceTest {
     }
     
     @Test
-    public void testAdd_http500_withoutState() {
+    public void add_http500_withoutState() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
     	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
-    	logger.info("[{}] response.status = {}", "testAdd_http500_withoutState", httpCode);
+    	logger.info("[{}] response.status = {}", "add_http500_withoutState", httpCode);
     	
     	String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "testAdd_http500_withoutState", json);
+        logger.info("[{}] response.json = {}", "add_http500_withoutState", json);
         
         assertEquals(500, httpCode);
     }
     
     @Test
-    public void testAdd_http400_withoutWho() {
+    public void add_http400_withoutWho() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\"}";
     	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
-    	logger.info("[{}] response.status = {}", "testAdd_http400_withoutWho", httpCode);
+    	logger.info("[{}] response.status = {}", "add_http400_withoutWho", httpCode);
     	
     	String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "testAdd_http400_withoutWho", json);
+        logger.info("[{}] response.json = {}", "add_http400_withoutWho", json);
         
         assertEquals(400, httpCode);
     }
     
     @Test
-    public void testAdd_http400_withoutWhen() {
+    public void add_http400_withoutWhen() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
     	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
-    	logger.info("[{}] response.status = {}", "testAdd_http400_withoutWhen", httpCode);
+    	logger.info("[{}] response.status = {}", "add_http400_withoutWhen", httpCode);
     	
     	String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "testAdd_http400_withoutWhen", json);
+        logger.info("[{}] response.json = {}", "add_http400_withoutWhen", json);
         
         assertEquals(400, httpCode);
     }
 
     @Test
-    public void testAdd_http400_withoutWhere() {
+    public void add_http400_withoutWhere() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"who\":\"DEMO\"}";
     	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
-    	logger.info("[{}] response.status = {}", "testAdd_http400_withoutWhere", httpCode);
+    	logger.info("[{}] response.status = {}", "add_http400_withoutWhere", httpCode);
     	
     	String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "testAdd_http400_withoutWhere", json);
+        logger.info("[{}] response.json = {}", "add_http400_withoutWhere", json);
         
         assertEquals(400, httpCode);
     }
     
     @Test
-    public void testAdd_http400_withWhereNotValid() {
+    public void add_http400_withWhereNotValid() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"OUT\",\"when\":\"1st\",\"where\":\"NOT_VALID\",\"who\":\"DEMO\"}";
     	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
-    	logger.info("[{}] response.status = {}", "testAdd_http400_withWhereNotValid", httpCode);
+    	logger.info("[{}] response.status = {}", "add_http400_withWhereNotValid", httpCode);
     	
     	String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "testAdd_http400_withWhereNotValid", json);
+        logger.info("[{}] response.json = {}", "add_http400_withWhereNotValid", json);
         
         assertEquals(400, httpCode);
     }
 
     @Test
-    public void testAdd_http400_withWhatNotValid() {
+    public void add_http400_withWhatNotValid() {
     	String inJson = "{\"game\":\"2018-09-22T16:00\",\"state\":\"TEST\",\"what\":\"NOT_VALID\",\"when\":\"1st\",\"where\":\"LEFT_FIELD\",\"who\":\"DEMO\"}";
     	PlateAppearance in = new GsonBuilder().create().fromJson(inJson, PlateAppearance.class);
     	Response response = target.path("api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json( in));
     	
     	int httpCode = response.getStatus();
-    	logger.info("[{}] response.status = {}", "testAdd_http400_withWhatNotValid", httpCode);
+    	logger.info("[{}] response.status = {}", "add_http400_withWhatNotValid", httpCode);
     	
     	String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "testAdd_http400_withWhatNotValid", json);
+        logger.info("[{}] response.json = {}", "add_http400_withWhatNotValid", json);
         
         assertEquals(400, httpCode);
     }
     
     @Test
-    public void testList_http200() {
+    public void list_http200() {
     	Response response = target.path("api/pa").queryParam("search", "DEMO").request().get();
     	
     	int httpCode = response.getStatus();
-        logger.info("[{}] response.status = {}", "list", httpCode);
+        logger.info("[{}] response.status = {}", "list_http200", httpCode);
         
         String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "list", json);
+        logger.info("[{}] response.json = {}", "list_http200", json);
         
         assertEquals(200, httpCode);
         assertTrue("JSON should not be empty", json.startsWith("[{\"game\":\""));
     }
 
     @Test
-    public void testList_http200_empty() {
+    public void list_http200_empty() {
     	Response response = target.path("api/pa").queryParam("search", "NO_NAME").request().get();
     	
     	int httpCode = response.getStatus();
-        logger.info("[{}] response.status = {}", "list", httpCode);
+        logger.info("[{}] response.status = {}", "list_http200_empty", httpCode);
         
         String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "list", json);
+        logger.info("[{}] response.json = {}", "list_http200_empty", json);
         
         assertEquals(200, httpCode);
         assertEquals("[]", json);

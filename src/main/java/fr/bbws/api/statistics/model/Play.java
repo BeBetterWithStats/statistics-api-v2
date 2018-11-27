@@ -35,7 +35,7 @@ public enum Play {
 	TIE_BREAK_PLACED_ON_1B (29),
 	TIE_BREAK_PLACED_ON_2B (30),
 	INTENTIONAL_WALK (31),
-	UNDEFINED (-99);
+	UNDEFINED (-99); // means this play can not be found in the configuration
 	
 
 	private int key = 0;

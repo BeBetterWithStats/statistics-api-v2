@@ -13,9 +13,9 @@ public enum Position {
 	CENTER_FIELD (8),
 	RIGHT_FIELD (9),
 	UP_THE_MIDDLE (10),
-	UNLOCATED_BATTED_BALL (20), // means position was not specified by the scorekeeper
+	UNLOCATED_BATTED_BALL (20), // means no position specified by the scorekeeper
 	EMPTY (99), // means no position, cause the play does not need a position
-	UNDEFINED (-99); // means position can not be found in the configuration
+	UNDEFINED (-99); // means this position can not be found in the configuration
 
 	private int key = 0;
 	
