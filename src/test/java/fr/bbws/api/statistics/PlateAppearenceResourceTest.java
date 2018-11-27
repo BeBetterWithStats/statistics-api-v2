@@ -27,7 +27,9 @@ import fr.bbws.api.statistics.model.Position;
 public class PlateAppearenceResourceTest {
 
     private HttpServer server;
+    
     private WebTarget target;
+    
     final static Logger logger = LogManager.getLogger(PlateAppearenceResourceTest.class.getName());
 	
     @Before

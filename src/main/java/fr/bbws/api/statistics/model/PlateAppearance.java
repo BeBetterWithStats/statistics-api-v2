@@ -36,18 +36,6 @@ public class PlateAppearance {
 	public PlateAppearance() {
 	}
 
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "PlateAppearance [game=" + game + ", field=" + field + ", oppositePitcher="
-				+ oppositePitcher + ", oppositeTeam=" + oppositeTeam + ", id=" + id + ", team=" + team
-				+ ", fieldPosition=" + fieldPosition + ", battingOrder=" + battingOrder + ", when=" + when + ", what="
-				+ what + ", where=" + where + ", umpireID=" + umpireID + ", state=" + state + ", who=" + who + "]";
-	}
-
 	/**
 	 * @return the time of the game start
 	 */
@@ -204,6 +192,13 @@ public class PlateAppearance {
 	}
 
 	/**
+	 * @param battingOrder the battingOrder to set
+	 */
+	public void setBattingOrder(int battingOrder) {
+		this.battingOrder = battingOrder;
+	}
+
+	/**
 	 * @param when the when to set
 	 */
 	public void setWhen(String when) {
@@ -251,6 +246,17 @@ public class PlateAppearance {
 	 */
 	public void setWho(String who) {
 		this.who = who;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "PlateAppearance [created=" + created + ", game=" + game + ", field=" + field + ", oppositePitcher="
+				+ oppositePitcher + ", oppositeTeam=" + oppositeTeam + ", id=" + id + ", team=" + team
+				+ ", fieldPosition=" + fieldPosition + ", battingOrder=" + battingOrder + ", when=" + when + ", what="
+				+ what + ", where=" + where + ", umpireID=" + umpireID + ", state=" + state + ", who=" + who + "]";
 	}
 
 }
