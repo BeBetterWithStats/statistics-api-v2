@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gson.GsonBuilder;
@@ -61,6 +62,7 @@ public class PlateAppearenceResourceTest {
     }
 
     @Test
+    @Ignore
     public void get_http200() {
     	get("/pa/wyQxF2cBPFkMN3KnQlBj", null, null, null, null, "BATCH");
     }
@@ -195,7 +197,7 @@ public class PlateAppearenceResourceTest {
         logger.info("[{}] response.json = {}", "list_http200", json);
         
         assertEquals(200, httpCode);
-        assertTrue("JSON should not be empty", json.startsWith("[{\"game\":\""));
+        assertTrue("Response from server should not be empty", json.startsWith("[{\"game\":\""));
     }
 
     @Test
