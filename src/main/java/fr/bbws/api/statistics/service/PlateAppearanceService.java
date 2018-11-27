@@ -31,13 +31,50 @@ public class PlateAppearanceService {
 
 	final static Logger logger = LogManager.getLogger(PlateAppearanceService.class.getName());
 	
-	public final static String METHOD_ADD = "add";
+	public final static String JSON_ATTRIBUT_CREATED = "created";
+	public final static String JSON_ATTRIBUT_STATE = "state";
+	public final static String JSON_ATTRIBUT_ID = "id";
+	
+	public final static String JSON_ATTRIBUT_GAME = "game";
+	public final static String JSON_ATTRIBUT_WHAT = "what";
+	public final static String JSON_ATTRIBUT_WHERE = "where";
+	public final static String JSON_ATTRIBUT_WHO = "who";
+	public final static String JSON_ATTRIBUT_WHEN = "when";
+	
+	public final static String JSON_ATTRIBUT_FIELD = "at";
+	public final static String JSON_ATTRIBUT_UMPIRE = "umpire";
+	public final static String JSON_ATTRIBUT_OPPOSITE_PITCHER = "oppositePitcher";
+	public final static String JSON_ATTRIBUT_OPPOSITE_TEAM = "oppositeTeam";
+	public final static String JSON_ATTRIBUT_FIELD_POSITION = "fieldPosition";
+	public final static String JSON_ATTRIBUT_BATTING_ORDER = "battingOrder";
+	public final static String JSON_ATTRIBUT_TEAM = "team";
+	
+	public final static String ES_CONFIG_INDEX = "baseball-eu";
+	public final static String ES_CONFIG_TYPE = "pa";
+	public final static String ES_ATTRIBUT_CREATED = "created";
+	public final static String ES_ATTRIBUT_STATE = "state";
+	public final static String ES_ATTRIBUT_ID = "id";
+	
+	public final static String ES_ATTRIBUT_GAME = "game";
+	public final static String ES_ATTRIBUT_WHAT = "what";
+	public final static String ES_ATTRIBUT_WHERE = "where";
+	public final static String ES_ATTRIBUT_WHO = "who";
+	public final static String ES_ATTRIBUT_WHEN = "when";
+	
+	public final static String ES_ATTRIBUT_FIELD = "field";
+	public final static String ES_ATTRIBUT_UMPIRE = "umpire";
+	public final static String ES_ATTRIBUT_OPPOSITE_PITCHER = "opposite_pitcher";
+	public final static String ES_ATTRIBUT_OPPOSITE_TEAM = "opposite_team";
+	public final static String ES_ATTRIBUT_FIELD_POSITION = "field_position";
+	public final static String ES_ATTRIBUT_BATTING_ORDER = "batting_order";
+	public final static String ES_ATTRIBUT_TEAM = "team";
 	
 	
 	public PlateAppearanceService() {
 		// empty constructor
 	}
 	
+	@Deprecated
 	public Map<String, Object> add(PlateAppearance p_pa) 
 			throws BadRequestException, InternalServerErrorException {
 		
@@ -100,6 +137,98 @@ public class PlateAppearanceService {
 		logger.debug("     [IN] = {}", result);
 		
 		IndexResponse responseES = ElasticSearchMapper.getInstance().open()
+				.prepareIndex(ES_CONFIG_INDEX, ES_CONFIG_TYPE).setSource(result, XContentType.JSON).get();
+
+		if (StringUtils.isNotBlank(responseES.getId())) {
+			
+			result.put("id", "/pa/" + responseES.getId());
+			logger.debug("     [OUT] = ID {}", Status.OK, "/pa/" + responseES.getId());
+			
+		} else {
+			
+			logger.error("     [OUT] = {}", "Response from database is null or not valid.");
+			throw new InternalServerErrorException("Response from database is null or not valid.");
+			
+		}
+		
+		logger.info("[{}] @return = {}", "add", result);
+    	return result;
+	}
+	
+	public Map<String, Object> add(Map<String, Object> p_pa) 
+			throws BadRequestException, InternalServerErrorException {
+		
+		logger.info("[{}] @p_pa = {}", "add", p_pa);
+		
+		// DEBUT -- vérification des paramètres d'entrée
+		if ( p_pa == null) {
+			throw new BadRequestException("The JSON must not be empty.");
+		}
+				
+		if ( p_pa.containsKey(JSON_ATTRIBUT_STATE)
+				&& !(p_pa.get(JSON_ATTRIBUT_STATE) instanceof String) 
+				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_STATE))) {
+			throw new InternalServerErrorException("The property '" + JSON_ATTRIBUT_STATE + "' must not be null or empty.");
+		}
+		
+		if ( p_pa.containsKey(JSON_ATTRIBUT_GAME)
+				&& !(p_pa.get(JSON_ATTRIBUT_GAME) instanceof String) 
+				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_GAME))) {
+			throw new BadRequestException("The property '" + JSON_ATTRIBUT_GAME + "' must not be null or empty.");
+		}
+		
+		if ( p_pa.containsKey(JSON_ATTRIBUT_WHEN)
+				&& !(p_pa.get(JSON_ATTRIBUT_WHEN) instanceof String) 
+				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHEN))) {
+			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHEN + "' must not be null or empty.");
+		}
+
+		if ( p_pa.containsKey(JSON_ATTRIBUT_WHO)
+				&& !(p_pa.get(JSON_ATTRIBUT_WHO) instanceof String) 
+				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHO))) {
+			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHO + "' must not be null or empty.");
+		}
+		
+		if ( p_pa.containsKey(JSON_ATTRIBUT_WHERE)
+				&& !(p_pa.get(JSON_ATTRIBUT_WHERE) instanceof String) 
+				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHERE))) {
+			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHERE + "' is not valid. Please read the documentation to know which values are allowed.");
+		}
+
+		if ( p_pa.containsKey(JSON_ATTRIBUT_WHAT)
+				&& !(p_pa.get(JSON_ATTRIBUT_WHAT) instanceof String) 
+				&& StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_WHAT))) {
+			throw new BadRequestException("The property '" + JSON_ATTRIBUT_WHAT + "' is not valid. Please read the documentation to know which values are allowed.");
+		}
+		// FIN -- vérification des paramètres d'entrée
+		
+		
+    	Map<String, Object> result = new TreeMap<String, Object>();
+		
+    	// attributs techniques
+		result.put(ES_ATTRIBUT_CREATED, LocalDateTime.now().toString());
+		result.put(ES_ATTRIBUT_STATE, p_pa.get(JSON_ATTRIBUT_STATE));
+				
+		// attributs obligatoires
+		result.put(ES_ATTRIBUT_GAME, p_pa.get(JSON_ATTRIBUT_GAME));
+		result.put(ES_ATTRIBUT_WHEN, p_pa.get(JSON_ATTRIBUT_WHEN));
+		result.put(ES_ATTRIBUT_WHAT, p_pa.get(JSON_ATTRIBUT_WHAT));
+		result.put(ES_ATTRIBUT_WHERE, p_pa.get(JSON_ATTRIBUT_WHERE));
+		result.put(ES_ATTRIBUT_WHO, p_pa.get(JSON_ATTRIBUT_WHO));
+		
+		// attributs optionnels
+		result.put(ES_ATTRIBUT_FIELD, p_pa.get(JSON_ATTRIBUT_FIELD));
+		result.put(ES_ATTRIBUT_UMPIRE, p_pa.get(JSON_ATTRIBUT_UMPIRE));
+		result.put(ES_ATTRIBUT_OPPOSITE_PITCHER, p_pa.get(JSON_ATTRIBUT_OPPOSITE_PITCHER));
+		result.put(ES_ATTRIBUT_OPPOSITE_TEAM, p_pa.get(JSON_ATTRIBUT_OPPOSITE_TEAM));
+		result.put(ES_ATTRIBUT_FIELD_POSITION, p_pa.get(JSON_ATTRIBUT_FIELD_POSITION));
+		result.put(ES_ATTRIBUT_BATTING_ORDER, p_pa.get(JSON_ATTRIBUT_BATTING_ORDER));
+		result.put(ES_ATTRIBUT_TEAM, p_pa.get(JSON_ATTRIBUT_TEAM));
+		
+		logger.debug("[{}] {}", "add", "Envoi du JSON a ElasticSearch");
+		logger.debug("     [IN] = {}", result);
+		
+		IndexResponse responseES = ElasticSearchMapper.getInstance().open()
 				.prepareIndex("baseball-eu", "pa").setSource(result, XContentType.JSON).get();
 
 		if (StringUtils.isNotBlank(responseES.getId())) {
@@ -153,11 +282,11 @@ public class PlateAppearanceService {
     	// correspondant au parametre de la requete REST
 		logger.debug("    [IN] = {}", p_who);
 		SearchResponse responseES = ElasticSearchMapper.getInstance().open()
-													   				.prepareSearch("baseball-eu")
-													   				.setTypes("pa")
+													   				.prepareSearch(ES_CONFIG_INDEX)
+													   				.setTypes(ES_CONFIG_TYPE)
 													   		        .setSearchType(SearchType.DEFAULT)
-													   		        .setQuery(QueryBuilders.matchQuery("who", p_who))
-													   		        .addSort("created", sort)
+													   		        .setQuery(QueryBuilders.matchQuery(ES_ATTRIBUT_WHO, p_who))
+													   		        .addSort(ES_ATTRIBUT_CREATED, sort)
 													   		        .setFrom(0).setSize(100).setExplain(true)
 													   		        .get();
 
@@ -174,12 +303,12 @@ public class PlateAppearanceService {
     		
     		Map< String, Object> _result = new TreeMap< String, Object>();
     		// attributs principaux only
-    		_result.put("id", "/pa/" + _hit.getId());
-    		_result.put("game", _hit.getSourceAsMap().get("game"));
-    		_result.put("when", _hit.getSourceAsMap().get("when"));
-    		_result.put("what", _hit.getSourceAsMap().get("what"));
-    		_result.put("where", _hit.getSourceAsMap().get("where"));
-    		_result.put("who", _hit.getSourceAsMap().get("who"));
+    		_result.put(JSON_ATTRIBUT_ID, "/pa/" + _hit.getId());
+    		_result.put(JSON_ATTRIBUT_GAME, _hit.getSourceAsMap().get(ES_ATTRIBUT_GAME));
+    		_result.put(JSON_ATTRIBUT_WHEN, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHEN));
+    		_result.put(JSON_ATTRIBUT_WHAT, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHAT));
+    		_result.put(JSON_ATTRIBUT_WHERE, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHERE));
+    		_result.put(JSON_ATTRIBUT_WHO, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHO));
     		results.add(_result);
     	}
 
@@ -205,7 +334,7 @@ public class PlateAppearanceService {
     	// parcourir l'index _baseball-eu_
     	// correspondant au path param de la requete REST
 	   	GetResponse responseES = ElasticSearchMapper.getInstance().open()
-													   				.prepareGet("baseball-eu", "pa", p_ID).get();
+													   				.prepareGet(ES_CONFIG_INDEX, ES_CONFIG_TYPE, p_ID).get();
 
 	   	if (responseES.isSourceEmpty()) {
 	   		
@@ -215,17 +344,17 @@ public class PlateAppearanceService {
 	   	} else {
 	   		
 		   	// attributs principaux
-    		result.put("id", "/pa/" + responseES.getId());
-			result.put("game", responseES.getSourceAsMap().get("game"));
-			result.put("when", responseES.getSourceAsMap().get("when"));
-			result.put("what", responseES.getSourceAsMap().get("what"));
-			result.put("where", responseES.getSourceAsMap().get("where"));
-			result.put("who", responseES.getSourceAsMap().get("who"));
+    		result.put(JSON_ATTRIBUT_ID, "/pa/" + responseES.getId());
+			result.put(JSON_ATTRIBUT_GAME, responseES.getSourceAsMap().get(ES_ATTRIBUT_GAME));
+			result.put(JSON_ATTRIBUT_WHEN, responseES.getSourceAsMap().get(ES_ATTRIBUT_WHEN));
+			result.put(JSON_ATTRIBUT_WHAT, responseES.getSourceAsMap().get(ES_ATTRIBUT_WHAT));
+			result.put(JSON_ATTRIBUT_WHERE, responseES.getSourceAsMap().get(ES_ATTRIBUT_WHERE));
+			result.put(JSON_ATTRIBUT_WHO, responseES.getSourceAsMap().get(ES_ATTRIBUT_WHO));
 			
 			// attributs complémentaires
-			result.put("oppositePitcher", responseES.getSourceAsMap().get("opposite_pitcher"));
-			result.put("oppositeTeam", responseES.getSourceAsMap().get("opposite_team"));
-			result.put("at", responseES.getSourceAsMap().get("field"));
+			result.put(JSON_ATTRIBUT_OPPOSITE_PITCHER, responseES.getSourceAsMap().get(ES_ATTRIBUT_OPPOSITE_PITCHER));
+			result.put(JSON_ATTRIBUT_OPPOSITE_TEAM, responseES.getSourceAsMap().get(ES_ATTRIBUT_OPPOSITE_TEAM));
+			result.put(JSON_ATTRIBUT_FIELD, responseES.getSourceAsMap().get(ES_ATTRIBUT_FIELD));
 			
 	   	}
 
