@@ -3,7 +3,21 @@
 
 Description de l'API BBWS
 
-
+# Installation
+1. GitBash et GitHub
+2. Eclipse
+3. Visual Studio Code
+4. Notepad++ (PC) ou Sublime Text (Mac)
+5. Installer le JDK 8u181 ou version supérieur mais en restant en version 8
+6. Intaller Curl executable (PC uniquement) car sur MAC OS celui est déjà installé
+7. Installer [ElasticSearch](https://www.elastic.co/) 
+    1. Dézipper le fichier .tar.gz
+    2. Copier coller le répertoire elastice-search- dans le répertoire application de MACOSX
+8. Installer Maven
+9. Sur MAC uniquement, configurer le fichier /users/alexandrelods/.bashprofile pour ajouter la commande maven a. Ouvrir le fichier .bashprofile ou le créer s'il n'existe pas b. Si le fichier n'existait pas, ajouter la ligne. Sinon passez cette étape et rendez vous à l'étape c - export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin c. Ajouter les lignes à la fin du fichier - export M2_HOME=/Users/alexandrelods/Applications/apache-maven-3.5.4 - export PATH=$PATH:$M2_HOME/bin d. Fermer toutes les fenetres du terminal et relancer e. vérifier que la commande mvn -versionrenvoie un résultat
+10. Installer [npm & nodeJS](https://nodejs.org/en/)
+11. installer [angularCLI](https://cli.angular.io/) en tapant `npm install -g @angular/cli` (pour MAC OS, préfixer la commande de sudo)
+12. Installer [angular matérial](https://material.angular.io/components/categories) en tapant `ng add @angular/material`
 
 # Les outils
 1. [API Studio](http://www.apistudio.io) pour créer un swagger de son API
@@ -19,7 +33,7 @@ Description de l'API BBWS
 # Importation du projet
 1. Créer une arborescence \<root\>/Documents/Developpement/Bbws/
 2. `git config --global user.name bebetterwithstats@gmail.com`
-3. `git clone <mettre_ici_url_du_git_project>`
+3. `git clone <mettre_ici_url_du_git_projet>`
 4. Se positionner en ligne de commande dans le répertoire nouvelement créé
 5. `mvn eclipse:eclipse`
 
@@ -27,16 +41,21 @@ Description de l'API BBWS
 1. 
 
 
-# Initialiation du projet si le projet est vide
+# Initialiation du projet API si le projet est vide
 1. `mvn archetype:generate`
+2. choisir 1685 ou 1682 ou 593 ou 7 // 593 a été utilisé la première fois
+
+
+# Initialiation du projet SPA si le projet est vide
+1. `ng new <mettre_ici_le_nom_du_projet>`
 2. choisir 1685 ou 1682 ou 593 ou 7 // 593 a été utilisé la première fois
 
 
 # Lancer / Executer l'application
 1. `mvn exec:java`
 2. pour tester
-   - ouvrir le navigateur et taper `http://localhost:8080/`
-   - dans un terminal `curl -X GET "localhost:8080/"`
+   - ouvrir le navigateur et taper `http://localhost:8080/api/`
+   - dans un terminal `curl -X GET "localhost:8080/api/"`
    - le message suivant devrait s'afficher
    > Welcome on the <b>Be Better With Statistics</b> API !<br>
 
