@@ -2,6 +2,9 @@ package fr.bbws.api.statistics.model;
 
 public enum Play {
 
+	GROUNDED_OUT (-4),
+	LINED_OUT (-3),
+	FLIED_OUT (-2),
 	OUT (-1),
 	SAFE_ON_ERROR (0),
 	SAFE_ON_FIELDER_CHOICE (1),

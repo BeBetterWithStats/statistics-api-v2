@@ -675,7 +675,9 @@ public class PlateAppearanceRiver {
 				|| p_play == Play.K_SWINGING
 				|| p_play == Play.OBR
 				|| p_play == Play.OUT
-				|| p_play == Play.SACRIFICE_FLY
+				|| p_play == Play.LINED_OUT
+				|| p_play == Play.FLIED_OUT
+				|| p_play == Play.GROUNDED_OUT
 				|| p_play == Play.SACRIFICE_HIT
 				|| p_play == Play.SAFE_ON_ERROR
 				|| p_play == Play.SAFE_ON_FIELDER_CHOICE
