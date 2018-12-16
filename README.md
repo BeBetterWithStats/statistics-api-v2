@@ -82,7 +82,7 @@ Description de l'API BBWS
 - [ ] Dans la methode add de la classe PAService, il faut controler la valeur de certains parametres
 - [ ] Dans la river, on ne devrait pas etre OUT AT FIRST et EMPTY, ce qui correspond à un pickoff // controle mis en place dans le filtre en attendant
 - [ ] Mettre un nom d'équipe pour les remplacants
-- [ ] Revoir la valorisation du champs created
+- [x] Revoir la valorisation du champs created
 - [ ] Ajouter la notion de bunt
 
 

@@ -170,7 +170,7 @@ public class PlateAppearanceService {
 													   		        .setSearchType(SearchType.DEFAULT)
 													   		        .setQuery(QueryBuilders.matchQuery(ES_ATTRIBUT_WHO, p_who))
 													   		        .addSort(ES_ATTRIBUT_CREATED, sort)
-													   		        .setFrom(0).setSize(100).setExplain(true)
+													   		        .setFrom(0).setSize(500).setExplain(true)
 													   		        .get();
 
     	// ############## PARCOURIR LE RESULTAT DE LA REQUETE

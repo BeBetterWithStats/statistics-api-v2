@@ -70,7 +70,7 @@ public class PlateAppearenceResourceTest {
     @Test
     @Ignore
     public void get_http200() {
-    	get("/pa/qsG9jmcB_BHx9mE5Oprf", null, null, null, null, "RIVER");
+    	get("/pa/0FAouGcBblz1j4IFCYLi", null, null, null, null, "RIVER");
     }
     
     @Test
