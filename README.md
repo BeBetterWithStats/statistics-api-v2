@@ -78,11 +78,12 @@ Description de l'API BBWS
 - [ ] Gérer le queryParam `sort` en mode liste
 - [x] Clean code pour déporter les appels elasticSearch dans la couche service plutot que les classes ressources
 - [ ] Revoir les IF/ELSE pour que les erreurs ne soient renvoyées que par les ELSE
-- [ ] Revoir la nature des exceptions renvoyées par la couche Service
+- [x] Revoir la nature des exceptions renvoyées par la couche Service
 - [ ] Dans la methode add de la classe PAService, il faut controler la valeur de certains parametres
 - [ ] Dans la river, on ne devrait pas etre OUT AT FIRST et EMPTY, ce qui correspond à un pickoff // controle mis en place dans le filtre en attendant
 - [ ] Mettre un nom d'équipe pour les remplacants
 - [ ] Revoir la valorisation du champs created
+- [ ] Ajouter la notion de bunt
 
 
 # Normes de code

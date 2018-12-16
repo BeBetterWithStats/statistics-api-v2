@@ -1939,6 +1939,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("doubled", Play.SLUGGING_2B);
     	plays.put("failed pickoff attempt", Play.NO_PLAY);
     	plays.put("flied out to ", Play.FLIED_OUT);
+    	plays.put("flied into double play", Play.DOUBLE_PLAY);
     	plays.put("foul ball, ", Play.NO_PLAY);
     	plays.put("fouled into double play ", Play.DOUBLE_PLAY);
     	plays.put("fouled out to ", Play.FLIED_OUT);

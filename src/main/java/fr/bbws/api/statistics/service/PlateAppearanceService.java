@@ -30,45 +30,6 @@ public class PlateAppearanceService {
 
 	final static Logger logger = LogManager.getLogger(PlateAppearanceService.class.getName());
 	
-	public final static String JSON_ATTRIBUT_CREATED = "created";
-	public final static String JSON_ATTRIBUT_STATE = "state";
-	public final static String JSON_ATTRIBUT_ID = "id";
-	
-	public final static String JSON_ATTRIBUT_GAME = "game";
-	public final static String JSON_ATTRIBUT_WHAT = "what";
-	public final static String JSON_ATTRIBUT_WHERE = "where";
-	public final static String JSON_ATTRIBUT_WHO = "who";
-	public final static String JSON_ATTRIBUT_WHEN = "when";
-	
-	public final static String JSON_ATTRIBUT_FIELD = "at";
-	public final static String JSON_ATTRIBUT_UMPIRE = "umpire";
-	public final static String JSON_ATTRIBUT_OPPOSITE_PITCHER = "oppositePitcher";
-	public final static String JSON_ATTRIBUT_OPPOSITE_TEAM = "oppositeTeam";
-	public final static String JSON_ATTRIBUT_FIELD_POSITION = "fieldPosition";
-	public final static String JSON_ATTRIBUT_BATTING_ORDER = "battingOrder";
-	public final static String JSON_ATTRIBUT_TEAM = "team";
-	
-	public final static String ES_CONFIG_INDEX = "baseball-eu";
-	public final static String ES_CONFIG_TYPE = "pa";
-	public final static String ES_ATTRIBUT_CREATED = "created";
-	public final static String ES_ATTRIBUT_STATE = "state";
-	public final static String ES_ATTRIBUT_ID = "id";
-	
-	public final static String ES_ATTRIBUT_GAME = "game";
-	public final static String ES_ATTRIBUT_WHAT = "what";
-	public final static String ES_ATTRIBUT_WHERE = "where";
-	public final static String ES_ATTRIBUT_WHO = "who";
-	public final static String ES_ATTRIBUT_WHEN = "when";
-	
-	public final static String ES_ATTRIBUT_FIELD = "field";
-	public final static String ES_ATTRIBUT_UMPIRE = "umpire";
-	public final static String ES_ATTRIBUT_OPPOSITE_PITCHER = "opposite_pitcher";
-	public final static String ES_ATTRIBUT_OPPOSITE_TEAM = "opposite_team";
-	public final static String ES_ATTRIBUT_FIELD_POSITION = "field_position";
-	public final static String ES_ATTRIBUT_BATTING_ORDER = "batting_order";
-	public final static String ES_ATTRIBUT_TEAM = "team";
-	
-	
 	public PlateAppearanceService() {
 		// empty constructor
 	}
@@ -121,10 +82,14 @@ public class PlateAppearanceService {
 		// FIN -- vérification des paramètres d'entrée
 		
 		
+		LocalDateTime created = LocalDateTime.parse( (String) p_pa.get(JSON_ATTRIBUT_GAME));
+		created = created.withSecond( LocalDateTime.now().getSecond());
+		created = created.withNano( LocalDateTime.now().getNano());
+		
     	Map<String, Object> result = new TreeMap<String, Object>();
 		
     	// attributs techniques
-		result.put(ES_ATTRIBUT_CREATED, LocalDateTime.now().toString());
+		result.put(ES_ATTRIBUT_CREATED, created.toString());
 		result.put(ES_ATTRIBUT_STATE, p_pa.get(JSON_ATTRIBUT_STATE));
 				
 		// attributs obligatoires
@@ -279,4 +244,44 @@ public class PlateAppearanceService {
 	   	logger.info("[{}] @return {}", "get", result);
 		return result;
 	}
+	
+
+	public final static String JSON_ATTRIBUT_CREATED = "created";
+	public final static String JSON_ATTRIBUT_STATE = "state";
+	public final static String JSON_ATTRIBUT_ID = "id";
+	
+	public final static String JSON_ATTRIBUT_GAME = "game";
+	public final static String JSON_ATTRIBUT_WHAT = "what";
+	public final static String JSON_ATTRIBUT_WHERE = "where";
+	public final static String JSON_ATTRIBUT_WHO = "who";
+	public final static String JSON_ATTRIBUT_WHEN = "when";
+	
+	public final static String JSON_ATTRIBUT_FIELD = "at";
+	public final static String JSON_ATTRIBUT_UMPIRE = "umpire";
+	public final static String JSON_ATTRIBUT_OPPOSITE_PITCHER = "oppositePitcher";
+	public final static String JSON_ATTRIBUT_OPPOSITE_TEAM = "oppositeTeam";
+	public final static String JSON_ATTRIBUT_FIELD_POSITION = "fieldPosition";
+	public final static String JSON_ATTRIBUT_BATTING_ORDER = "battingOrder";
+	public final static String JSON_ATTRIBUT_TEAM = "team";
+	
+	public final static String ES_CONFIG_INDEX = "baseball-eu";
+	public final static String ES_CONFIG_TYPE = "pa";
+	public final static String ES_ATTRIBUT_CREATED = "created";
+	public final static String ES_ATTRIBUT_STATE = "state";
+	public final static String ES_ATTRIBUT_ID = "id";
+	
+	public final static String ES_ATTRIBUT_GAME = "game";
+	public final static String ES_ATTRIBUT_WHAT = "what";
+	public final static String ES_ATTRIBUT_WHERE = "where";
+	public final static String ES_ATTRIBUT_WHO = "who";
+	public final static String ES_ATTRIBUT_WHEN = "when";
+	
+	public final static String ES_ATTRIBUT_FIELD = "field";
+	public final static String ES_ATTRIBUT_UMPIRE = "umpire";
+	public final static String ES_ATTRIBUT_OPPOSITE_PITCHER = "opposite_pitcher";
+	public final static String ES_ATTRIBUT_OPPOSITE_TEAM = "opposite_team";
+	public final static String ES_ATTRIBUT_FIELD_POSITION = "field_position";
+	public final static String ES_ATTRIBUT_BATTING_ORDER = "batting_order";
+	public final static String ES_ATTRIBUT_TEAM = "team";
+	
 }
