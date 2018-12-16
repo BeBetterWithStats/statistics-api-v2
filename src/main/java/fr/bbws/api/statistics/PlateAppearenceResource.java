@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -25,6 +22,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.gson.GsonBuilder;
 
+import fr.bbws.api.statistics.error.BadRequestException;
+import fr.bbws.api.statistics.error.InternalErrorException;
+import fr.bbws.api.statistics.error.NotFoundException;
 import fr.bbws.api.statistics.service.PlateAppearanceService;
 
 /**
@@ -51,7 +51,7 @@ public class PlateAppearenceResource {
 		
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
-		} catch (InternalServerErrorException e) {
+		} catch (InternalErrorException e) {
     		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
     }
@@ -74,7 +74,7 @@ public class PlateAppearenceResource {
 		
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
-		} catch (InternalServerErrorException e) {
+		} catch (InternalErrorException e) {
     		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
    }

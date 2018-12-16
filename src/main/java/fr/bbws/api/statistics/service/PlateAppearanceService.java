@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +21,9 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.sort.SortOrder;
 
+import fr.bbws.api.statistics.error.BadRequestException;
+import fr.bbws.api.statistics.error.InternalErrorException;
+import fr.bbws.api.statistics.error.NotFoundException;
 import fr.bbws.api.statistics.mapper.ElasticSearchMapper;
 
 public class PlateAppearanceService {
@@ -74,7 +74,7 @@ public class PlateAppearanceService {
 	}
 	
 	public Map<String, Object> add(Map<String, Object> p_pa) 
-			throws BadRequestException, InternalServerErrorException {
+			throws BadRequestException, InternalErrorException {
 		
 		logger.info("[{}] @p_pa = {}", "add", p_pa);
 		
@@ -86,7 +86,7 @@ public class PlateAppearanceService {
 		if ( !p_pa.containsKey(JSON_ATTRIBUT_STATE)
 				|| !(p_pa.get(JSON_ATTRIBUT_STATE) instanceof String) 
 				|| StringUtils.isBlank( (String) p_pa.get(JSON_ATTRIBUT_STATE))) {
-			throw new InternalServerErrorException("The property '" + JSON_ATTRIBUT_STATE + "' must not be null or empty.");
+			throw new InternalErrorException("The property '" + JSON_ATTRIBUT_STATE + "' must not be null or empty.");
 		}
 		
 		if ( !p_pa.containsKey(JSON_ATTRIBUT_GAME)
@@ -157,7 +157,7 @@ public class PlateAppearanceService {
 		} else {
 			
 			logger.error("     [OUT] = {}", "Response from database is null or not valid.");
-			throw new InternalServerErrorException("Response from database is null or not valid.");
+			throw new InternalErrorException("Response from database is null or not valid.");
 			
 		}
 		
@@ -167,7 +167,7 @@ public class PlateAppearanceService {
 	
 
 	public List<Object> list(String p_who, String p_sort) 
-			throws BadRequestException, InternalServerErrorException {
+			throws BadRequestException, InternalErrorException {
 		
 		logger.info("[{}] @p_who = {}", "list", p_who);
 		logger.info("[{}] @p_sort = '{}'", "list", p_sort);
@@ -212,7 +212,7 @@ public class PlateAppearanceService {
     	SearchHits hits = responseES.getHits();
     	
     	if ( null == responseES.getHits()) {
-    		throw new InternalServerErrorException("Response from database is null or not valid.");
+    		throw new InternalErrorException("Response from database is null or not valid.");
     	}
     	
     	for (SearchHit _hit : hits) {
@@ -236,7 +236,7 @@ public class PlateAppearanceService {
 	
 	
 	public Map< String, Object> get(String p_ID)
-		throws NotFoundException {
+		throws NotFoundException, BadRequestException {
 		
 		logger.info("[{}] @p_ID = {}", "get", p_ID);
     	
