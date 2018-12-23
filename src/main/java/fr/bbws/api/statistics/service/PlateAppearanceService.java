@@ -176,27 +176,31 @@ public class PlateAppearanceService {
     	// ############## PARCOURIR LE RESULTAT DE LA REQUETE
     	SearchHits hits = responseES.getHits();
     	
-    	if ( null == responseES.getHits()) {
+    	if ( null != responseES.getHits()) {
+    		
+	    	for (SearchHit _hit : hits) {
+	    		logger.debug("    [OUT] = {}", _hit.getSourceAsMap());
+	    		logger.debug("            /pa/{ID} = {}", "/pa/" + _hit.getId());
+	    		
+	    		Map< String, Object> _result = new TreeMap< String, Object>();
+	    		// attributs principaux only
+	    		_result.put(JSON_ATTRIBUT_ID, "/pa/" + _hit.getId());
+	    		_result.put(JSON_ATTRIBUT_GAME, _hit.getSourceAsMap().get(ES_ATTRIBUT_GAME));
+	    		_result.put(JSON_ATTRIBUT_WHEN, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHEN));
+	    		_result.put(JSON_ATTRIBUT_WHAT, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHAT));
+	    		_result.put(JSON_ATTRIBUT_WHERE, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHERE));
+	    		_result.put(JSON_ATTRIBUT_WHO, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHO));
+	    		results.add(_result);
+	    	}
+	
+	    	logger.info("[{}] @return = {}", "list", results);
+	    	return results;
+	    	
+    	} else {
+    		// en mode list le service elastic search ne renvoit jamais null
+    		// sauf en cas d'erreur interne
     		throw new InternalErrorException("Response from database is null or not valid.");
     	}
-    	
-    	for (SearchHit _hit : hits) {
-    		logger.debug("    [OUT] = {}", _hit.getSourceAsMap());
-    		logger.debug("            /pa/{ID} = {}", "/pa/" + _hit.getId());
-    		
-    		Map< String, Object> _result = new TreeMap< String, Object>();
-    		// attributs principaux only
-    		_result.put(JSON_ATTRIBUT_ID, "/pa/" + _hit.getId());
-    		_result.put(JSON_ATTRIBUT_GAME, _hit.getSourceAsMap().get(ES_ATTRIBUT_GAME));
-    		_result.put(JSON_ATTRIBUT_WHEN, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHEN));
-    		_result.put(JSON_ATTRIBUT_WHAT, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHAT));
-    		_result.put(JSON_ATTRIBUT_WHERE, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHERE));
-    		_result.put(JSON_ATTRIBUT_WHO, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHO));
-    		results.add(_result);
-    	}
-
-    	logger.info("[{}] @return = {}", "list", results);
-    	return results;
 	}
 	
 	
@@ -219,12 +223,7 @@ public class PlateAppearanceService {
 	   	GetResponse responseES = ElasticSearchMapper.getInstance().open()
 													   				.prepareGet(ES_CONFIG_INDEX, ES_CONFIG_TYPE, p_ID).get();
 
-	   	if (responseES.isSourceEmpty()) {
-	   		
-	   		logger.error("[{}] @return {} for the ID {}", "EXIT", Status.NOT_FOUND, p_ID);
-		   	throw new NotFoundException("The resource with the ID /pa/" + p_ID + " does not exist.");
-		   	
-	   	} else {
+	   	if (!responseES.isSourceEmpty()) {
 	   		
 		   	// attributs principaux
     		result.put(JSON_ATTRIBUT_ID, "/pa/" + responseES.getId());
@@ -239,6 +238,11 @@ public class PlateAppearanceService {
 			result.put(JSON_ATTRIBUT_OPPOSITE_TEAM, responseES.getSourceAsMap().get(ES_ATTRIBUT_OPPOSITE_TEAM));
 			result.put(JSON_ATTRIBUT_FIELD, responseES.getSourceAsMap().get(ES_ATTRIBUT_FIELD));
 			
+	   	} else {
+
+	   		logger.error("[{}] @return {} for the ID {}", "EXIT", Status.NOT_FOUND, p_ID);
+		   	throw new NotFoundException("The resource with the ID /pa/" + p_ID + " does not exist.");
+		   	
 	   	}
 
 	   	logger.info("[{}] @return {}", "get", result);
