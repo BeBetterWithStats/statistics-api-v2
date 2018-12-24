@@ -47,7 +47,9 @@ public class PlateAppearenceResource {
 			Map<String, Object> result = new TreeMap<String, Object>();
 			result = new PlateAppearanceService().add(p_pa);
 			String json = new GsonBuilder().create().toJson(result);
-			return Response.status(Status.CREATED).entity(json).build();
+			return Response.status(Status.CREATED).entity(json)
+					.header("Access-Control-Allow-Origin", "*")
+					.build();
 		
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
@@ -70,7 +72,9 @@ public class PlateAppearenceResource {
 			result = new PlateAppearanceService().list(p_who, p_sort);
 			String json = new GsonBuilder().create().toJson(result);
 			logger.debug("[{}] @return json = {}", "EXIT", json);
-	    	return Response.ok().entity(json).build();
+	    	return Response.ok().entity(json)
+	    			.header("Access-Control-Allow-Origin", "*")
+					.build();
 		
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
@@ -94,7 +98,9 @@ public class PlateAppearenceResource {
 			result = new PlateAppearanceService().get(p_ID);
 			String json = new GsonBuilder().create().toJson(result);
 			logger.debug("[{}] @return json = {}", "EXIT", json);
-	    	return Response.ok().entity(json).build();
+	    	return Response.ok().entity(json)
+	    			.header("Access-Control-Allow-Origin", "*")
+					.build();
 		
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
