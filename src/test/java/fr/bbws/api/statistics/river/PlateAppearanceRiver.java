@@ -638,8 +638,8 @@ public class PlateAppearanceRiver {
 								_json.put("oppositePitcher", "#no_opposite_pitcher#".toUpperCase()); // TODO opposite pitcher
 								_json.put("oppositeTeam", p_oppositeTeam);
 								_json.put("who", _who != null ? _who.getID() : "#no_name#");
-								_json.put("team", _who != null ? _who.getTeam() : "#no_team#".toUpperCase());
-								//_json.put("team", _who != null ? _who.getTeam() : p_players.get(0).getTeam());
+								//_json.put("team", _who != null ? _who.getTeam() : "#no_team#".toUpperCase());
+								_json.put("team", _who != null && _who.getTeam() != null ? _who.getTeam() : p_players.get(0).getTeam());
 								_json.put("fieldPosition", _who != null ? _who.getFieldPosition() : "#no_field_position#".toUpperCase());
 								_json.put("battingOrder",  _who != null ? _who.getBattingOrder() : -1);
 								_json.put("when", _when);

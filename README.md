@@ -95,7 +95,7 @@ Description de l'API BBWS
 - [ ] Gérer le queryParam `sort` en mode liste
 - [ ] Dans la methode add de la classe PAService, il faut controler la valeur de certains parametres
 - [ ] Dans la river, on ne devrait pas etre OUT AT FIRST et EMPTY, ce qui correspond à un pickoff // controle mis en place dans le filtre en attendant
-- [ ] Mettre un nom d'équipe pour les remplacants
+- [x] Mettre un nom d'équipe pour les remplacants
 - [x] Ajouter la notion de bunt
 - [ ] Ajouter la notion de sac fly
 - [x] Rendre le nombre de résultat en paramêtre sur la ressource `pa?search=xxx&limit=10`
