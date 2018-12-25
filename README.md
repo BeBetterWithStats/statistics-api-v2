@@ -98,7 +98,7 @@ Description de l'API BBWS
 - [ ] Mettre un nom d'équipe pour les remplacants
 - [ ] Ajouter la notion de bunt
 - [ ] Ajouter la notion de sac fly
-- [ ] Rendre le nombre de résultat en paramêtre sur la ressource `pa?search=xxx&limit=10`
+- [x] Rendre le nombre de résultat en paramêtre sur la ressource `pa?search=xxx&limit=10`
 - [ ] Renommer la ressource `pa` en `plateappearances` ou `pas``
 - [ ] Créer une ressource permettant d'avoir la fiche individuelle d'un joueur (walk, avg, sh/sf, pull/push)
  
