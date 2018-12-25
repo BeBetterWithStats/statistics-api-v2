@@ -38,6 +38,7 @@ public enum Play {
 	TIE_BREAK_PLACED_ON_1B (29),
 	TIE_BREAK_PLACED_ON_2B (30),
 	INTENTIONAL_WALK (31),
+	SLUGGING_1B_BUNT (32), // mandatory to split hit on a swing and hit on a bunt swing - it s not a plateappearance, only an indicator
 	UNDEFINED (-99); // means this play can not be found in the configuration
 	
 

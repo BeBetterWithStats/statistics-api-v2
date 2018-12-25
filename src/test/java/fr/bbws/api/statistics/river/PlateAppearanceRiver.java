@@ -47,7 +47,7 @@ public class PlateAppearanceRiver {
     @Before
     public void setUp() throws Exception {
         // start the server
-        server = Main.startServer();
+        // server = Main.startServer();
         // create the client
         Client c = ClientBuilder.newClient();
 
@@ -62,7 +62,7 @@ public class PlateAppearanceRiver {
 
     @After
     public void tearDown() throws Exception {
-        server.stop();
+        //server.stop();
     }
 
 	@Test
@@ -616,7 +616,21 @@ public class PlateAppearanceRiver {
 							
 							if ( filterPlateAppearanceOnly(_what, _where)) {
 								
+								if (__play.contains(", bunt") || __play.contains(", SAC")) {
+									// if play contains bunt or sac keyword
+									
+									if (_what.equals(Play.SLUGGING_1B)) {
+										// if it is a single
+										// replace _what with Play.SLUGGING_1B_BUNT
+										_what = Play.SLUGGING_1B_BUNT;
+									} else {
+										// if it s not a single hit
+										// replace _what with Play.SACRIFICE_HIT
+										_what = Play.SACRIFICE_HIT;
+									}
+								}
 								
+									
 								_json.put("created", LocalDateTime.now().toString());
 								_json.put("state", "RIVER");
 								_json.put("game", p_date.toString());
@@ -625,6 +639,7 @@ public class PlateAppearanceRiver {
 								_json.put("oppositeTeam", p_oppositeTeam);
 								_json.put("who", _who != null ? _who.getID() : "#no_name#");
 								_json.put("team", _who != null ? _who.getTeam() : "#no_team#".toUpperCase());
+								//_json.put("team", _who != null ? _who.getTeam() : p_players.get(0).getTeam());
 								_json.put("fieldPosition", _who != null ? _who.getFieldPosition() : "#no_field_position#".toUpperCase());
 								_json.put("battingOrder",  _who != null ? _who.getBattingOrder() : -1);
 								_json.put("when", _when);
@@ -634,22 +649,14 @@ public class PlateAppearanceRiver {
 								
 								logger.debug("[{}]          [_json] = {}", "createDocuments", _json);
 								
-								
-								/* Response response = ClientBuilder.newClient().target("http://localhost:8080/bbws/")
-																				.path("/api/pa/")
-																				.request(MediaType.APPLICATION_JSON)
-																				.post(Entity.json(in)); */
-								
 								Response response = target.path("/api/pa/").request(MediaType.APPLICATION_JSON).post(Entity.json(_json));
 
 								logger.info( "[{}]          [response.status] = {}", "createDocuments", response.getStatus());
 								
-								//TODO tracer en erreur si getStatus != 201
 								if ( response.getStatus() != 201) {
 									logger.error("[{}]          [response.status] = {} for the pa {}", "createDocuments", response.getStatus(), _json);
 									logger.error("[{}]          [response.json] = {}", "createDocuments", response.readEntity(String.class));
 								}
-								
 							}
 						}
 					}
@@ -679,9 +686,11 @@ public class PlateAppearanceRiver {
 				|| p_play == Play.FLIED_OUT
 				|| p_play == Play.GROUNDED_OUT
 				|| p_play == Play.SACRIFICE_HIT
+				|| p_play == Play.SACRIFICE_FLY
 				|| p_play == Play.SAFE_ON_ERROR
 				|| p_play == Play.SAFE_ON_FIELDER_CHOICE
 				|| p_play == Play.SLUGGING_1B
+				|| p_play == Play.SLUGGING_1B_BUNT
 				|| p_play == Play.SLUGGING_2B
 				|| p_play == Play.SLUGGING_3B
 				|| p_play == Play.SLUGGING_4B
