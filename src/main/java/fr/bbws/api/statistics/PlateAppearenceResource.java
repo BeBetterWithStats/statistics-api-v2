@@ -61,15 +61,19 @@ public class PlateAppearenceResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list(@QueryParam("search") String p_who, @QueryParam("sort") String p_sort) {
+    public Response list(
+    		@QueryParam("search") String p_who, 
+    		@QueryParam("sort") String p_sort,
+    		@QueryParam("limit") int p_size) {
 
     	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_who);
-    	logger.info("[{}]                 with the query parameter {}", "ENTRY", p_sort);
+    	logger.info("[{}]                 with the query parameter {} {}", "ENTRY", "sort", p_sort);
+    	logger.info("[{}]                 with the query parameter {} {}", "ENTRY", "limit", p_size);
     	
     	try {
     		
 			List<Object> result = new ArrayList<Object>();
-			result = new PlateAppearanceService().list(p_who, p_sort);
+			result = new PlateAppearanceService().list(p_who, p_sort, p_size);
 			String json = new GsonBuilder().create().toJson(result);
 			logger.debug("[{}] @return json = {}", "EXIT", json);
 	    	return Response.ok().entity(json)

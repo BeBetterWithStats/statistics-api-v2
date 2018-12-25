@@ -131,11 +131,12 @@ public class PlateAppearanceService {
 	}
 	
 
-	public List<Object> list(String p_who, String p_sort) 
+	public List<Object> list(String p_who, String p_sort, int p_size) 
 			throws BadRequestException, InternalErrorException {
 		
 		logger.info("[{}] @p_who = {}", "list", p_who);
 		logger.info("[{}] @p_sort = '{}'", "list", p_sort);
+		logger.info("[{}] @p_size = '{}'", "list", p_size);
     	
 		// DEBUT -- vérification des paramètres d'entrée
 		if (StringUtils.isBlank(p_who)) {
@@ -154,6 +155,10 @@ public class PlateAppearanceService {
     			throw new BadRequestException("Value for the sort parameter is not valid. Please check documentation.");
     		}
     	} // else {sort = SortOrder.DESC;}
+    	
+    	if (p_size == 0) {
+    		p_size = ES_CONFIG_MAX_RESULT;
+    	}
     	// FIN -- vérification des paramètres d'entrée
 		
 
@@ -170,7 +175,7 @@ public class PlateAppearanceService {
 													   		        .setSearchType(SearchType.DEFAULT)
 													   		        .setQuery(QueryBuilders.matchQuery(ES_ATTRIBUT_WHO, p_who))
 													   		        .addSort(ES_ATTRIBUT_CREATED, sort)
-													   		        .setFrom(0).setSize(500).setExplain(true)
+													   		        .setFrom(0).setSize(p_size).setExplain(true)
 													   		        .get();
 
     	// ############## PARCOURIR LE RESULTAT DE LA REQUETE
@@ -270,6 +275,7 @@ public class PlateAppearanceService {
 	
 	public final static String ES_CONFIG_INDEX = "baseball-eu";
 	public final static String ES_CONFIG_TYPE = "pa";
+	public final static int ES_CONFIG_MAX_RESULT = 1000;
 	public final static String ES_ATTRIBUT_CREATED = "created";
 	public final static String ES_ATTRIBUT_STATE = "state";
 	public final static String ES_ATTRIBUT_ID = "id";
