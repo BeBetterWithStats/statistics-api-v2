@@ -213,6 +213,13 @@ public class PlateAppearenceResourceTest {
         
         assertEquals(400, httpCode);
     }
+    
+    
+    
+    
+    
+    
+    
     @Test
     public void list_http200() {
     	Response response = target.path("api/pa").queryParam("search", "DEMO").request().get();
@@ -240,6 +247,20 @@ public class PlateAppearenceResourceTest {
         assertEquals(200, httpCode);
         assertEquals("[]", json);
         
+    }
+    
+    @Test
+    public void list_http200_brunet() {
+    	Response response = target.path("api/pa").queryParam("search", "BRUNET").request().get();
+    	
+    	int httpCode = response.getStatus();
+        logger.info("[{}] response.status = {}", "list_http200", httpCode);
+        
+        String json = response.readEntity(String.class);
+        logger.info("[{}] response.json = {}", "list_http200", json);
+        
+        assertEquals(200, httpCode);
+        assertTrue("Response from server should not be empty", json.startsWith("[{\"game\":\""));
     }
     
     
