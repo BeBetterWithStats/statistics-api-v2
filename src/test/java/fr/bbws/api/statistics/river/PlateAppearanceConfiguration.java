@@ -115,7 +115,7 @@ public class PlateAppearanceConfiguration {
 
     	positions.put("- obr _ Infield fly not caught ", Position.EMPTY);
     	
-    	positions.put("doubled", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("doubled.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("doubled down the lf line", Position.LEFT_FIELD);
     	positions.put("doubled down the lf line (0-0).", Position.LEFT_FIELD);
     	positions.put("doubled down the lf line (0-1 F)", Position.LEFT_FIELD);
@@ -180,6 +180,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("doubled to left field, ground-rule.", Position.LEFT_FIELD);
     	positions.put("doubled to left field, out at third lf to ss to 3b.", Position.LEFT_FIELD);
     	positions.put("doubled to left field, advanced to third on a fielding error by 2b", Position.LEFT_FIELD);
+    	positions.put("doubled to left field, advanced to third on a muffed throw by 3b, assist by lf cf.", Position.LEFT_FIELD);
     	positions.put("doubled to left field, out at third lf to c to 3b", Position.LEFT_FIELD);
     	positions.put("doubled to left field.", Position.LEFT_FIELD);
     	positions.put("doubled to right center", Position.RIGHT_FIELD);
@@ -191,6 +192,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("doubled to right center (3-2 BKBBF)", Position.RIGHT_FIELD);
     	positions.put("doubled to right center (3-2 KBFBB).", Position.RIGHT_FIELD);
     	positions.put("doubled to right center.", Position.RIGHT_FIELD);
+    	positions.put("doubled to right center, advanced to third on a throwing error by cf", Position.CENTER_FIELD);
     	positions.put("doubled to right field", Position.RIGHT_FIELD);
     	positions.put("doubled to right field (1-2 BKFF)", Position.RIGHT_FIELD);
     	positions.put("doubled to right field (2-0 BB).", Position.RIGHT_FIELD);
@@ -198,6 +200,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("doubled to right field, ground-rule", Position.RIGHT_FIELD);
     	positions.put("doubled to right field.", Position.RIGHT_FIELD);
     	positions.put("doubled to right field, advanced to third on a throwing error by rf.", Position.RIGHT_FIELD);
+    	positions.put("doubled to right field, out at third rf to 2b to 3b.", Position.RIGHT_FIELD);
     	positions.put("doubled to shortstop", Position.SHORTSTOP);
     	positions.put("doubled, ground-rule.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("doubled to third base.", Position.LEFT_FIELD);
@@ -611,7 +614,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("grounded out to ss (3-2 SKBBB).", Position.SHORTSTOP);
     	positions.put("grounded out to ss.", Position.SHORTSTOP);
     	
-    	positions.put("hit into double play ", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("hit into double play.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("hit into double play 3b to 1b", Position.THIRD_BASE);
     	positions.put("hit into double play 3b to 1b to ss", Position.THIRD_BASE);
     	positions.put("hit into double play 3b to 1b to 3b", Position.THIRD_BASE);
@@ -622,9 +625,11 @@ public class PlateAppearanceConfiguration {
     	positions.put("hit into double play ss to 2b to 1b", Position.SHORTSTOP);
     	positions.put("hit into double play ss to 1b", Position.SHORTSTOP);
     	positions.put("hit into double play ss to 1b to 3b", Position.SHORTSTOP);
+    	positions.put("hit into double play ss to 1b to 2b", Position.SHORTSTOP);
     	positions.put("hit into double play ss to 1b to c", Position.SHORTSTOP);
     	
     	positions.put("homered ", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("homered inside the park, unearned", Position.UNLOCATED_BATTED_BALL);
     	positions.put("homered down the lf line.", Position.LEFT_FIELD);
     	positions.put("homered down the lf line, unearned", Position.LEFT_FIELD);
     	positions.put("homered to center field", Position.CENTER_FIELD);
@@ -638,6 +643,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("homered to left center", Position.LEFT_FIELD);
     	positions.put("homered to left center.", Position.LEFT_FIELD);
     	positions.put("homered to left field", Position.LEFT_FIELD);
+    	positions.put("homered to left field, unearned", Position.LEFT_FIELD);
     	positions.put("homered to left field (0-0)", Position.LEFT_FIELD);
     	positions.put("homered to left field (2-2 KKBFB).", Position.LEFT_FIELD);
     	positions.put("homered to left field (3-1 BBBK)", Position.LEFT_FIELD);
@@ -738,14 +744,20 @@ public class PlateAppearanceConfiguration {
     	positions.put("out at first 1b unassisted.", Position.FIRST_BASE);
     	positions.put("out at first 2b to 1b", Position.SECOND_BASE);
     	positions.put("out at first 2b to p", Position.SECOND_BASE);
+    	positions.put("out at first 2b to c.", Position.SECOND_BASE);
     	positions.put("out at first 2b to p (0-1 F).", Position.SECOND_BASE);
     	positions.put("out at first 2b to p.", Position.SECOND_BASE);
     	positions.put("out at first 2b to ss to 1b.", Position.SECOND_BASE);
     	positions.put("out at first 3b to 1b to c (0-1 F)", Position.THIRD_BASE);
-    	positions.put("out at first 3b to 2b", Position.THIRD_BASE);positions.put("out at first c to 1b.", Position.CATCHER);
-    	positions.put("out at first c to 2b", Position.CATCHER);positions.put("out at first p to 2b", Position.PITCHER);
+    	positions.put("out at first 3b to 2b", Position.THIRD_BASE);
+    	positions.put("out at first 3b to 2b.", Position.THIRD_BASE);
+    	positions.put("out at first c to 1b.", Position.CATCHER);
+    	positions.put("out at first c to 2b", Position.CATCHER);
+    	positions.put("out at first c to 2b.", Position.CATCHER);
+    	positions.put("out at first p to 2b", Position.PITCHER);
     	positions.put("out at first p to 2b to 1b.", Position.PITCHER);
     	positions.put("out at first p to 2b.", Position.PITCHER);
+    	positions.put("out at first p to c.", Position.PITCHER);
     	positions.put("out at first p to 3b to 1b (0-2 KS).", Position.PITCHER);
     	positions.put("out at first p to ss to 1b.", Position.PITCHER);
     	positions.put("out at first rf to 1b (3-1 SBBB).", Position.RIGHT_FIELD);
@@ -779,6 +791,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("popped up to 2b (2-1 KBB).", Position.SECOND_BASE);
     	positions.put("popped up to 2b (2-2 KBBF).", Position.SECOND_BASE);
     	positions.put("popped up to 2b (2-2 KBBFF).", Position.SECOND_BASE);
+    	positions.put("popped up to 2b", Position.SECOND_BASE);
     	positions.put("popped up to 2b.", Position.SECOND_BASE);
     	positions.put("popped up to 3b (0-1 K).", Position.THIRD_BASE);
     	positions.put("popped up to 3b (1-0 B).", Position.THIRD_BASE);
@@ -788,6 +801,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("popped up to 3b.", Position.THIRD_BASE);
     	positions.put("popped up to c (1-1 FB).", Position.CATCHER);
     	positions.put("popped up to c.", Position.CATCHER);
+    	positions.put("popped up to p", Position.PITCHER);
     	positions.put("popped up to p (0-0).", Position.PITCHER);
     	positions.put("popped up to p (1-0 B).", Position.PITCHER);
     	positions.put("popped up to p (1-1 BF).", Position.PITCHER);
@@ -809,10 +823,11 @@ public class PlateAppearanceConfiguration {
     	positions.put("popped up to ss (3-2 KBBKFB).", Position.SHORTSTOP);
     	positions.put("popped up to ss.", Position.SHORTSTOP);
     	
-    	positions.put("reached on a dropped fly by ", Position.UNLOCATED_BATTED_BALL);
+    	
     	positions.put("reached on a dropped fly by 1b", Position.FIRST_BASE);
     	positions.put("reached on a dropped fly by 1b.", Position.FIRST_BASE);
     	positions.put("reached on a dropped fly by 2b", Position.SECOND_BASE);
+    	positions.put("reached on a dropped fly by 2b.", Position.SECOND_BASE);
     	positions.put("reached on a dropped fly by 2b, advanced to second on the error.", Position.SECOND_BASE);
     	positions.put("reached on a dropped fly by 3b", Position.THIRD_BASE);
     	positions.put("reached on a dropped fly by 3b.", Position.THIRD_BASE);
@@ -827,19 +842,22 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a dropped fly by lf, advanced to second on the error", Position.LEFT_FIELD);
     	positions.put("reached on a dropped fly by lf, advanced to second on the error.", Position.LEFT_FIELD);
     	positions.put("reached on a dropped fly by lf, out at second lf to 2b.", Position.LEFT_FIELD);
+    	positions.put("reached on a dropped fly by lf, advanced to second on the error, out at third lf to 3b", Position.LEFT_FIELD);
     	positions.put("reached on a dropped fly by lf", Position.LEFT_FIELD);
     	positions.put("reached on a dropped fly by lf.", Position.LEFT_FIELD);
     	positions.put("reached on a dropped fly by p.", Position.PITCHER);
+    	positions.put("reached on a dropped fly by p, advanced to second on the error.", Position.PITCHER);
     	positions.put("reached on a dropped fly by rf", Position.RIGHT_FIELD);
     	positions.put("reached on a dropped fly by rf (0-1 K)", Position.RIGHT_FIELD);
     	positions.put("reached on a dropped fly by rf, advanced to second on the error", Position.RIGHT_FIELD);
     	positions.put("reached on a dropped fly by rf, advanced to third on the error", Position.RIGHT_FIELD);
+    	positions.put("reached on a dropped fly by rf, advanced to third on the error.", Position.RIGHT_FIELD);
     	positions.put("reached on a dropped fly by rf.", Position.RIGHT_FIELD);
     	positions.put("reached on a dropped fly by ss (0-0).", Position.SHORTSTOP);
     	positions.put("reached on a dropped fly by ss", Position.SHORTSTOP);
     	positions.put("reached on a dropped fly by ss.", Position.SHORTSTOP);
     	
-    	positions.put("reached on a fielder's choice to ", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("reached on a fielder's choice.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("reached on a fielder's choice to catcher", Position.CATCHER);
     	positions.put("reached on a fielder's choice to center field", Position.CENTER_FIELD);
     	positions.put("reached on a fielder's choice to center field (3-1 BKBB)", Position.CENTER_FIELD);
@@ -859,6 +877,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a fielder's choice to pitcher (0-2 KF)", Position.PITCHER);
     	positions.put("reached on a fielder's choice to pitcher, advanced to second", Position.PITCHER);
     	positions.put("reached on a fielder's choice to pitcher, advanced to second on the error", Position.PITCHER);
+    	positions.put("reached on a fielder's choice to pitcher, hit into double play p to 3b to 1b to 3b", Position.PITCHER);
     	positions.put("reached on a fielder's choice to right field", Position.RIGHT_FIELD);
     	positions.put("reached on a fielder's choice to second base", Position.SECOND_BASE);
     	positions.put("reached on a fielder's choice to second base (0-0)", Position.SECOND_BASE);
@@ -868,6 +887,8 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a fielder's choice to second base, advanced to second", Position.SECOND_BASE);
     	positions.put("reached on a fielder's choice to second base, advanced to second on a throwing error by 2b", Position.SECOND_BASE);
     	positions.put("reached on a fielder's choice to second base, advanced to second on the throw", Position.SECOND_BASE);
+    	positions.put("reached on a fielder's choice to second base, advanced to second on a throwing error by ss", Position.SECOND_BASE);
+    	positions.put("reached on a fielder's choice to second base, advanced to second on a throwing error by ss", Position.SECOND_BASE);
     	positions.put("reached on a fielder's choice to shortstop", Position.SHORTSTOP);
     	positions.put("reached on a fielder's choice to shortstop (0-0)", Position.SHORTSTOP);
     	positions.put("reached on a fielder's choice to shortstop (0-1 K)", Position.SHORTSTOP);
@@ -906,6 +927,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a fielder's choice to third base (3-2 KFBFBFB)", Position.THIRD_BASE);
     	positions.put("reached on a fielder's choice to third base, advanced to second on the error", Position.THIRD_BASE);
     	positions.put("reached on a fielder's choice to third base, advanced to second on a throwing error by 2b", Position.THIRD_BASE);
+    	positions.put("reached on a fielder's choice to third base, advanced to second on a throwing error by 3b", Position.THIRD_BASE);
     	positions.put("reached on a fielder's choice to third base.", Position.THIRD_BASE);
     	positions.put("reached on a fielder's choice,", Position.UNLOCATED_BATTED_BALL);
     	positions.put("reached on a fielder's choice, grounded into double play 1b to ss to 3b, advanced to second", Position.FIRST_BASE);
@@ -913,7 +935,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a fielder's choice, hit into double play 2b to ss to c", Position.SECOND_BASE);
     	positions.put("reached on a fielder's choice, hit into double play ss to 2b to c", Position.SHORTSTOP);
     	
-    	positions.put("reached on a fielding error by ", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("reached on a fielding error.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("reached on a fielding error by 1b", Position.FIRST_BASE);
     	positions.put("reached on a fielding error by 1b (0-1 K).", Position.FIRST_BASE);
     	positions.put("reached on a fielding error by 1b (1-1 BF).", Position.FIRST_BASE);
@@ -934,6 +956,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a fielding error by 3b (1-0 B).", Position.THIRD_BASE);
     	positions.put("reached on a fielding error by 3b (1-1 SB).", Position.THIRD_BASE);
     	positions.put("reached on a fielding error by 3b, advanced to second on the error, advanced to third on a fielding error by lf.", Position.THIRD_BASE);
+    	positions.put("reached on a fielding error by 3b, advanced to second on the error", Position.THIRD_BASE);
     	positions.put("reached on a fielding error by 3b, advanced to second on the error.", Position.THIRD_BASE);
     	positions.put("reached on a fielding error by 3b.", Position.THIRD_BASE);
     	positions.put("reached on a fielding error by c",  Position.CATCHER);
@@ -942,11 +965,13 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a fielding error by p",  Position.PITCHER);
     	positions.put("reached on a fielding error by p.",  Position.PITCHER);
     	positions.put("reached on a fielding error by rf", Position.RIGHT_FIELD);
+    	positions.put("reached on a fielding error by rf.", Position.RIGHT_FIELD);
     	positions.put("reached on a fielding error by ss",  Position.PITCHER);
     	positions.put("reached on a fielding error by ss (0-0)", Position.SHORTSTOP);
     	positions.put("reached on a fielding error by ss (0-2 SSF).", Position.SHORTSTOP);
     	positions.put("reached on a fielding error by ss (1-1 FB)", Position.SHORTSTOP);
     	positions.put("reached on a fielding error by ss, advanced to second on a fielding error by lf.", Position.SHORTSTOP);
+    	positions.put("reached on a fielding error by ss, advanced to second on a fielding error by ss.", Position.SHORTSTOP);
     	positions.put("reached on a fielding error by ss.", Position.SHORTSTOP);
     	positions.put("reached on a fielding error by ss, advanced to second on the error, advanced to third on a throwing error by cf", Position.SHORTSTOP);
     	positions.put("reached on a fielding error by ss, out at second ss to 2b.", Position.SHORTSTOP);
@@ -1044,7 +1069,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on an error by ss, assist by 2b", Position.SECOND_BASE);
     	positions.put("reached on an error by ss (3-1 BBBK)", Position.SHORTSTOP);
     	
-    	positions.put("singled ", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("singled.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("singled down the lf line", Position.LEFT_FIELD);
     	positions.put("singled down the lf line (0-1 F).", Position.LEFT_FIELD);
     	positions.put("singled down the lf line (1-0 B).", Position.LEFT_FIELD);
@@ -1089,8 +1114,10 @@ public class PlateAppearanceConfiguration {
     	positions.put("singled through the left side (3-2 BBBKK).", Position.LEFT_FIELD);
     	positions.put("singled through the left side (3-2 FBKBBF).", Position.LEFT_FIELD);
     	positions.put("singled through the left side, advanced to second on the throw", Position.LEFT_FIELD);
+    	positions.put("singled through the left side, advanced to second on the error", Position.LEFT_FIELD);
     	positions.put("singled through the left side, advanced to second on a fielding error by lf", Position.LEFT_FIELD);
     	positions.put("singled through the left side, advanced to second on a fielding error by lf.", Position.LEFT_FIELD);
+    	positions.put("singled through the left side, advanced to second on a muffed throw by 1b", Position.LEFT_FIELD);
     	positions.put("singled through the left side.", Position.LEFT_FIELD);
     	positions.put("singled through the right side", Position.RIGHT_FIELD);
     	positions.put("singled through the right side (0-0)", Position.RIGHT_FIELD);
@@ -1140,8 +1167,9 @@ public class PlateAppearanceConfiguration {
     	positions.put("singled to center field, advanced to second on the throw (1-0 B)", Position.CENTER_FIELD);
     	positions.put("singled to center field, advanced to second on the throw (1-1 KB)", Position.CENTER_FIELD);
     	positions.put("singled to center field, advanced to second on the throw, advanced to third on an error by c", Position.CENTER_FIELD);
-    	positions.put("singled to center field, advanced to third on a fielding error by cf", Position.CENTER_FIELD);
     	positions.put("singled to center field, advanced to second on a throwing error by cf", Position.CENTER_FIELD);
+    	positions.put("singled to center field, advanced to third on a fielding error by cf", Position.CENTER_FIELD);
+    	positions.put("singled to center field, advanced to third on a fielding error by cf.", Position.CENTER_FIELD);
     	positions.put("singled to center field, out at second lf to ss.", Position.CENTER_FIELD);
     	positions.put("singled to center field.", Position.CENTER_FIELD);
     	positions.put("singled to first base", Position.FIRST_BASE);
@@ -1231,6 +1259,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("singled to right field, advanced to second on an error by rf, advanced to third.", Position.RIGHT_FIELD);
     	positions.put("singled to right field, advanced to second on a throwing error by rf.", Position.RIGHT_FIELD);
     	positions.put("singled to right field, advanced to third on a fielding error by rf.", Position.RIGHT_FIELD);
+    	positions.put("singled to right field, out at second rf to 2b", Position.RIGHT_FIELD);
     	positions.put("singled to right center, out at second rf to ss.", Position.RIGHT_FIELD);
     	positions.put("singled to right center.", Position.RIGHT_FIELD);
     	positions.put("singled to right field", Position.RIGHT_FIELD);
@@ -1278,6 +1307,8 @@ public class PlateAppearanceConfiguration {
     	positions.put("singled to second base (2-2 BFFB)", Position.SECOND_BASE);
     	positions.put("singled to second base (0-1 F)", Position.SECOND_BASE);
     	positions.put("singled to second base, advanced to second on a throwing error by 2b", Position.SECOND_BASE);
+    	positions.put("singled to second base, advanced to second on the throw", Position.SECOND_BASE);
+    	positions.put("singled to second base, advanced to second on the error", Position.SECOND_BASE);
     	positions.put("singled to second base.", Position.SECOND_BASE);
     	positions.put("singled to shortstop", Position.SHORTSTOP);
     	positions.put("singled to shortstop (0-1 K)", Position.SHORTSTOP);
@@ -1301,6 +1332,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("singled to shortstop, advanced to third on the throw", Position.SHORTSTOP);
     	positions.put("singled to shortstop, advanced to second on a fielding error by lf", Position.SHORTSTOP);
     	positions.put("singled to shortstop.", Position.SHORTSTOP);
+    	positions.put("singled to shortstop, assist by ss 1b", Position.SHORTSTOP);
     	positions.put("singled to third base", Position.THIRD_BASE);
     	positions.put("singled to third base (0-0)", Position.THIRD_BASE);
     	positions.put("singled to third base (0-0).", Position.THIRD_BASE);
@@ -1308,9 +1340,11 @@ public class PlateAppearanceConfiguration {
     	positions.put("singled to third base (1-2 BSS)", Position.THIRD_BASE);
     	positions.put("singled to third base (2-2 KBBFFF).", Position.THIRD_BASE);
     	positions.put("singled to third base (3-2 BFKFBB)", Position.THIRD_BASE);
+    	positions.put("singled to third base, advanced to second on a throwing error by 3b.", Position.THIRD_BASE);
     	positions.put("singled to third base, advanced to second on a throwing error by 3b (1-1 KB).", Position.THIRD_BASE);
     	positions.put("singled to third base, advanced to second on a throwing error by 1b", Position.THIRD_BASE);
     	positions.put("singled to third base (1-1 FB)", Position.THIRD_BASE);
+    	positions.put("singled to third base, advanced to second on a fielding error by ss.", Position.THIRD_BASE);
     	positions.put("singled to third base.", Position.THIRD_BASE);
     	positions.put("singled up the middle", Position.UP_THE_MIDDLE);
     	positions.put("singled up the middle (0-0)", Position.UP_THE_MIDDLE);
@@ -1342,6 +1376,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("tripled down the rf line", Position.RIGHT_FIELD);
     	positions.put("tripled down the rf line (3-1 BBKB).", Position.RIGHT_FIELD);
     	positions.put("tripled down the rf line.", Position.RIGHT_FIELD);
+    	positions.put("tripled down the rf line, out at home rf to 2b to c.", Position.RIGHT_FIELD);
     	positions.put("tripled through the left side", Position.LEFT_FIELD);
     	positions.put("tripled to center field", Position.CENTER_FIELD);
     	positions.put("tripled to center field.", Position.CENTER_FIELD);
@@ -1439,6 +1474,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("popped into double play ", Play.DOUBLE_PLAY);
     	plays.put("popped up to ", Play.FLIED_OUT);
     	plays.put("reached on a dropped fly by ", Play.SAFE_ON_ERROR);
+    	plays.put("reached on a fielder's choice.", Play.SAFE_ON_FIELDER_CHOICE);
     	plays.put("reached on a fielder's choice to ", Play.SAFE_ON_FIELDER_CHOICE);
     	plays.put("reached on a fielder's choice,", Play.SAFE_ON_FIELDER_CHOICE);
     	plays.put("reached on a fielding error by ", Play.SAFE_ON_ERROR);

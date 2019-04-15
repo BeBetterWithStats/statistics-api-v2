@@ -71,8 +71,9 @@ public class PlateAppearanceRiver {
 		long begin = System.currentTimeMillis();
 
 		ArrayList<Path> file_directories = new ArrayList<Path>();
+		// file_directories.add(Paths.get("/Users/alexandrelods/Documents/Developpement/bbws/Games/stats 2019 D2 FR"));
+		// file_directories.add(Paths.get("/Users/alexandrelods/Documents/Developpement/bbws/Games/stats 2019 D1 FR"));
 		file_directories.add(Paths.get("/Users/alexandrelods/Documents/Developpement/bbws/Games/ForTest"));
-		// file_directories.add(Paths.get("D:\\A352189\\Sources\\Games\\ForTest"));
 
 		logger.info("##########  ----------  ##########");
 		logger.info("##########  BBWS RIVER  ##########");
