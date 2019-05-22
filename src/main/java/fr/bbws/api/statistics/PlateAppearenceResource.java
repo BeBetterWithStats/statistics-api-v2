@@ -34,44 +34,44 @@ import fr.bbws.api.statistics.service.PlateAppearanceService;
 public class PlateAppearenceResource {
 
 	final static Logger logger = LogManager.getLogger(PlateAppearenceResource.class.getName());
-	    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response add(Map<String, Object> p_pa) {
-    	
+
     	logger.info("[{}] add the followed plate-appearance {}", "ENTRY", p_pa);
-    	
+
     	try {
-    		
+
 			Map<String, Object> result = new TreeMap<String, Object>();
 			result = new PlateAppearanceService().add(p_pa);
 			String json = new GsonBuilder().create().toJson(result);
 			return Response.status(Status.CREATED).entity(json)
 					.header("Access-Control-Allow-Origin", "*")
 					.build();
-		
+
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		} catch (InternalErrorException e) {
     		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
     }
-    
-    
+
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(
-    		@QueryParam("search") String p_who, 
+    		@QueryParam("search") String p_who,
     		@QueryParam("sort") String p_sort,
     		@QueryParam("limit") int p_size) {
 
     	logger.info("[{}] list all plate-appearance for the player {}", "ENTRY", p_who);
     	logger.info("[{}]                 with the query parameter {} {}", "ENTRY", "sort", p_sort);
     	logger.info("[{}]                 with the query parameter {} {}", "ENTRY", "limit", p_size);
-    	
+
     	try {
-    		
+
 			List<Object> result = new ArrayList<Object>();
 			result = new PlateAppearanceService().list(p_who, p_sort, p_size);
 			String json = new GsonBuilder().create().toJson(result);
@@ -79,7 +79,7 @@ public class PlateAppearenceResource {
 	    	return Response.ok().entity(json)
 	    			.header("Access-Control-Allow-Origin", "*")
 					.build();
-		
+
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		} catch (InternalErrorException e) {
@@ -88,16 +88,16 @@ public class PlateAppearenceResource {
    }
 
 
-   @GET 
+   @GET
    @Produces(MediaType.APPLICATION_JSON)
    @Path("/{id}")
    public Response get(@PathParam("id") String p_ID) {
-	   
+
 	   	logger.info("[{}] get the plate-appearance", "ENTRY");
 	   	logger.info("[{}]    with the @PathParam = '{}'", "ENTRY", p_ID);
-	   	
+
 	   	try {
-    		
+
 	   		Map< String, Object> result = new HashMap<>();
 			result = new PlateAppearanceService().get(p_ID);
 			String json = new GsonBuilder().create().toJson(result);
@@ -105,7 +105,7 @@ public class PlateAppearenceResource {
 	    	return Response.ok().entity(json)
 	    			.header("Access-Control-Allow-Origin", "*")
 					.build();
-		
+
     	} catch (BadRequestException e) {
     		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		} catch (NotFoundException e) {
