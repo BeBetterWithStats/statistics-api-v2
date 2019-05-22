@@ -2,9 +2,12 @@ package fr.bbws.api.statistics.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -16,6 +19,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -86,9 +90,9 @@ public class PlateAppearanceService {
 		created = created.withSecond( LocalDateTime.now().getSecond());
 		created = created.withNano( LocalDateTime.now().getNano());
 
-    	Map<String, Object> result = new TreeMap<String, Object>();
+		Map<String, Object> result = new TreeMap<String, Object>();
 
-    	// attributs techniques
+		// attributs techniques
 		result.put(ES_ATTRIBUT_CREATED, created.toString());
 		result.put(ES_ATTRIBUT_STATE, p_pa.get(JSON_ATTRIBUT_STATE));
 
@@ -127,7 +131,7 @@ public class PlateAppearanceService {
 		}
 
 		logger.info("[{}] @return = {}", "add", result);
-    	return result;
+		return result;
 	}
 
 
@@ -144,73 +148,125 @@ public class PlateAppearanceService {
 		}
 
 		SortOrder sort = SortOrder.DESC;
-    	if (StringUtils.isNotEmpty(p_sort)) {
-    		if ( "asc".equalsIgnoreCase(p_sort) // si &sort=asc
-    			|| " created".equalsIgnoreCase(p_sort) // ou si &sort=+created
-    			|| "created".equalsIgnoreCase(p_sort) // ou si &sort=created
-    			|| "asc(created)".equalsIgnoreCase(p_sort) // ou si &sort=asc(created)
-    			|| "created.asc".equalsIgnoreCase(p_sort)) { // ou si &sort=created.asc
-    			sort = SortOrder.ASC;
-    		} else {
-    			throw new BadRequestException("Value for the sort parameter is not valid. Please check documentation.");
-    		}
-    	} // else {sort = SortOrder.DESC;}
+		if (StringUtils.isNotEmpty(p_sort)) {
+			if ( "asc".equalsIgnoreCase(p_sort) // si &sort=asc
+					|| " created".equalsIgnoreCase(p_sort) // ou si &sort=+created
+					|| "created".equalsIgnoreCase(p_sort) // ou si &sort=created
+					|| "asc(created)".equalsIgnoreCase(p_sort) // ou si &sort=asc(created)
+					|| "created.asc".equalsIgnoreCase(p_sort)) { // ou si &sort=created.asc
+				sort = SortOrder.ASC;
+			} else {
+				throw new BadRequestException("Value for the sort parameter is not valid. Please check documentation.");
+			}
+		} //else {sort = SortOrder.DESC;}
 
-    	if (p_size == 0) {
-    		p_size = ES_CONFIG_MAX_RESULT;
-    	}
-    	// FIN -- vérification des paramètres d'entrée
+		if (p_size == 0) {
+			p_size = ES_CONFIG_MAX_RESULT;
+		}
+		// FIN -- vérification des paramètres d'entrée
 
 
 		List<Object> results = new ArrayList<Object>(); // the ES search result
 
-    	// ############## EXECUTION DE LA REQUETE
-    	// parcourir l'index _baseball-eu_
-    	// requete exacte sur l'attribut _palyer-id_
-    	// correspondant au parametre de la requete REST
+		// ############## EXECUTION DE LA REQUETE
+		// parcourir l'index _baseball-eu_
+		// requete exacte sur l'attribut _palyer-id_
+		// correspondant au parametre de la requete REST
 		logger.debug("    [IN] = {}", p_who);
 		SearchResponse responseES = ElasticSearchMapper.getInstance().open()
-													   				.prepareSearch(ES_CONFIG_INDEX)
-													   				.setTypes(ES_CONFIG_TYPE)
-													   		        .setSearchType(SearchType.DEFAULT)
-													   		        .setQuery(QueryBuilders.matchQuery(ES_ATTRIBUT_WHO, p_who))
-													   		        .addSort(ES_ATTRIBUT_CREATED, sort)
-													   		        .setFrom(0).setSize(p_size).setExplain(true)
-													   		        .get();
+				.prepareSearch(ES_CONFIG_INDEX)
+				.setTypes(ES_CONFIG_TYPE)
+				.setSearchType(SearchType.DEFAULT)
+				.setQuery(QueryBuilders.matchQuery(ES_ATTRIBUT_WHO, p_who))
+				.addSort(ES_ATTRIBUT_CREATED, sort)
+				.setFrom(0).setSize(p_size).setExplain(true)
+				.get();
 
-    	// ############## PARCOURIR LE RESULTAT DE LA REQUETE
-    	SearchHits hits = responseES.getHits();
+		// ############## PARCOURIR LE RESULTAT DE LA REQUETE
+		SearchHits hits = responseES.getHits();
 
-    	if ( null != responseES.getHits()) {
+		if ( null != responseES.getHits()) {
 
-	    	for (SearchHit _hit : hits) {
-	    		logger.debug("    [OUT] = {}", _hit.getSourceAsMap());
-	    		logger.debug("            /pa/{ID} = {}", "/pa/" + _hit.getId());
+			for (SearchHit _hit : hits) {
+				logger.debug("    [OUT] = {}", _hit.getSourceAsMap());
+				logger.debug("            /pa/{ID} = {}", "/pa/" + _hit.getId());
 
-	    		Map< String, Object> _result = new TreeMap< String, Object>();
-	    		// attributs principaux only
-	    		_result.put(JSON_ATTRIBUT_ID, "/pa/" + _hit.getId());
-	    		_result.put(JSON_ATTRIBUT_GAME, _hit.getSourceAsMap().get(ES_ATTRIBUT_GAME));
-	    		_result.put(JSON_ATTRIBUT_WHEN, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHEN));
-	    		_result.put(JSON_ATTRIBUT_WHAT, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHAT));
-	    		_result.put(JSON_ATTRIBUT_WHERE, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHERE));
-	    		_result.put(JSON_ATTRIBUT_WHO, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHO));
-	    		results.add(_result);
-	    	}
+				Map< String, Object> _result = new TreeMap< String, Object>();
+				// attributs principaux only
+				_result.put(JSON_ATTRIBUT_ID, "/pa/" + _hit.getId());
+				_result.put(JSON_ATTRIBUT_GAME, _hit.getSourceAsMap().get(ES_ATTRIBUT_GAME));
+				_result.put(JSON_ATTRIBUT_WHEN, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHEN));
+				_result.put(JSON_ATTRIBUT_WHAT, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHAT));
+				_result.put(JSON_ATTRIBUT_WHERE, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHERE));
+				_result.put(JSON_ATTRIBUT_WHO, _hit.getSourceAsMap().get(ES_ATTRIBUT_WHO));
+				results.add(_result);
+			}
 
-	    	logger.info("[{}] @return = {}", "list", results);
-	    	return results;
+			logger.info("[{}] @return = {}", "list", results);
+			return results;
 
-    	} else {
-    		// en mode list le service elastic search ne renvoit jamais null
-    		// sauf en cas d'erreur interne
-    		throw new InternalErrorException("Response from database is null or not valid.");
-    	}
+		} else {
+			// en mode list le service elastic search ne renvoit jamais null
+			// sauf en cas d'erreur interne
+			throw new InternalErrorException("Response from database is null or not valid.");
+		}
+	}
+
+	public Set<Object> Playerlist()
+
+			throws BadRequestException, InternalErrorException {
+
+		logger.info("[{}]", "player_list");
+
+		Set<Object> results = new TreeSet<Object>();
+		logger.debug("    [IN] = {}", "");
+		SearchResponse responseES = ElasticSearchMapper.getInstance().open()
+				.prepareSearch(ES_CONFIG_INDEX)
+				.setTypes(ES_CONFIG_TYPE)
+				.setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setQuery(QueryBuilders.matchAllQuery())
+				.setFrom(0).setSize(ES_CONFIG_MAX_RESULT)
+				.get();
+
+
+
+		SearchHits hits = responseES.getHits();
+
+		if ( null != responseES.getHits()) {
+
+			for (SearchHit _hit : hits) {
+				logger.debug("    [OUT] = {}", _hit.getSourceAsString());
+				logger.debug("            /pa/{ID} = {}", "/pa/" + _hit.getId());
+
+
+
+
+				results.add( _hit.getSourceAsMap().get(ES_ATTRIBUT_WHO));
+
+			}
+
+			logger.info("[{}] @return = {}", "list", results);
+
+
+
+
+
+		} else {
+
+			throw new InternalErrorException("Response from database is null or not valid.");
+		}
+
+
+
+
+		return results;
+
 	}
 
 
+
 	public Map< String, Object> get(String p_ID)
-		throws NotFoundException, BadRequestException {
+			throws NotFoundException, BadRequestException {
 
 		logger.info("[{}] @p_ID = {}", "get", p_ID);
 
@@ -223,15 +279,15 @@ public class PlateAppearanceService {
 		Map< String, Object> result = new TreeMap< String, Object>();
 
 		// ############## EXECUTION DE LA REQUETE
-    	// parcourir l'index _baseball-eu_
-    	// correspondant au path param de la requete REST
-	   	GetResponse responseES = ElasticSearchMapper.getInstance().open()
-													   				.prepareGet(ES_CONFIG_INDEX, ES_CONFIG_TYPE, p_ID).get();
+		// parcourir l'index _baseball-eu_
+		// correspondant au path param de la requete REST
+		GetResponse responseES = ElasticSearchMapper.getInstance().open()
+				.prepareGet(ES_CONFIG_INDEX, ES_CONFIG_TYPE, p_ID).get();
 
-	   	if (!responseES.isSourceEmpty()) {
+		if (!responseES.isSourceEmpty()) {
 
-		   	// attributs principaux
-    		result.put(JSON_ATTRIBUT_ID, "/pa/" + responseES.getId());
+			// attributs principaux
+			result.put(JSON_ATTRIBUT_ID, "/pa/" + responseES.getId());
 			result.put(JSON_ATTRIBUT_GAME, responseES.getSourceAsMap().get(ES_ATTRIBUT_GAME));
 			result.put(JSON_ATTRIBUT_WHEN, responseES.getSourceAsMap().get(ES_ATTRIBUT_WHEN));
 			result.put(JSON_ATTRIBUT_WHAT, responseES.getSourceAsMap().get(ES_ATTRIBUT_WHAT));
@@ -243,14 +299,14 @@ public class PlateAppearanceService {
 			result.put(JSON_ATTRIBUT_OPPOSITE_TEAM, responseES.getSourceAsMap().get(ES_ATTRIBUT_OPPOSITE_TEAM));
 			result.put(JSON_ATTRIBUT_FIELD, responseES.getSourceAsMap().get(ES_ATTRIBUT_FIELD));
 
-	   	} else {
+		} else {
 
-	   		logger.error("[{}] @return {} for the ID {}", "EXIT", Status.NOT_FOUND, p_ID);
-		   	throw new NotFoundException("The resource with the ID /pa/" + p_ID + " does not exist.");
+			logger.error("[{}] @return {} for the ID {}", "EXIT", Status.NOT_FOUND, p_ID);
+			throw new NotFoundException("The resource with the ID /pa/" + p_ID + " does not exist.");
 
-	   	}
+		}
 
-	   	logger.info("[{}] @return {}", "get", result);
+		logger.info("[{}] @return {}", "get", result);
 		return result;
 	}
 

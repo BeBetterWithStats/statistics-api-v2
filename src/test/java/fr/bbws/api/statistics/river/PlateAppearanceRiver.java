@@ -73,7 +73,7 @@ public class PlateAppearanceRiver {
 		ArrayList<Path> file_directories = new ArrayList<Path>();
 		// file_directories.add(Paths.get("/Users/alexandrelods/Documents/Developpement/bbws/Games/stats 2019 D2 FR"));
 		// file_directories.add(Paths.get("/Users/alexandrelods/Documents/Developpement/bbws/Games/stats 2019 D1 FR"));
-		file_directories.add(Paths.get("/Users/alexandrelods/Documents/Developpement/bbws/Games/ForTest"));
+		file_directories.add(Paths.get("/Users/A477315/workspace/statistic/statistics-api-v2-master/fichier"));
 
 		logger.info("##########  ----------  ##########");
 		logger.info("##########  BBWS RIVER  ##########");
