@@ -507,7 +507,7 @@ public class PlateAppearanceRiver {
 		
 		
 		final Map<String, Play> ALL_PLAYS = PlateAppearanceConfiguration.getInstance().loadAllPlays();
-		final Map<String, Position> ALL_POSITIONS = PlateAppearanceConfiguration.getInstance().loadAllPositions();
+		final Map<String, Position> ALL_POSITIONS = PlateAppearanceConfiguration.getInstance().loadAllPositions_startWith();
 		Map<String, Object> _json = new TreeMap<String, Object>();
 		List<String> _plays = new ArrayList<String>();
 		List<String> __plays = new ArrayList<String>();
@@ -583,8 +583,26 @@ public class PlateAppearanceRiver {
 						
 						
 						
+						// MATCH WITH ONE OF THE 
+						// fr.bbws.bo.statistics.river.PlateAppearanceConfiguration.getInstance().loadAllPositions_startWith() KEYWORDS
+						_where = Position.UNDEFINED;
+						for (String key : ALL_POSITIONS.keySet()) {
+							if (_keyword.startsWith(key)) { 
+								_where = ALL_POSITIONS.get(key);
+							}
+						}
+						
+						if ( Position.UNDEFINED == _where) {
+							if (!PlateAppearanceConfiguration.getInstance().shouldPositionBeEmpty(_keyword)) {
+								logger.error("[{}]          [_where] \'{}\' in file [{}] not found GameSheetConfiguration.loadAllPositions", "createDocuments", _keyword, p_file);
+							} else {
+								_where = Position.EMPTY;
+							}
+						}
+						
+						/*
 						// EXACT MATCH WITH ONE OF THE 
-						// fr.bbws.bo.statistics.river.PlateAppearanceConfiguration.getInstance().loadAllPositions() KEYWORDS
+						// fr.bbws.bo.statistics.river.PlateAppearanceConfiguration.getInstance().loadAllPositions_exactMatch() KEYWORDS
 						_where = Position.UNDEFINED;
 						for (String key : ALL_POSITIONS.keySet()) {
 							if (_keyword.contentEquals(key)) { 
@@ -599,6 +617,7 @@ public class PlateAppearanceRiver {
 								_where = Position.EMPTY;
 							}
 						}
+						*/
 						
 						// MATCH WITH ONE OF THE 
 						// PLAYERS PUT IN PARAMS

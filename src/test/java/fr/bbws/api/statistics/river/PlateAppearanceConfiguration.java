@@ -35,6 +35,8 @@ public class PlateAppearanceConfiguration {
     	
     	if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("advanced to")) {
     		return true;
+    	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("assist by")) {
+    		return true;
     	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("failed pickoff")) {
     		return true;
     	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("hit by pitch")) {
@@ -99,13 +101,293 @@ public class PlateAppearanceConfiguration {
     		return true;
     	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("set to")) {
     		return true;
+    	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith("Rain delay")) {
+    		return true;
+    	} else if ( StringUtils.isNotEmpty(p_play) && p_play.startsWith(".")) {
+    		return true;
     	}
     	
     	return false;
     }
     
     /** return all batted baseballs by hitters */
-    public Map<String, Position> loadAllPositions() {
+    public Map<String, Position> loadAllPositions_startWith() {
+
+    	Map<String, Position> positions = new HashMap<String, Position>();
+    	
+    	// ATTENTION STARTWITH
+    	// METTRE LE LIBELLE ENTIER DE L'ACTION
+    	positions.put("/ ", Position.EMPTY);
+
+    	positions.put("- obr ", Position.EMPTY);
+    	
+    	positions.put("reached on catcher's interference", Position.EMPTY);
+    	
+    	positions.put("doubled down the lf line", Position.LEFT_FIELD);
+    	positions.put("doubled down the rf line", Position.RIGHT_FIELD);
+    	positions.put("doubled through the left side", Position.LEFT_FIELD);
+    	positions.put("doubled through the right side", Position.RIGHT_FIELD);
+    	positions.put("doubled to center field", Position.CENTER_FIELD);
+    	positions.put("doubled to first base", Position.FIRST_BASE);
+    	positions.put("doubled to left center", Position.LEFT_FIELD);
+    	positions.put("doubled to left field", Position.LEFT_FIELD);
+    	positions.put("doubled to right center", Position.RIGHT_FIELD);
+    	positions.put("doubled to right field", Position.RIGHT_FIELD);
+    	positions.put("doubled to shortstop", Position.SHORTSTOP);
+    	positions.put("doubled, ground-rule.", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("doubled to third base", Position.LEFT_FIELD);
+    	positions.put("doubled to pitcher", Position.PITCHER);
+    	positions.put("doubled up the middle", Position.UP_THE_MIDDLE);
+    	
+    	positions.put("flied into double play rf", Position.RIGHT_FIELD);
+    	positions.put("flied into double play cf", Position.CENTER_FIELD);
+    	positions.put("flied into double play lf", Position.LEFT_FIELD);
+    	positions.put("flied into double play 1b", Position.FIRST_BASE);
+    	positions.put("flied into double play 2b", Position.SECOND_BASE);
+    	positions.put("flied into double play 3b", Position.THIRD_BASE);
+    	positions.put("flied into double play ss", Position.SHORTSTOP);
+    	positions.put("flied into double play p", Position.PITCHER);
+    	
+    	positions.put("flied into triple play cf", Position.CENTER_FIELD);
+    	positions.put("flied into triple play lf", Position.LEFT_FIELD);
+    	positions.put("flied into triple play rf", Position.RIGHT_FIELD);
+    	
+    	positions.put("flied out to 1b", Position.FIRST_BASE);
+    	positions.put("flied out to 2b", Position.SECOND_BASE);
+    	positions.put("flied out to 3b", Position.THIRD_BASE);
+    	positions.put("flied out to c, bunt.", Position.CATCHER);
+    	positions.put("flied out to c.", Position.CATCHER);
+    	positions.put("flied out to cf", Position.CENTER_FIELD);
+    	positions.put("flied out to lf",  Position.LEFT_FIELD);
+    	positions.put("flied out to p", Position.PITCHER);
+    	positions.put("flied out to rf", Position.RIGHT_FIELD);
+    	positions.put("flied out to ss", Position.SHORTSTOP);
+    	
+    	positions.put("fouled into double play p to ", Position.PITCHER);
+    	positions.put("fouled into double play c to ", Position.CATCHER);
+    	positions.put("fouled into double play 1b to ", Position.FIRST_BASE);
+    	positions.put("fouled into double play 2b to ", Position.SECOND_BASE);
+    	positions.put("fouled into double play 3b to ", Position.THIRD_BASE);
+    	positions.put("fouled into double play ss to ", Position.SHORTSTOP);
+    	positions.put("fouled into double play lf to ", Position.LEFT_FIELD);
+    	positions.put("fouled into double play cf to ", Position.CENTER_FIELD);
+    	positions.put("fouled into double play rf to ", Position.RIGHT_FIELD);
+    	
+    	positions.put("fouled out to 1b", Position.FIRST_BASE);
+    	positions.put("fouled out to 2b",Position.SECOND_BASE);
+    	positions.put("fouled out to 3b",Position.THIRD_BASE);
+    	positions.put("fouled out to ss", Position.SHORTSTOP);
+    	positions.put("fouled out to c", Position.CATCHER);
+    	positions.put("fouled out to p", Position.PITCHER);
+    	positions.put("fouled out to lf", Position.LEFT_FIELD);
+    	positions.put("fouled out to rf", Position.RIGHT_FIELD);
+    	
+    	positions.put("grounded into double play c to ", Position.CATCHER);
+    	positions.put("grounded into double play 1b to ", Position.FIRST_BASE);
+    	positions.put("grounded into double play 2b to ", Position.SECOND_BASE);
+    	positions.put("grounded into double play 3b to ", Position.THIRD_BASE);
+    	positions.put("grounded into double play p to ", Position.PITCHER);
+    	positions.put("grounded into double play ss to ", Position.SHORTSTOP);
+    	
+    	positions.put("grounded out to 1b", Position.FIRST_BASE);
+    	positions.put("grounded out to 2b", Position.SECOND_BASE);
+    	positions.put("grounded out to 3b", Position.THIRD_BASE);
+    	positions.put("grounded out to c.", Position.CATCHER);
+    	positions.put("grounded out to p", Position.PITCHER);
+    	positions.put("grounded out to ss", Position.SHORTSTOP);
+    	positions.put("grounded out to rf", Position.RIGHT_FIELD);
+    	
+    	positions.put("hit into double play 1b to ", Position.FIRST_BASE);
+    	positions.put("hit into double play 2b to ", Position.SECOND_BASE);
+    	positions.put("hit into double play 3b to ", Position.THIRD_BASE);
+    	positions.put("hit into double play rf to ", Position.RIGHT_FIELD);
+    	positions.put("hit into double play lf to ", Position.LEFT_FIELD);
+    	positions.put("hit into double play cf to ", Position.CENTER_FIELD);
+    	positions.put("hit into double play p to ", Position.PITCHER);
+    	positions.put("hit into double play ss to ", Position.SHORTSTOP);
+    	
+    	// positions.put("homered inside the park,", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("homered down the rf line,", Position.LEFT_FIELD);
+    	positions.put("homered down the lf line,", Position.LEFT_FIELD);
+    	positions.put("homered to center field", Position.CENTER_FIELD);
+    	positions.put("homered to left center", Position.LEFT_FIELD);
+    	positions.put("homered to right center", Position.RIGHT_FIELD);
+    	positions.put("homered to left field", Position.LEFT_FIELD);
+    	positions.put("homered to right field", Position.RIGHT_FIELD);
+    	
+    	positions.put("infield fly double play 1b to ", Position.FIRST_BASE);
+    	positions.put("infield fly double play 2b to ", Position.SECOND_BASE);
+    	positions.put("infield fly double play 3b to ", Position.THIRD_BASE);
+    	positions.put("infield fly double play ss to ", Position.SHORTSTOP);
+    	positions.put("infield fly double play c to ", Position.CATCHER);
+    	positions.put("infield fly double play p to ", Position.PITCHER);
+    	
+    	positions.put("infield fly to 1b", Position.FIRST_BASE);
+    	positions.put("infield fly to 2b", Position.SECOND_BASE);
+    	positions.put("infield fly to 3b", Position.THIRD_BASE);
+    	positions.put("infield fly to c", Position.CATCHER);
+    	positions.put("infield fly to p", Position.PITCHER);
+    	positions.put("infield fly to ss", Position.SHORTSTOP);
+    	
+    	positions.put("lined into double play 1b ", Position.FIRST_BASE);
+    	positions.put("lined into double play 2b ", Position.SECOND_BASE);
+    	positions.put("lined into double play 3b ", Position.THIRD_BASE);
+    	positions.put("lined into double play p ", Position.PITCHER);
+    	positions.put("lined into double play rf to ", Position.RIGHT_FIELD);
+    	positions.put("lined into double play lf to ", Position.LEFT_FIELD);
+    	positions.put("lined into double play cf to ", Position.CENTER_FIELD);
+    	positions.put("lined into double play ss ", Position.SHORTSTOP);
+    	
+    	positions.put("lined into triple play 1b to ", Position.FIRST_BASE);
+    	positions.put("lined into triple play 2b to ", Position.SECOND_BASE);
+    	positions.put("lined into triple play 3b to ", Position.THIRD_BASE);
+    	positions.put("lined into triple play ss to ", Position.SHORTSTOP);
+    	positions.put("lined into triple play p to ", Position.PITCHER);
+    	positions.put("lined into triple play c to ", Position.CATCHER);
+    	
+    	positions.put("lined out to 1b", Position.FIRST_BASE);
+    	positions.put("lined out to 2b", Position.SECOND_BASE);
+    	positions.put("lined out to 3b", Position.THIRD_BASE);
+    	positions.put("lined out to c.", Position.CATCHER);
+    	positions.put("lined out to cf", Position.CENTER_FIELD);
+    	positions.put("lined out to lf", Position.LEFT_FIELD);
+    	positions.put("lined out to p", Position.PITCHER);
+    	positions.put("lined out to rf", Position.RIGHT_FIELD);
+    	positions.put("lined out to ss", Position.SHORTSTOP);
+    	
+    	positions.put("out at first 1b to ", Position.FIRST_BASE);
+    	positions.put("out at first 1b unassisted", Position.FIRST_BASE);
+    	positions.put("out at first 2b to ", Position.SECOND_BASE);
+    	positions.put("out at first 2b unassisted", Position.SECOND_BASE);
+    	positions.put("out at first 3b to ", Position.THIRD_BASE);
+    	positions.put("out at first c to ", Position.CATCHER);
+    	positions.put("out at first c unassisted", Position.CATCHER);
+    	positions.put("out at first p to ", Position.PITCHER);
+    	positions.put("out at first p unassisted ", Position.PITCHER);
+    	positions.put("out at first rf to ", Position.RIGHT_FIELD);
+    	positions.put("out at first ss ", Position.SHORTSTOP);
+    	   	
+    	positions.put("popped into double play c to ", Position.CATCHER);
+    	positions.put("popped into double play c unassisted", Position.CATCHER);
+    	positions.put("popped into double play 1b to ", Position.FIRST_BASE);
+    	positions.put("popped into double play 1b unassisted", Position.FIRST_BASE);
+    	positions.put("popped into double play 2b to ", Position.SECOND_BASE);
+    	positions.put("popped into double play 2b unassisted", Position.SECOND_BASE);
+    	positions.put("popped into double play 3b to ", Position.THIRD_BASE);
+    	positions.put("popped into double play 3b unassisted", Position.THIRD_BASE);
+    	positions.put("popped into double play ss to ", Position.SHORTSTOP);
+    	positions.put("popped into double play ss unassisted", Position.SHORTSTOP);
+    	
+    	positions.put("popped up to 1b", Position.FIRST_BASE);
+    	positions.put("popped up to 2b", Position.SECOND_BASE);
+    	positions.put("popped up to 3b", Position.THIRD_BASE);
+    	positions.put("popped up to c.", Position.CATCHER);
+    	positions.put("popped up to p", Position.PITCHER);
+    	positions.put("popped up to ss", Position.SHORTSTOP);
+    	
+    	positions.put("reached on a dropped fly by 1b", Position.FIRST_BASE);
+    	positions.put("reached on a dropped fly by 2b", Position.SECOND_BASE);
+    	positions.put("reached on a dropped fly by 3b", Position.THIRD_BASE);
+    	positions.put("reached on a dropped fly by c.", Position.CATCHER);
+    	positions.put("reached on a dropped fly by cf", Position.CENTER_FIELD);
+    	positions.put("reached on a dropped fly by lf", Position.LEFT_FIELD);
+    	positions.put("reached on a dropped fly by p", Position.PITCHER);
+    	positions.put("reached on a dropped fly by rf", Position.RIGHT_FIELD);
+    	positions.put("reached on a dropped fly by ss", Position.SHORTSTOP);
+    	
+    	positions.put("reached on a fielder's choice to catcher", Position.CATCHER);
+    	positions.put("reached on a fielder's choice to center field", Position.CENTER_FIELD);
+    	positions.put("reached on a fielder's choice to first base", Position.FIRST_BASE);
+    	positions.put("reached on a fielder's choice to left field", Position.LEFT_FIELD);
+    	positions.put("reached on a fielder's choice to pitcher", Position.PITCHER);
+    	positions.put("reached on a fielder's choice to right field", Position.RIGHT_FIELD);
+    	positions.put("reached on a fielder's choice to second base", Position.SECOND_BASE);
+    	positions.put("reached on a fielder's choice to shortstop", Position.SHORTSTOP);
+    	positions.put("reached on a fielder's choice to third base", Position.THIRD_BASE);
+    	positions.put("reached on a fielder's choice, grounded into double play 1b ", Position.FIRST_BASE);
+    	positions.put("reached on a fielder's choice, grounded into double play 2b ", Position.SECOND_BASE);
+    	positions.put("reached on a fielder's choice, grounded into double play 3b ", Position.THIRD_BASE);
+    	positions.put("reached on a fielder's choice, grounded into double play ss ", Position.SHORTSTOP);
+    	positions.put("reached on a fielder's choice, grounded into double play p ", Position.PITCHER);
+    	positions.put("reached on a fielder's choice, grounded into double play c ", Position.CATCHER);
+    	positions.put("reached on a fielder's choice, hit into double play 1b ", Position.FIRST_BASE);
+    	positions.put("reached on a fielder's choice, hit into double play 2b ", Position.SECOND_BASE);
+    	positions.put("reached on a fielder's choice, hit into double play 3b ", Position.THIRD_BASE);
+    	positions.put("reached on a fielder's choice, hit into double play ss ", Position.SHORTSTOP);
+    	positions.put("reached on a fielder's choice, hit into double play p ", Position.PITCHER);
+    	
+    	positions.put("reached on a fielding error by 1b", Position.FIRST_BASE);
+    	positions.put("reached on a fielding error by 2b", Position.SECOND_BASE);
+    	positions.put("reached on a fielding error by 3b", Position.THIRD_BASE);
+    	//positions.put("reached on a fielding error by c",  Position.CATCHER);
+    	positions.put("reached on a fielding error by lf", Position.LEFT_FIELD);
+    	positions.put("reached on a fielding error by cf", Position.CENTER_FIELD);
+    	positions.put("reached on a fielding error by p",  Position.PITCHER);
+    	positions.put("reached on a fielding error by rf", Position.RIGHT_FIELD);
+    	positions.put("reached on a fielding error by ss",  Position.PITCHER);
+    	
+    	positions.put("reached on a muffed throw by 1b, assist by 2b", Position.SECOND_BASE);
+    	positions.put("reached on a muffed throw by 1b, assist by 3b", Position.THIRD_BASE);
+    	positions.put("reached on a muffed throw by 1b, assist by c", Position.CATCHER);
+    	positions.put("reached on a muffed throw by 1b, assist by p", Position.PITCHER);
+    	positions.put("reached on a muffed throw by 1b, assist by rf", Position.RIGHT_FIELD);
+    	positions.put("reached on a muffed throw by 1b, assist by ss", Position.SHORTSTOP);
+    	positions.put("reached on a muffed throw by p, assist by 1b", Position.FIRST_BASE);
+    	positions.put("reached on a muffed throw by p, assist by 2b", Position.SECOND_BASE);
+    	positions.put("reached on a muffed throw by 2b, assist by 3b", Position.THIRD_BASE);
+    	
+    	positions.put("reached on a throwing error by 1b", Position.FIRST_BASE);
+    	positions.put("reached on a throwing error by 2b", Position.SECOND_BASE);
+    	positions.put("reached on a throwing error by 3b", Position.THIRD_BASE);
+    	positions.put("reached on a throwing error by c.", Position.CATCHER);
+    	positions.put("reached on a throwing error by c,", Position.CATCHER);
+    	// positions.put("reached on a throwing error by c,", Position.CATCHER);
+    	positions.put("reached on a throwing error by p", Position.PITCHER);
+    	positions.put("reached on a throwing error by ss", Position.SHORTSTOP);
+    	
+    	positions.put("reached on an error by 1b", Position.FIRST_BASE);
+    	positions.put("reached on an error by 2b", Position.SECOND_BASE);
+    	positions.put("reached on an error by 3b", Position.THIRD_BASE);
+    	positions.put("reached on an error by cf", Position.CENTER_FIELD);
+    	positions.put("reached on an error by lf", Position.LEFT_FIELD);
+    	positions.put("reached on an error by p", Position.PITCHER);
+    	positions.put("reached on an error by rf", Position.RIGHT_FIELD);
+    	positions.put("reached on an error by ss", Position.SHORTSTOP);
+    	
+    	positions.put("singled down the lf line", Position.LEFT_FIELD);
+    	positions.put("singled down the rf line", Position.RIGHT_FIELD);
+    	positions.put("singled through the left side", Position.LEFT_FIELD);
+    	positions.put("singled through the right side", Position.RIGHT_FIELD);
+    	positions.put("singled to catcher", Position.CATCHER);
+    	positions.put("singled to center field", Position.CENTER_FIELD);
+    	positions.put("singled to first base", Position.FIRST_BASE);
+    	positions.put("singled to left center",  Position.LEFT_FIELD);
+    	positions.put("singled to left field",  Position.LEFT_FIELD);
+    	positions.put("singled to pitcher", Position.PITCHER);
+    	positions.put("singled to right center", Position.RIGHT_FIELD);
+    	positions.put("singled to right field", Position.RIGHT_FIELD);
+    	positions.put("singled to second base", Position.SECOND_BASE);
+    	positions.put("singled to shortstop", Position.SHORTSTOP);
+    	positions.put("singled to third base", Position.THIRD_BASE);
+    	positions.put("singled up the middle", Position.UP_THE_MIDDLE);
+    	
+    	positions.put("tripled down the rf line", Position.RIGHT_FIELD);
+    	positions.put("tripled down the lf line", Position.LEFT_FIELD);
+    	positions.put("tripled through the left side", Position.LEFT_FIELD);
+    	positions.put("tripled through the right side", Position.RIGHT_FIELD);
+    	positions.put("tripled to center field", Position.CENTER_FIELD);
+    	positions.put("tripled to third base",  Position.THIRD_BASE);
+    	positions.put("tripled to first base",  Position.FIRST_BASE);
+    	positions.put("tripled to left center", Position.LEFT_FIELD);
+    	positions.put("tripled to left field", Position.LEFT_FIELD);
+    	positions.put("tripled to right center", Position.RIGHT_FIELD);
+    	positions.put("tripled to right field", Position.RIGHT_FIELD);
+    	
+    	return positions;
+    }
+    
+    /** return all batted baseballs by hitters */
+    public Map<String, Position> loadAllPositions_exactMatch() {
 
     	Map<String, Position> positions = new HashMap<String, Position>();
     	
@@ -181,6 +463,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("doubled to left field, out at third lf to ss to 3b.", Position.LEFT_FIELD);
     	positions.put("doubled to left field, advanced to third on a fielding error by 2b", Position.LEFT_FIELD);
     	positions.put("doubled to left field, advanced to third on a muffed throw by 3b, assist by lf cf.", Position.LEFT_FIELD);
+    	positions.put("doubled to left field, advanced to third on a throwing error by 3b", Position.LEFT_FIELD);
     	positions.put("doubled to left field, out at third lf to c to 3b", Position.LEFT_FIELD);
     	positions.put("doubled to left field.", Position.LEFT_FIELD);
     	positions.put("doubled to right center", Position.RIGHT_FIELD);
@@ -204,6 +487,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("doubled to shortstop", Position.SHORTSTOP);
     	positions.put("doubled, ground-rule.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("doubled to third base.", Position.LEFT_FIELD);
+    	positions.put("doubled to third base", Position.LEFT_FIELD);
     	positions.put("doubled to pitcher.", Position.PITCHER);
     	positions.put("doubled up the middle", Position.UP_THE_MIDDLE);
     	
@@ -1411,10 +1695,12 @@ public class PlateAppearanceConfiguration {
     	Map<String, Play> plays = new HashMap<String, Play>();
     	
     	plays.put("/ ", Play.NO_PLAY);
+    	plays.put(".", Play.NO_PLAY);
     	plays.put("- obr _ Infield fly not caught ", Play.NO_PLAY);
     	plays.put("- OBR - Running out of line ", Play.NO_PLAY);
     	plays.put("- On the same play -.", Play.RUNNER_OUT_ON_THE_PLAY);
     	plays.put("advanced to ", Play.RUNNER_ADVANCE);
+    	plays.put("assist by ", Play.NO_PLAY);
     	plays.put("Batter set", Play.NO_PLAY);
     	plays.put("Coach visit ", Play.NO_PLAY);
     	plays.put("Coaching visit ", Play.NO_PLAY);
@@ -1425,6 +1711,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("failed pickoff attempt", Play.NO_PLAY);
     	plays.put("flied out to ", Play.FLIED_OUT);
     	plays.put("flied into double play", Play.DOUBLE_PLAY);
+    	plays.put("flied into triple play", Play.DOUBLE_PLAY);
     	plays.put("foul ball, ", Play.NO_PLAY);
     	plays.put("fouled into double play ", Play.DOUBLE_PLAY);
     	plays.put("fouled out to ", Play.FLIED_OUT);
@@ -1473,6 +1760,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("picked off,", Play.RUNNER_PICKED_OFF);
     	plays.put("popped into double play ", Play.DOUBLE_PLAY);
     	plays.put("popped up to ", Play.FLIED_OUT);
+    	plays.put("Rain delay : ", Play.NO_PLAY);
     	plays.put("reached on a dropped fly by ", Play.SAFE_ON_ERROR);
     	plays.put("reached on a fielder's choice.", Play.SAFE_ON_FIELDER_CHOICE);
     	plays.put("reached on a fielder's choice to ", Play.SAFE_ON_FIELDER_CHOICE);
@@ -1480,6 +1768,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("reached on a fielding error by ", Play.SAFE_ON_ERROR);
     	plays.put("reached on a muffed throw by ", Play.SAFE_ON_ERROR);
     	plays.put("reached on a throwing error by ", Play.SAFE_ON_ERROR);
+    	plays.put("reached on catcher's interference", Play.SAFE_ON_ERROR);
     	plays.put("reached on an error by ", Play.SAFE_ON_ERROR);
     	plays.put("safe on a muffed throw by 1b, no advance, assist by rf.", Play.NO_PLAY);
     	plays.put("reached on catcher's interference", Play.OBR);
