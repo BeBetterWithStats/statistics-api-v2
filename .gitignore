@@ -3,6 +3,8 @@
 .project
 .agignore
 .settings
+.metadata
+.idea
 /build/
 /bin/
 /target/
