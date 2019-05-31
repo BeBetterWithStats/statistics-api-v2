@@ -564,10 +564,17 @@ public class PlateAppearanceRiver {
 											.replaceAll(", RBI", "")
 											.replaceAll("::: ", "")
 											.replaceAll(":::", "")
-											.replaceAll(", bunt", "")
-											.substring( _who != null && _who.getID() != null ? _who.getID().length() + 1 : 0);
-						logger.debug("[{}]          [_keyword] = {}", "createDocuments", _keyword);
-
+											.replaceAll(", bunt", "");
+						
+						if ( _who != null && _who.getID() != null && _who.getID().equalsIgnoreCase(_keyword)) {
+							logger.error("[{}]          [_keyword] = {} equals to player's name {}", "createDocuments", _keyword, _who.getID());
+							// TODO mettre le nom du joueur en variable temporaire dans ce cas
+						} else {
+							_keyword = _keyword.substring( _who != null && _who.getID() != null ? _who.getID().length() + 1 : 0);
+							logger.debug("[{}]          [_keyword] = {}", "createDocuments", _keyword);						
+						}
+											
+						
 						// MATCH WITH ONE OF THE
 						// fr.bbws.bo.statistics.river.PlateAppearanceConfiguration.getInstance().loadAllPlays() KEYWORDS
 						_what = Play.UNDEFINED;

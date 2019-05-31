@@ -117,9 +117,9 @@ public class PlateAppearanceConfiguration {
     	
     	// ATTENTION STARTWITH
     	// METTRE LE LIBELLE ENTIER DE L'ACTION
-    	positions.put("/ ", Position.EMPTY);
+    	// positions.put("/ ", Position.EMPTY);
 
-    	positions.put("- obr ", Position.EMPTY);
+    	// positions.put("- obr ", Position.EMPTY);
     	
     	positions.put("reached on catcher's interference", Position.EMPTY);
     	
@@ -157,6 +157,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("flied out to 3b", Position.THIRD_BASE);
     	positions.put("flied out to c, bunt.", Position.CATCHER);
     	positions.put("flied out to c.", Position.CATCHER);
+    	// positions.put("flied out to c", Position.CATCHER); // retirée pour ne pas confondre avec "flied out to cf"
     	positions.put("flied out to cf", Position.CENTER_FIELD);
     	positions.put("flied out to lf",  Position.LEFT_FIELD);
     	positions.put("flied out to p", Position.PITCHER);
@@ -207,7 +208,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("hit into double play p to ", Position.PITCHER);
     	positions.put("hit into double play ss to ", Position.SHORTSTOP);
     	
-    	// positions.put("homered inside the park,", Position.UNLOCATED_BATTED_BALL);
+    	positions.put("homered inside the park,", Position.UNLOCATED_BATTED_BALL);
     	positions.put("homered down the rf line", Position.RIGHT_FIELD);
     	positions.put("homered down the lf line", Position.LEFT_FIELD);
     	positions.put("homered to center field", Position.CENTER_FIELD);
@@ -293,12 +294,14 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a dropped fly by 2b", Position.SECOND_BASE);
     	positions.put("reached on a dropped fly by 3b", Position.THIRD_BASE);
     	positions.put("reached on a dropped fly by c.", Position.CATCHER);
+    	positions.put("reached on a dropped fly by c,", Position.CATCHER);
     	positions.put("reached on a dropped fly by cf", Position.CENTER_FIELD);
     	positions.put("reached on a dropped fly by lf", Position.LEFT_FIELD);
     	positions.put("reached on a dropped fly by p", Position.PITCHER);
     	positions.put("reached on a dropped fly by rf", Position.RIGHT_FIELD);
     	positions.put("reached on a dropped fly by ss", Position.SHORTSTOP);
     	
+    	// positions.put("reached on a fielder's choice", Position.UNLOCATED_BATTED_BALL); // retirée pour ne pas confondre avec "reached on a fielder's choice to xxx"
     	positions.put("reached on a fielder's choice to catcher", Position.CATCHER);
     	positions.put("reached on a fielder's choice to center field", Position.CENTER_FIELD);
     	positions.put("reached on a fielder's choice to first base", Position.FIRST_BASE);
@@ -320,10 +323,11 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a fielder's choice, hit into double play ss ", Position.SHORTSTOP);
     	positions.put("reached on a fielder's choice, hit into double play p ", Position.PITCHER);
     	
+    	positions.put("reached on a fielder's choice.", Position.UNLOCATED_BATTED_BALL);
     	positions.put("reached on a fielding error by 1b", Position.FIRST_BASE);
     	positions.put("reached on a fielding error by 2b", Position.SECOND_BASE);
     	positions.put("reached on a fielding error by 3b", Position.THIRD_BASE);
-    	//positions.put("reached on a fielding error by c",  Position.CATCHER);
+    	//positions.put("reached on a fielding error by c",  Position.CATCHER); // retirée pour ne pas confondre avec "reached on a fielding error by cf"
     	positions.put("reached on a fielding error by lf", Position.LEFT_FIELD);
     	positions.put("reached on a fielding error by cf", Position.CENTER_FIELD);
     	positions.put("reached on a fielding error by p",  Position.PITCHER);
@@ -339,13 +343,13 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a muffed throw by p, assist by 1b", Position.FIRST_BASE);
     	positions.put("reached on a muffed throw by p, assist by 2b", Position.SECOND_BASE);
     	positions.put("reached on a muffed throw by 2b, assist by 3b", Position.THIRD_BASE);
+    	positions.put("reached on a muffed throw by 2b, assist by p", Position.PITCHER);
     	
     	positions.put("reached on a throwing error by 1b", Position.FIRST_BASE);
     	positions.put("reached on a throwing error by 2b", Position.SECOND_BASE);
     	positions.put("reached on a throwing error by 3b", Position.THIRD_BASE);
     	positions.put("reached on a throwing error by c.", Position.CATCHER);
     	positions.put("reached on a throwing error by c,", Position.CATCHER);
-    	// positions.put("reached on a throwing error by c,", Position.CATCHER);
     	positions.put("reached on a throwing error by p", Position.PITCHER);
     	positions.put("reached on a throwing error by ss", Position.SHORTSTOP);
     	
@@ -358,6 +362,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on an error by rf", Position.RIGHT_FIELD);
     	positions.put("reached on an error by ss", Position.SHORTSTOP);
     	
+    	// positions.put("singled", Position.UNLOCATED_BATTED_BALL); // retirée pour ne pas confondre avec "singled xxxxx"
     	positions.put("singled down the lf line", Position.LEFT_FIELD);
     	positions.put("singled down the rf line", Position.RIGHT_FIELD);
     	positions.put("singled through the left side", Position.LEFT_FIELD);
@@ -1698,12 +1703,18 @@ public class PlateAppearanceConfiguration {
     	
     	Map<String, Play> plays = new HashMap<String, Play>();
     	
+    	plays.put("13 : Runner interfered with fielder.", Play.NO_PLAY);
+    	plays.put("14 : Interference by preceding runner.", Play.NO_PLAY);
     	plays.put("/ ", Play.NO_PLAY);
     	plays.put(".", Play.NO_PLAY);
     	plays.put("- obr _ Infield fly not caught ", Play.NO_PLAY);
     	plays.put("- OBR - Running out of line ", Play.NO_PLAY);
     	plays.put("- On the same play -.", Play.RUNNER_OUT_ON_THE_PLAY);
+    	plays.put(": BUNT FOUL BALL 3TH STRIKE", Play.NO_PLAY);
+    	plays.put(": Coureur elimine pour avoir touche une balle frappee.", Play.NO_PLAY);
+    	plays.put(": INTERFERENCE BY PRECEDING RUNNER.", Play.NO_PLAY);
     	plays.put("advanced to ", Play.RUNNER_ADVANCE);
+    	plays.put("advanced by rules ", Play.RUNNER_ADVANCE);
     	plays.put("assist by ", Play.NO_PLAY);
     	plays.put("Batter set", Play.NO_PLAY);
     	plays.put("base umpire for the play ball", Play.NO_PLAY);
