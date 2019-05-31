@@ -193,6 +193,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("grounded out to 2b", Position.SECOND_BASE);
     	positions.put("grounded out to 3b", Position.THIRD_BASE);
     	positions.put("grounded out to c.", Position.CATCHER);
+    	positions.put("grounded out to c", Position.CATCHER);
     	positions.put("grounded out to p", Position.PITCHER);
     	positions.put("grounded out to ss", Position.SHORTSTOP);
     	positions.put("grounded out to rf", Position.RIGHT_FIELD);
@@ -207,8 +208,8 @@ public class PlateAppearanceConfiguration {
     	positions.put("hit into double play ss to ", Position.SHORTSTOP);
     	
     	// positions.put("homered inside the park,", Position.UNLOCATED_BATTED_BALL);
-    	positions.put("homered down the rf line,", Position.LEFT_FIELD);
-    	positions.put("homered down the lf line,", Position.LEFT_FIELD);
+    	positions.put("homered down the rf line", Position.RIGHT_FIELD);
+    	positions.put("homered down the lf line", Position.LEFT_FIELD);
     	positions.put("homered to center field", Position.CENTER_FIELD);
     	positions.put("homered to left center", Position.LEFT_FIELD);
     	positions.put("homered to right center", Position.RIGHT_FIELD);
@@ -284,6 +285,9 @@ public class PlateAppearanceConfiguration {
     	positions.put("popped up to c.", Position.CATCHER);
     	positions.put("popped up to p", Position.PITCHER);
     	positions.put("popped up to ss", Position.SHORTSTOP);
+    	positions.put("popped up to lf", Position.LEFT_FIELD);
+    	positions.put("popped up to cf", Position.CENTER_FIELD);
+    	positions.put("popped up to rf", Position.RIGHT_FIELD);
     	
     	positions.put("reached on a dropped fly by 1b", Position.FIRST_BASE);
     	positions.put("reached on a dropped fly by 2b", Position.SECOND_BASE);
@@ -1702,12 +1706,15 @@ public class PlateAppearanceConfiguration {
     	plays.put("advanced to ", Play.RUNNER_ADVANCE);
     	plays.put("assist by ", Play.NO_PLAY);
     	plays.put("Batter set", Play.NO_PLAY);
+    	plays.put("base umpire for the play ball", Play.NO_PLAY);
     	plays.put("Coach visit ", Play.NO_PLAY);
     	plays.put("Coaching visit ", Play.NO_PLAY);
     	plays.put("coach visit ", Play.NO_PLAY);
     	plays.put("coaching visit ", Play.NO_PLAY);
+    	plays.put("credited to ", Play.NO_PLAY);
     	plays.put("Defensive indifference", Play.NO_PLAY);
     	plays.put("doubled", Play.SLUGGING_2B);
+    	plays.put("ejected from the game", Play.NO_PLAY);
     	plays.put("failed pickoff attempt", Play.NO_PLAY);
     	plays.put("flied out to ", Play.FLIED_OUT);
     	plays.put("flied into double play", Play.DOUBLE_PLAY);
@@ -1732,6 +1739,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("No time asked during defensive conference ", Play.NO_PLAY);
     	plays.put("On the same play ", Play.NO_PLAY);
     	plays.put("out at first ", Play.OUT);
+    	plays.put("play.", Play.NO_PLAY);
     	// plays.put("out at first c to", Play.RUNNER_PICKED_OFF);
     	// plays.put("out at first c to 1b, picked off.", Play.RUNNER_PICKED_OFF);
     	plays.put("out at home ", Play.RUNNER_OUT_AT_HOME);
@@ -1786,6 +1794,8 @@ public class PlateAppearanceConfiguration {
     	plays.put("to ", Play.SUBSTITUTION);
     	plays.put("tripled ", Play.SLUGGING_3B);
     	plays.put("the same play ", Play.NO_PLAY);
+    	plays.put("umpire is on the field", Play.NO_PLAY);
+    	plays.put("umpire is on  the field", Play.NO_PLAY);
     	plays.put("visit to ", Play.NO_PLAY);
     	plays.put("walked", Play.WALK);
     	return plays;

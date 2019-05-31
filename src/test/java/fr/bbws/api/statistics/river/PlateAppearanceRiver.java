@@ -541,7 +541,7 @@ public class PlateAppearanceRiver {
 				_plays.remove(_plays.size() - 1);
 				_plays.remove(0);
 
-
+				long _createdTime = 0;
 				for (String _play : _plays) {
 
 					logger.debug("[{}] [_play] = {}", "createDocuments", _play);
@@ -591,7 +591,8 @@ public class PlateAppearanceRiver {
 						}
 						
 						if ( Position.UNDEFINED == _where) {
-							if (!PlateAppearanceConfiguration.getInstance().shouldPositionBeEmpty(_keyword)) {
+							if (!PlateAppearanceConfiguration.getInstance().shouldPositionBeEmpty(_keyword)
+									&& filterPlateAppearanceOnly(_what, _where)) {
 								logger.error("[{}]          [_where] \'{}\' in file [{}] not found GameSheetConfiguration.loadAllPositions", "createDocuments", _keyword, p_file);
 							} else {
 								_where = Position.EMPTY;
@@ -648,7 +649,8 @@ public class PlateAppearanceRiver {
 								}
 
 
-								_json.put("created", LocalDateTime.now().toString());
+								//_json.put("created", LocalDateTime.now().toString());
+								_json.put("created", p_date.plusNanos(_createdTime + 1));
 								_json.put("state", "RIVER");
 								_json.put("game", p_date.toString());
 								_json.put("field", p_field);
