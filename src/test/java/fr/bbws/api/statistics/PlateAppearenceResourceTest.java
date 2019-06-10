@@ -42,7 +42,7 @@ public class PlateAppearenceResourceTest {
     @Before
     public void setUp() throws Exception {
         // start the server
-        server = Main.startServer();
+        server = Main.startServer(); // TODO commenter si code déployé
         // create the client
         Client c = ClientBuilder.newClient();
 
@@ -57,7 +57,7 @@ public class PlateAppearenceResourceTest {
 
     @After
     public void tearDown() throws Exception {
-        server.stop();
+        server.stop(); // TODO commenter si code déployé
     }
 
     @Test
@@ -222,6 +222,8 @@ public class PlateAppearenceResourceTest {
     
     @Test
     public void list_http200() {
+    	
+    	add_http201();
     	Response response = target.path("api/pa").queryParam("search", "DEMO").request().get();
     	
     	int httpCode = response.getStatus();
@@ -248,21 +250,6 @@ public class PlateAppearenceResourceTest {
         assertEquals("[]", json);
         
     }
-    
-    @Test
-    public void list_http200_brunet() {
-    	Response response = target.path("api/pa").queryParam("search", "BRUNET").request().get();
-    	
-    	int httpCode = response.getStatus();
-        logger.info("[{}] response.status = {}", "list_http200", httpCode);
-        
-        String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "list_http200", json);
-        
-        assertEquals(200, httpCode);
-        assertTrue("Response from server should not be empty", json.startsWith("[{\"game\":\""));
-    }
-    
     
     
     

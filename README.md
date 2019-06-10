@@ -76,7 +76,8 @@ Description de l'API BBWS
 ## Documentation ElasticSearchAPI
 - [Récupérer les JAR](https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/_maven_repository.html)
 - [Documentation utilisation de l'API](https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html)
-- Delete all index : curl -X DELETE "localhost:9200/baseball-eu"
+- Delete index pa : curl -X DELETE "localhost:9200/baseball-plate-appearances"
+- Delete index player : curl -X DELETE "localhost:9200/baseball-players"
 - [Exemple de POST depuis une classe java](https://jersey.github.io/documentation/latest/client.html#client.ex.formpost)
 
 

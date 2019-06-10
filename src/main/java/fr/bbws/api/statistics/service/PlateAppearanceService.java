@@ -273,9 +273,9 @@ public class PlateAppearanceService {
 	public final static String JSON_ATTRIBUT_BATTING_ORDER = "battingOrder";
 	public final static String JSON_ATTRIBUT_TEAM = "team";
 
-	public final static String ES_CONFIG_INDEX = "baseball-eu";
+	public final static String ES_CONFIG_INDEX = "baseball-plate-appearances";
 	public final static String ES_CONFIG_TYPE = "pa";
-	public final static int ES_CONFIG_MAX_RESULT = 1000;
+	public final static int ES_CONFIG_MAX_RESULT = 10000;
 	public final static String ES_ATTRIBUT_CREATED = "created";
 	public final static String ES_ATTRIBUT_STATE = "state";
 	public final static String ES_ATTRIBUT_ID = "id";
