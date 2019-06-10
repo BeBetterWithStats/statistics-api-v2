@@ -112,12 +112,19 @@ public class PlateAppearanceService {
 		logger.debug("     [IN] = {}", result);
 
 		IndexResponse responseES = ElasticSearchMapper.getInstance().open()
-				.prepareIndex("baseball-eu", "pa").setSource(result, XContentType.JSON).get();
+				.prepareIndex(ES_CONFIG_INDEX, ES_CONFIG_TYPE).setSource(result, XContentType.JSON).get();
 
 		if (StringUtils.isNotBlank(responseES.getId())) {
 
 			result.put("id", "/pa/" + responseES.getId());
 			logger.debug("     [OUT] = ID {}", Status.OK, "/pa/" + responseES.getId());
+			
+			try {
+				new PlayerService().add(result);
+				logger.debug("     [OUT] player '{}' added with success", result.get(ES_ATTRIBUT_WHO));
+			} catch (Exception e) {
+				logger.error("     [OUT] player '{}' not saved", result.get(ES_ATTRIBUT_WHO));
+			}
 
 		} else {
 

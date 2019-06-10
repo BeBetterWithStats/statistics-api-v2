@@ -264,12 +264,13 @@ public class PlateAppearenceResourceTest {
     	logger.info("[{}] id = {}", "get", p_id);
         Response response = target.path("api" + p_id).request().get();
         
+        String json = response.readEntity(String.class);
+        logger.info("[{}] response.json = {}", "get", json);
+        
         int httpCode = response.getStatus();
         logger.info("[{}] response.status = {}", "get", httpCode);
         assertEquals(200, httpCode);
         
-        String json = response.readEntity(String.class);
-        logger.info("[{}] response.json = {}", "get", json);
         
         Map<String, Object> out = new GsonBuilder().create().fromJson( json, mapStringObjectType);
         if (p_where != null && p_what != null && StringUtils.isNotEmpty(p_when) && StringUtils.isNotEmpty(p_who) && StringUtils.isNotEmpty(p_state)) {

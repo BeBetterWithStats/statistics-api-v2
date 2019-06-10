@@ -201,6 +201,7 @@ public class PlateAppearanceConfiguration {
     	
     	positions.put("hit into double play 1b to ", Position.FIRST_BASE);
     	positions.put("hit into double play 2b to ", Position.SECOND_BASE);
+    	positions.put("hit into double play 2b unassisted", Position.SECOND_BASE);
     	positions.put("hit into double play 3b to ", Position.THIRD_BASE);
     	positions.put("hit into double play rf to ", Position.RIGHT_FIELD);
     	positions.put("hit into double play lf to ", Position.LEFT_FIELD);
@@ -350,6 +351,7 @@ public class PlateAppearanceConfiguration {
     	positions.put("reached on a throwing error by 3b", Position.THIRD_BASE);
     	positions.put("reached on a throwing error by c.", Position.CATCHER);
     	positions.put("reached on a throwing error by c,", Position.CATCHER);
+    	positions.put("reached on a throwing error by c", Position.CATCHER);
     	positions.put("reached on a throwing error by p", Position.PITCHER);
     	positions.put("reached on a throwing error by ss", Position.SHORTSTOP);
     	
@@ -1770,6 +1772,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("out on batter's interference", Play.OBR);
     	plays.put("out on double play ", Play.RUNNER_OUT_ON_THE_PLAY);
     	plays.put("out on the play", Play.RUNNER_OUT_ON_THE_PLAY);
+    	plays.put("obstruction.", Play.NO_PLAY);
     	plays.put("pinch hit ", Play.SUBSTITUTION);
     	plays.put("pinch hit.", Play.SUBSTITUTION);
     	plays.put("pinch ran for ", Play.SUBSTITUTION);
@@ -1807,6 +1810,7 @@ public class PlateAppearanceConfiguration {
     	plays.put("the same play ", Play.NO_PLAY);
     	plays.put("umpire is on the field", Play.NO_PLAY);
     	plays.put("umpire is on  the field", Play.NO_PLAY);
+    	plays.put("unearned.", Play.NO_PLAY);
     	plays.put("visit to ", Play.NO_PLAY);
     	plays.put("walked", Play.WALK);
     	return plays;
